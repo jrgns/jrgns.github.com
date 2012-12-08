@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Redirect All Requests To Index.php Using .htaccess
-permalink: /:title/
+permalink: :title/
 date: 2010-03-18 08:42:15
 categories:
 - blog
