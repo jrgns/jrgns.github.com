@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Parse Http Accept Header
-permalink: parse_http_accept_header
+permalink: :title/index.html
 date: 2010-03-18 16:10:35
 categories:
 - blog
