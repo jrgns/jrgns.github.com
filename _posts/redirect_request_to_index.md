@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Redirect All Requests To Index.php Using .htaccess
+permalink: redirect_request_to_index
+date: 2010-03-18 08:42:15
 categories:
 - blog
 ---

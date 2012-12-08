@@ -10,3 +10,7 @@
   margin-top: 10px;
   text-align: center;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+  background-image: none;
+}
