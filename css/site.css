@@ -14,3 +14,10 @@
 [class^="icon-"], [class*=" icon-"] {
   background-image: none;
 }
+
+ul.posts span {
+  font-family: 'Lucida Console', 'Andale Mono', monospace;
+  color: #aaa;
+  padding-right: 5px;
+  font-size: 14px;
+}
