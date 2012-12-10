@@ -12,14 +12,10 @@
 
     <link rel="stylesheet" href="/css/spacelab.min.css">
     <link rel="stylesheet" href="/fonts/font-awesome.css">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
+    <style>
+    body {
+        padding-top: 40px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
     </style>
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/css/site.css">
@@ -58,31 +54,33 @@
     </div>
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
-          <div>
+        <div class="span3" style="text-align: center;">
+          <p>
             <a href="http://jrgns.net/content/about">
-              <img class="thumbnail pull-left" width="120px" height="120px" style="margin-right: 8px; border: 2px solid silver;"
-                src="http://www.gravatar.com/avatar/b57be2c7d4dc1fe290e0fc9589c53e54?s=128&d=identicon&r=PG">
+              <img class="thumbnail" style="display: inline-block; border: 2px solid silver;"
+                src="http://www.gravatar.com/avatar/b57be2c7d4dc1fe290e0fc9589c53e54?s=180&d=identicon&r=PG">
             </a>
+          </p>
+          <p>
             My&nbsp;name&nbsp;is&nbsp;&nbsp;<br>
             <strong>Jurgens&nbsp;du&nbsp;Toit</strong>.<br>
             Systems&nbsp;Developer.
             <br>PHP&nbsp;Expert.<br><br>
-            <ul id="social">
-              <li><a title="jrgns on Github" href="http://github.com/jrgns/"><i class="icon-github icon-large"></i></a></li>
-              <li><a title="jrgnsd on Hacker News" href="http://news.ycombinator.com/user?id=jrgnsd"><div class="icon-hn">Y</div></a></li>
-              <li><a title="jrgns on Twitter" href="http://twitter.com/jrgns"><i class="icon-twitter icon-large"></i></a></li>
-              <li><a title="RSS feed" href="/atom.xml"><i class="icon-rss icon-large"></i></a></li>
-            </ul>
-            <hr>
-            <h3>About Me</h3>
-            <p>I'm currently Lead Developer of Integrations at <a href="http://prefix.co.za">Prefix</a>, we build
-              <a href="http://www.everlytic.co.za">Everlytic</a>. I'm a South African passionate about my wife, life, and coding.
-            </p>
-          </div>
+          </p>
+          <ul id="social">
+            <li><a title="jrgns on Github" href="http://github.com/jrgns/"><i class="icon-github icon-large"></i></a></li>
+            <li><a title="jrgnsd on Hacker News" href="http://news.ycombinator.com/user?id=jrgnsd"><div class="icon-hn">Y</div></a></li>
+            <li><a title="jrgns on Twitter" href="http://twitter.com/jrgns"><i class="icon-twitter icon-large"></i></a></li>
+            <li><a title="RSS feed" href="/atom.xml"><i class="icon-rss icon-large"></i></a></li>
+          </ul>
+          <hr>
+          <h3>About Me</h3>
+          <p>I'm currently Lead Developer of Integrations at <a href="http://prefix.co.za">Prefix</a>, we build
+            <a href="http://www.everlytic.co.za">Everlytic</a>. I'm a South African passionate about my wife, life, and coding.
+          </p>
         </div>
 
-        <div class="span9 content">
+        <div class="offset1 span8 content">
           {{ content }}
         </div>
 

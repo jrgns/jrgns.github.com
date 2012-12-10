@@ -3,27 +3,29 @@ layout: default
 title: Jurgens du Toit - Systems Developer, PHP Expert
 ---
 
-<div id="home">
-  <h2><i class="icon-beaker"></i> Projects</h2>
-  <p>I'm constantly working on something. Here's what's currently occupying my mind:</p>
-  <ul>
-    <li>
-      <a href='http://concertd.co.za'>ConcertD</a> - A digital assets management system for small businesses.
-    </li>
-    <li>
-      <a href='http://backend-php.net'>Backend-PHP</a> - A PHP Framework
-    </li>
-    <li>
-      <a href='http://trendspotter.co.za'>Trend Spotter</a> - A simple twitter aggregation site
-    </li>
-    <li>
-      <a href='http://whatsupinmelville.co.za'>Whats up in Melville</a> - Business guide to Melville, South Africa
-    </li>
-  </ul>
-  <h2><i class="icon-pencil"></i> Blog Posts</h2>
-  <ul id="blog-posts" class="posts">
-    {% for post in site.categories.blog %}
-      <li><span>{{ post.date | date_to_string }} <i class="icon-arrow-right"></i></span> <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
+<div id="home" class="row-fluid" style="border-left: 1px solid lightgrey;">
+  <div class="offset1 span11">
+    <h2><i class="icon-beaker"></i> Projects</h2>
+    <p>I'm constantly working on something. Here's what's currently occupying my mind:</p>
+    <ul>
+      <li>
+        <a href='http://concertd.co.za'>ConcertD</a> - A digital assets management system for small businesses.
+      </li>
+      <li>
+        <a href='http://backend-php.net'>Backend-PHP</a> - A PHP Framework
+      </li>
+      <li>
+        <a href='http://trendspotter.co.za'>Trend Spotter</a> - A simple twitter aggregation site
+      </li>
+      <li>
+        <a href='http://whatsupinmelville.co.za'>Whats up in Melville</a> - Business guide to Melville, South Africa
+      </li>
+    </ul>
+    <h2><i class="icon-pencil"></i> Blog Posts</h2>
+    <ul id="blog-posts" class="posts">
+      {% for post in site.categories.blog %}
+        <li><span>{{ post.date | date_to_string }} <i class="icon-chevron-right"></i></span> <a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
