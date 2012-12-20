@@ -6,7 +6,7 @@ layout: nil
 
  <title>Jurgens du Toit</title>
  <link href="http://jrgns.net/atom.xml" rel="self"/>
- <link href="http://jrgns.ney/"/>
+ <link href="http://jrgns.net/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://jrgns.github.com/</id>
  <author>
@@ -19,7 +19,7 @@ layout: nil
    <title>{{ post.title }}</title>
    <link href="http://jrgns.net/{{ post.url }}"/>
    <updated>{{ post.date | date_to_xmlschema }}</updated>
-   <id>http://jrgns.ney/{{ post.id }}</id>
+   <id>http://jrgns.net/{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
  {% endfor %}
