@@ -1,0 +1,35 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Jurgens du Toit</title>
+ <link href="http://jrgns.net/atom.xml" rel="self"/>
+ <link href="http://jrgns.net/"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>http://jrgns.github.com/</id>
+ <author>
+   <name>Jurgens du Toit</name>
+   <email>jrgns@jrgns.net</email>
+ </author>
+
+ {% for post in site.posts %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="http://jrgns.net/{{ post.url }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>http://jrgns.net/{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}</content>
+ </entry>
+ {% endfor %}
+ {% for page in site.pages %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="http://jrgns.net/{{ post.url }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>http://jrgns.net/{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}</content>
+ </entry>
+ {% endfor %}
+</feed>
