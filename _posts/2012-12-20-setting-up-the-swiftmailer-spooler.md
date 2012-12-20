@@ -48,29 +48,29 @@ Sending the Mail
 The background script will use the `Swift_SmtpTransport` to send the spooled mails:
 
 {% highlight php linenos inline %}
-    <?php
-    //create an instance of the spool object pointing to the right position in the filesystem
-    $spool = new Swift_FileSpool(__DIR__."/spool");
+<?php
+//create an instance of the spool object pointing to the right position in the filesystem
+$spool = new Swift_FileSpool(__DIR__."/spool");
 
-    //create a new instance of Swift_SpoolTransport that accept an argument as Swift_FileSpool
-    $transport = Swift_SpoolTransport::newInstance($spool);
+//create a new instance of Swift_SpoolTransport that accept an argument as Swift_FileSpool
+$transport = Swift_SpoolTransport::newInstance($spool);
 
-    //now create an instance of the transport you usually use with swiftmailer
-    //to send real-time email
-    $realTransport = Swift_SmtpTransport::newInstance(
-        "smtp.gmail.com",
-        "465",
-        "ssl"
-    )
-        ->setUsername("username")
-        ->setPassword("password");
+//now create an instance of the transport you usually use with swiftmailer
+//to send real-time email
+$realTransport = Swift_SmtpTransport::newInstance(
+    "smtp.gmail.com",
+    "465",
+    "ssl"
+)
+    ->setUsername("username")
+    ->setPassword("password");
 
-    $spool = $transport->getSpool();
-    $spool->setMessageLimit(10);
-    $spool->setTimeLimit(100);
-    $sent = $spool->flushQueue($transport2);
+$spool = $transport->getSpool();
+$spool->setMessageLimit(10);
+$spool->setTimeLimit(100);
+$sent = $spool->flushQueue($realTransport);
 
-    echo "SENT $result emails";
+echo "SENT $result emails";
 {% endhighlight %}
 
 And that's it. All that's left now is to call the background script periodically using
