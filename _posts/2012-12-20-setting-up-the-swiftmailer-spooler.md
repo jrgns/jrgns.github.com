@@ -19,6 +19,7 @@ the initial sending, and then still use `Swift_SmtpTransport` for the background
 The following comes (with some changes) from a post in the [Swiftmailer Google Group][2]:
 
 <% highlight php linenos %>
+
     // Setup the spooler, passing it the name of the folder to spool to
     $spool = new Swift_FileSpool(__DIR__ . "/spool");
     // Setup the transport and mailer
@@ -35,6 +36,7 @@ The following comes (with some changes) from a post in the [Swiftmailer Google G
     $result = $mailer->send($message);
 
     echo "SPOOLED $result emails";
+
 <% endhighlight %>
 
 This will spool the email to specified folder instead of sending it. At this stage,
@@ -47,29 +49,31 @@ Sending the Mail
 The background script will use the `Swift_SmtpTransport` to send the spooled mails:
 
 <% highlight linenos %>
-<?php
-//create an instance of the spool object pointing to the right position in the filesystem
-$spool = new Swift_FileSpool(__DIR__."/spool");
 
-//create a new instance of Swift_SpoolTransport that accept an argument as Swift_FileSpool
-$transport = Swift_SpoolTransport::newInstance($spool);
+    <?php
+    //create an instance of the spool object pointing to the right position in the filesystem
+    $spool = new Swift_FileSpool(__DIR__."/spool");
 
-//now create an instance of the transport you usually use with swiftmailer
-//to send real-time email
-$realTransport = Swift_SmtpTransport::newInstance(
-    "smtp.gmail.com",
-    "465",
-    "ssl"
-)
-    ->setUsername("username")
-    ->setPassword("password");
+    //create a new instance of Swift_SpoolTransport that accept an argument as Swift_FileSpool
+    $transport = Swift_SpoolTransport::newInstance($spool);
 
-$spool = $transport->getSpool();
-$spool->setMessageLimit(10);
-$spool->setTimeLimit(100);
-$sent = $spool->flushQueue($transport2);
+    //now create an instance of the transport you usually use with swiftmailer
+    //to send real-time email
+    $realTransport = Swift_SmtpTransport::newInstance(
+        "smtp.gmail.com",
+        "465",
+        "ssl"
+    )
+        ->setUsername("username")
+        ->setPassword("password");
 
-echo "SENT $result emails";
+    $spool = $transport->getSpool();
+    $spool->setMessageLimit(10);
+    $spool->setTimeLimit(100);
+    $sent = $spool->flushQueue($transport2);
+
+    echo "SENT $result emails";
+
 <% endhighlight %>
 
 And that's it. All that's left now is to call the background script periodically using
