@@ -25,11 +25,10 @@ layout: nil
  {% endfor %}
  {% for page in site.pages %}
  <entry>
-   <title>{{ post.title }}</title>
-   <link href="http://jrgns.net/{{ post.url }}"/>
-   <updated>{{ post.date | date_to_xmlschema }}</updated>
-   <id>http://jrgns.net/{{ post.id }}</id>
-   <content type="html">{{ post.content | xml_escape }}</content>
+   <title>{{ page.title }}</title>
+   <link href="http://jrgns.net/{{ page.url }}"/>
+   <id>http://jrgns.net/{{ page.id }}</id>
+   <content type="html">{{ page.content | xml_escape }}</content>
  </entry>
  {% endfor %}
 </feed>
