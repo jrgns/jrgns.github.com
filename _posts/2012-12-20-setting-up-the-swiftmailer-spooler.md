@@ -19,23 +19,23 @@ the initial sending, and then still use `Swift_SmtpTransport` for the background
 The following comes (with some changes) from a post in the [Swiftmailer Google Group][2]:
 
 {% highlight php linenos inline %}
-    <?php
-    // Setup the spooler, passing it the name of the folder to spool to
-    $spool = new Swift_FileSpool(__DIR__ . "/spool");
-    // Setup the transport and mailer
-    $transport = Swift_SpoolTransport::newInstance($spool);
-    $mailer = Swift_Mailer::newInstance($transport);
+<?php
+// Setup the spooler, passing it the name of the folder to spool to
+$spool = new Swift_FileSpool(__DIR__ . "/spool");
+// Setup the transport and mailer
+$transport = Swift_SpoolTransport::newInstance($spool);
+$mailer = Swift_Mailer::newInstance($transport);
 
-    // Create a message
-    $message = Swift_Message::newInstance('Excellent Subject')
-        ->setFrom(array('sende...@domain.com' => 'John Doe'))
-        ->setTo(array('your_emailAddress@domain.com'))
-        ->setBody('spool messages !!!');
+// Create a message
+$message = Swift_Message::newInstance('Excellent Subject')
+    ->setFrom(array('sende...@domain.com' => 'John Doe'))
+    ->setTo(array('your_emailAddress@domain.com'))
+    ->setBody('spool messages !!!');
 
-     // Send the message
-    $result = $mailer->send($message);
+ // Send the message
+$result = $mailer->send($message);
 
-    echo "SPOOLED $result emails";
+echo "SPOOLED $result emails";
 {% endhighlight %}
 
 This will spool the email to specified folder instead of sending it. At this stage,
