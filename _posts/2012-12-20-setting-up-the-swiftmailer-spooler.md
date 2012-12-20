@@ -19,7 +19,7 @@ the initial sending, and then still use `Swift_SmtpTransport` for the background
 The following comes (with some changes) from a post in the [Swiftmailer Google Group][2]:
 
 {% highlight php linenos inline %}
-
+    <?php
     // Setup the spooler, passing it the name of the folder to spool to
     $spool = new Swift_FileSpool(__DIR__ . "/spool");
     // Setup the transport and mailer
@@ -36,7 +36,6 @@ The following comes (with some changes) from a post in the [Swiftmailer Google G
     $result = $mailer->send($message);
 
     echo "SPOOLED $result emails";
-
 {% endhighlight %}
 
 This will spool the email to specified folder instead of sending it. At this stage,
@@ -49,7 +48,6 @@ Sending the Mail
 The background script will use the `Swift_SmtpTransport` to send the spooled mails:
 
 {% highlight php linenos inline %}
-
     <?php
     //create an instance of the spool object pointing to the right position in the filesystem
     $spool = new Swift_FileSpool(__DIR__."/spool");
@@ -73,7 +71,6 @@ The background script will use the `Swift_SmtpTransport` to send the spooled mai
     $sent = $spool->flushQueue($transport2);
 
     echo "SENT $result emails";
-
 {% endhighlight %}
 
 And that's it. All that's left now is to call the background script periodically using
