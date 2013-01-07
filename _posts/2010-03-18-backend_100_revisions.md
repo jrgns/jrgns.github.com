@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Backend 100 Revisions
-permalink: backend_100_revisions/index.html
+permalink: /backend_100_revisions/index.html
 date: 2010-03-18 16:20:29
 categories:
 - blog

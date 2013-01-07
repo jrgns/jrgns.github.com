@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to remove the www from your URL
-permalink: remove_www_from_url/index.html
+permalink: /remove_www_from_url/index.html
 date: 2010-03-26 08:03:29
 categories:
 - blog

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Low Hanging Fruit Of Testing
-permalink: the-low-hanging-fruit-of-testing/index.html
+permalink: /the-low-hanging-fruit-of-testing/index.html
 date: 2012-03-16 15:14:03
 categories:
 - blog

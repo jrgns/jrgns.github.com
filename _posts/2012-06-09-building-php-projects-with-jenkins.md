@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Building PHP Projects with Jenkins
-permalink: building-php-projects-with-jenkins/index.html
+permalink: /building-php-projects-with-jenkins/index.html
 date: 2012-06-09 18:46:23
 categories:
 - blog

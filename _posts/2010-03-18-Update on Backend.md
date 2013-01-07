@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Update On Backend
-permalink: Update on Backend/index.html
+permalink: /Update on Backend/index.html
 date: 2010-03-18 16:23:37
 categories:
 - blog

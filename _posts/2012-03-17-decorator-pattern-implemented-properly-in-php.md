@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Decorator Pattern Implemented Properly In PHP
-permalink: decorator-pattern-implemented-properly-in-php/index.html
+permalink: /decorator-pattern-implemented-properly-in-php/index.html
 date: 2012-03-17 11:14:56
 categories:
 - blog

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Setting up Puppet on Ubuntu 10.4
-permalink: setting-up-puppet-on-ubuntu-10.4/index.html
+permalink: /setting-up-puppet-on-ubuntu-10.4/index.html
 date: 2011-11-16 04:24:06
 categories:
 - blog

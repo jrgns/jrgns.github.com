@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SQLite Viewer
-permalink: sqllite_view/index.html
+permalink: /sqllite_view/index.html
 date: 2010-03-18 16:28:30
 categories:
 - blog

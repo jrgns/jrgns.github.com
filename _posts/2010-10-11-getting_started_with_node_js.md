@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Getting Started with node.js
-permalink: getting_started_with_node_js/index.html
+permalink: /getting_started_with_node_js/index.html
 date: 2010-10-11 06:31:40
 categories:
 - blog

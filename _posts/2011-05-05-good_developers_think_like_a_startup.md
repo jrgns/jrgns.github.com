@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Good Developers Think like a Startup
-permalink: good_developers_think_like_a_startup/index.html
+permalink: /good_developers_think_like_a_startup/index.html
 date: 2011-05-05 08:25:54
 categories:
 - blog
@@ -39,9 +39,9 @@ Do what you do. Be a thinker, then a typist. And do it well.
 
 Having built the solution is not where it stops. For most developers, it's where they wished it stopped, because, let's face it, if we liked speaking to people, we wouldn't have become developers. But unfortunately you as a developer need to take it further. You need to market what you've done. A product that no one knows or knows how to use doesn't exist.
 
-You need to tell your superior and your peers about the fact that the project is up and running.  
-You need to document the code and the use cases so that other developers (including your future self) knows what's going on.  
-You need to train your clients (the users) who originally requested your help on using the project.   
+You need to tell your superior and your peers about the fact that the project is up and running.
+You need to document the code and the use cases so that other developers (including your future self) knows what's going on.
+You need to train your clients (the users) who originally requested your help on using the project.
 You need to get feedback from your clients on if this solves their problem, and go back to the code if it doesn't.
 
 ### Reap the Rewards

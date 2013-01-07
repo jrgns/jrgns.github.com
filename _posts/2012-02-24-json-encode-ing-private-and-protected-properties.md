@@ -1,7 +1,7 @@
 ---
 layout: post
 title: json-encode'ing Private and Protected Properties
-permalink: json-encode-ing-private-and-protected-properties/index.html
+permalink: /json-encode-ing-private-and-protected-properties/index.html
 date: 2012-02-24 06:51:15
 categories:
 - blog
@@ -27,11 +27,11 @@ The properties of an object `json_encode` includes in it's eventual output depen
             echo json_encode($this);
         }
     }
-    
+
     $test = new Tester();
-    
+
     $test->foo(); //Outputs {"public":"Public","protected":"Protected","private":"Private"}
-    
+
     echo json_encode($test); //Outputs {"public":"Public"}
 
 This isn't necessarily the desired outcome. Sometimes you want more control over what is being included in the encoding function.

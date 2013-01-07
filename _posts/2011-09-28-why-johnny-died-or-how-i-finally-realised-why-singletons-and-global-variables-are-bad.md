@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Why Johnny Died (or, How I Finally Realised Why Singletons And Global Variables Are Bad)
-permalink: why-johnny-died-or-how-i-finally-realised-why-singletons-and-global-variables-are-bad/index.html
+permalink: /why-johnny-died-or-how-i-finally-realised-why-singletons-and-global-variables-are-bad/index.html
 date: 2011-09-28 04:06:19
 categories:
 - blog
@@ -9,7 +9,7 @@ categories:
 
 Johnny (an asthma sufferer and fictitious character) died yesterday. He got an asthma attack, but he could not find his inhaler, and sadly passed away. Usually his mother kept it for him and made sure he used it, but on the first day he ventured out alone, he got an asthma attack, realised that he didn't have his inhaler with him, and died. What does this have to do with Singletons or Global variables? Read on...<!--break-->
 
-I've been struggling to get my head around why singletons and global variables are bad. Particularly in the context of unit testing. I'm [quite a fan](http://stackoverflow.com/questions/228590/what-is-the-best-method-for-getting-a-database-connection-object-into-a-function/228715#228715) 
+I've been struggling to get my head around why singletons and global variables are bad. Particularly in the context of unit testing. I'm [quite a fan](http://stackoverflow.com/questions/228590/what-is-the-best-method-for-getting-a-database-connection-object-into-a-function/228715#228715)
 of a global static class that can manage certain resources for you. But if you just look around a bit, you'll find a [few][1] [resources][2] around the fact that they are a bad idea.
 
 I read up quite a bit on why exactly globals and singletons are bad, but couldn't find any convincing explanations. Until yesterday, when I read this [question](http://stackoverflow.com/questions/1020312/are-singletons-really-that-bad) and [answer](http://stackoverflow.com/questions/1020312/are-singletons-really-that-bad/1020384#1020384) on stackoverflow. Particularly

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Importing a file into a Google Gears DB using PHP
-permalink: import_to_google_gears/index.html
+permalink: /import_to_google_gears/index.html
 date: 2010-03-18 08:45:19
 categories:
 - blog
@@ -52,7 +52,7 @@ And the test page, HTML and PHP together:
     		<script src='gears_init.js'></script>
     		<script>
     var data = <?php echo json_encode() ?>;
-    
+
     function do_import() {
     	var db = google.gears.factory.create('beta.database');
     	db.open('database-test');
@@ -62,7 +62,7 @@ And the test page, HTML and PHP together:
     		for (var i = 0; i < data.length; i++) {
     			db.execute('INSERT INTO Import Values(?, ?, ?)', data[i]);
     		}
-    		
+
     		rs = db.execute('SELECT * FROM Import');
     		while(rs.isValidRow()) {
     			alert(rs.field(0) + ' - ' + rs.field(1) + ' - ' + rs.field(2));

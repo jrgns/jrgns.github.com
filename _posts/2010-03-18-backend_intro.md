@@ -1,7 +1,7 @@
 ---
 layout: post
 title: backend: PHP Framework
-permalink: backend_intro/index.html
+permalink: /backend_intro/index.html
 date: 2010-03-18 08:46:32
 categories:
 - blog
@@ -18,15 +18,15 @@ What makes backend different from my previous [failed][1] experiment? Well, the 
 One concept that I definitely want to run with in backend, is the concept of backend as a web service, as opposed to a framework or a content / data management system. Backend provides a client, as in a browser or an application, with the requested data, in a format that the client can understand. Be it a human readable web page, JSON, XML or even PHP variables. This struck me as important after reading [this][2] by Ryan Tomayko:
 
 > Wife: A web page is a resource?
-> 
+>
 > Ryan: Kind of. A web page is a
 > "representation" of a resource.
 > Resources are just concepts.
 > URLs—those things that you type into
 > the browser…
-> 
+>
 > Wife: I know what a URL is..
-> 
+>
 > Ryan: Oh, right. Those tell the
 > browser that there’s a concept
 > somewhere. A browser can then go ask
@@ -34,10 +34,10 @@ One concept that I definitely want to run with in backend, is the concept of bac
 > concept. Specifically, the browser
 > asks for the web page representation
 > of the concept.
-> 
+>
 > Wife: What other kinds of
 > representations are there?
-> 
+>
 > Ryan: Actually, representations is one
 > of these things that doesn’t get used
 > a lot. In most cases, a resource has
@@ -46,9 +46,9 @@ One concept that I definitely want to run with in backend, is the concept of bac
 > be used more in the future because
 > there’s a bunch of new formats popping
 > up all over the place.
-> 
+>
 > Wife: Like what?
-> 
+>
 > Ryan: Hmm. Well, there’s this concept
 > that people are calling "Web
 > Services". It means a lot of different

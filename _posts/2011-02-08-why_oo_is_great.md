@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Why Object Orientation is Great
-permalink: why_oo_is_great/index.html
+permalink: /why_oo_is_great/index.html
 date: 2011-02-08 07:00:21
 categories:
 - blog

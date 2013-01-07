@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Firefox requests a page twice?
-permalink: firefox_requests_a_page_twice/index.html
+permalink: /firefox_requests_a_page_twice/index.html
 date: 2010-03-18 16:13:43
 categories:
 - blog

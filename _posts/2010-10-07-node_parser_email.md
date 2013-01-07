@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Email Parser for node.js
-permalink: node_parser_email/index.html
+permalink: /node_parser_email/index.html
 date: 2010-10-07 09:53:55
 categories:
 - blog
@@ -16,7 +16,7 @@ Here's an example:
     var   fs        = require('fs')
         , sys       = require('sys')
         , em_parse  = require('./parser_email')
-    
+
     stream = fs.ReadStream(file);
     stream.setEncoding('ascii');
     stream.on('data', function(data) {

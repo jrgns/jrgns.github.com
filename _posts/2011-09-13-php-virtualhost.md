@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A PHP Virtual Host
-permalink: php-virtualhost/index.html
+permalink: /php-virtualhost/index.html
 date: 2011-09-13 03:18:03
 categories:
 - blog
@@ -55,7 +55,7 @@ Courtesy of the `.htaccess` file, the whole URL, except the host name, gets pass
     }
 
 I use a very rudimentary way to get the file extension, and then send the content header. There are probably better ways to do this, but it works. The rest is just the generic message that gets displayed if we don't know what you're looking for.
-    
+
     <?php
     function no_host() {
     	global $host;
@@ -70,7 +70,7 @@ I use a very rudimentary way to get the file extension, and then send the conten
     		</div>
     	</body>
     </html>
-    
+
     <?php
     }
     no_host();

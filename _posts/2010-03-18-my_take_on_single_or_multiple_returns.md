@@ -1,7 +1,7 @@
 ---
 layout: post
 title: My take on single or multiple returns
-permalink: my_take_on_single_or_multiple_returns/index.html
+permalink: /my_take_on_single_or_multiple_returns/index.html
 date: 2010-03-18 16:17:11
 categories:
 - blog
@@ -55,15 +55,15 @@ The more conditions, the larger the function gets, the more difficult it is to r
     function isEqual($param1, $param2) {
         return $param1 == $param2;
     }
-    
+
     function isDouble($param1, $param2) {
         return $param1 == ($param2 * 2);
     }
-    
+
     function isThird($param1, $param2) {
         return $param1 == ($param2 / 3);
     }
-    
+
     function isCorrect($param1, $param2, $param3) {
         $toret = false;
         if (!isEqual($param1, $param2)

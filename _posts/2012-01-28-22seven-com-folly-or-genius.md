@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 22seven.com - Folly, or Genius?
-permalink: 22seven-com-folly-or-genius/index.html
+permalink: /22seven-com-folly-or-genius/index.html
 date: 2012-01-28 08:37:06
 categories:
 - blog

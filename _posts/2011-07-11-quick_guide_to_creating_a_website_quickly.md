@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Quick Guide To Creating A Website Quickly
-permalink: quick_guide_to_creating_a_website_quickly/index.html
+permalink: /quick_guide_to_creating_a_website_quickly/index.html
 date: 2011-07-11 21:31:53
 categories:
 - blog
