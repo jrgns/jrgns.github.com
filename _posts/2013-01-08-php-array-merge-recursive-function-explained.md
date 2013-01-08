@@ -5,21 +5,28 @@ categories:
 - blog
 ---
 
-Reading the PHP docs, it's not immediately clear how the [array_merge_recursive][1] function behaves.
-I've setup a couple of test cases and compared them with the plain [array_merge][2] function to explain it further:
+Reading the PHP docs, it's not immediately clear how the `[array_merge_recursive][1]` function behaves.
+I've setup a couple of test cases and compared them with the plain `[array_merge][2]` function to explain it further:
 
 The following snippet set's up a couple of arrays, and outputs them for completeness sake.
 
 {% highlight php linenos inline %}
 <?php
-$cats = array('white' => array('Kitty'), 'brown' => 'Bach', 'mixed' => array('Tomcat'));
-$dogs = array('white' => 'Bowser', 'brown' => 'Rex', 'mixed' => ('Mutt'));
+$cats = array(
+    'white' => array('Kitty'),
+    'brown' => 'Bach',
+    'mixed' => array('Tomcat')
+);
+$dogs = array(
+    'white' => 'Bowser',
+    'brown' => 'Rex',
+    'mixed' => ('Mutt')
+);
 
 var_dump('Cats', $cats, 'Dogs', $dogs);
 {% endhighlight %}
 
-<pre><small>string</small> <font color='#cc0000'>'Cats'</font> <i>(length=4)</i></pre>
-<pre>
+<pre><small>string</small> <font color='#cc0000'>'Cats'</font> <i>(length=4)</i>
 <b>array</b>
   'white' <font color='#888a85'>=&gt;</font> 
     <b>array</b>
@@ -28,9 +35,7 @@ var_dump('Cats', $cats, 'Dogs', $dogs);
   'mixed' <font color='#888a85'>=&gt;</font> 
     <b>array</b>
       0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Tomcat'</font> <i>(length=6)</i>
-</pre>
-<pre><small>string</small> <font color='#cc0000'>'Dogs'</font> <i>(length=4)</i></pre>
-<pre>
+<small>string</small> <font color='#cc0000'>'Dogs'</font> <i>(length=4)</i>
 <b>array</b>
   'white' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Bowser'</font> <i>(length=6)</i>
   'brown' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Rex'</font> <i>(length=3)</i>
@@ -77,5 +82,5 @@ all the values with the same key.
 Values with numerical keys get added to the original array with a renumbering of keys. This
 is the same behaviour as that of `array_merge`.
 
- 1. http://php.net/manual/en/function.array-merge-recursive.php
- 2. http://php.net/manual/en/function.array-merge.php
+ [1]: http://php.net/manual/en/function.array-merge-recursive.php
+ [2]: http://php.net/manual/en/function.array-merge.php
