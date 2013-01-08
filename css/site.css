@@ -1,9 +1,16 @@
+#social {
+  padding: 0;
+  margin: 0;
+}
+
 #social a {
   color: black;
 }
 
 #social li {
   display: inline-block;
+  width: 24px;
+  font-size: 20px;
 }
 
 .footer {
@@ -15,7 +22,7 @@
   background-image: none;
 }
 
-ul.posts span {
+.posts span {
   font-family: 'Lucida Console', 'Andale Mono', monospace;
   color: #aaa;
   padding-right: 5px;
@@ -28,9 +35,7 @@ ul.posts span {
   color: white;
   font-size: 16px;
   height: 20px;
-  width: 20px;
-  text-align: center;
   position: relative;
   bottom: 2px;
-  margin-left: 10px;
+  margin-left: 14px;
 }
