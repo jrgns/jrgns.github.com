@@ -5,8 +5,8 @@ categories:
 - blog
 ---
 
-Reading the PHP docs, it's not immediately clear how the `[array_merge_recursive][1]` function behaves.
-I've setup a couple of test cases and compared them with the plain `[array_merge][2]` function to explain it further:
+Reading the PHP docs, it's not immediately clear how the [`array_merge_recursive`][1] function behaves.
+I've setup a couple of test cases and compared them with the plain [`array_merge`][2] function to explain it further:
 
 The following snippet set's up a couple of arrays, and outputs them for completeness sake.
 
