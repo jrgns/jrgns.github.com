@@ -62,6 +62,7 @@ This boilerplate code wil appear in controller actions that deal with creating E
 and their ACL's:
 
 {% highlight php linenos inline %}
+<?php
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
