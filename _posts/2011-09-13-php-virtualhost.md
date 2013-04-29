@@ -13,13 +13,15 @@ You can get the code on [GitHub][1]. A **Warning**: The code is **not** producti
 
 An `.htaccess` file [redirects all requests][2] to the `index.php` file, which sits in `/var/www`. We get the host from the `$_SERVER` variable, and check if a folder for that host exists.
 
-    <?php
-    $host   = $_SERVER['HTTP_HOST'];
-    $folder = getcwd() . '/' . $host . '/';
-    if (!file_exists($folder)) {
-    	no_host();
-    	die;
-    }
+{% highlight php linenos inline %}
+<?php
+$host   = $_SERVER['HTTP_HOST'];
+$folder = getcwd() . '/' . $host . '/';
+if (!file_exists($folder)) {
+	no_host();
+	die;
+}
+{% endhighlight %}
 
 So if we wanted to server jrgns.net from it, the folder `/var/www/jrgns.net` should exist on the server. If it doesn't, a generic message is displayed.
 

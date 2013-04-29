@@ -61,26 +61,27 @@ every Controller Action.
 This boilerplate code wil appear in controller actions that deal with creating Entities
 and their ACL's:
 
-    <?php
-    use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-    use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-    use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+{% highlight php linenos inline %}
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
-    // Inside a controller action
+// Inside a controller action
 
-    // creating the ACL
-    $aclProvider = $this->get('security.acl.provider');
-    $objectIdentity = ObjectIdentity::fromDomainObject($entity);
-    $acl = $aclProvider->createAcl($objectIdentity);
+// creating the ACL
+$aclProvider = $this->get('security.acl.provider');
+$objectIdentity = ObjectIdentity::fromDomainObject($entity);
+$acl = $aclProvider->createAcl($objectIdentity);
 
-    // retrieving the security identity of the currently logged-in user
-    $securityContext = $this->get('security.context');
-    $user = $securityContext->getToken()->getUser();
-    $securityIdentity = UserSecurityIdentity::fromAccount($user);
+// retrieving the security identity of the currently logged-in user
+$securityContext = $this->get('security.context');
+$user = $securityContext->getToken()->getUser();
+$securityIdentity = UserSecurityIdentity::fromAccount($user);
 
-    // grant owner access
-    $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
-    $aclProvider->updateAcl($acl);
+// grant owner access
+$acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+$aclProvider->updateAcl($acl);
+{% endhighlight %}
 
 The "creating the ACL" block retrieves the Security Provider, generates an identity
 for the object using the `ObjectIdentity` class, and then creates the ACL using the
