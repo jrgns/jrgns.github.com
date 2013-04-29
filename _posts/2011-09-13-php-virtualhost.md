@@ -27,55 +27,59 @@ So if we wanted to server jrgns.net from it, the folder `/var/www/jrgns.net` sho
 
 Courtesy of the `.htaccess` file, the whole URL, except the host name, gets passed to the script in the `f` query variable. As we might be requesting a stylesheet such as jrgns.net/styles/basic.css, the virtual host should pick that up. If no file is requested, check for and serve an index file.
 
-    <?php
-    if (empty($_REQUEST['f'])) {
-    	$indexes = array(
-    		'index.php', 'index.html', 'index.htm', 'main.php'
-    	);
-    	foreach($indexes as $index) {
-    		if (file_exists($folder . $index)) {
-    			chdir($folder);
-    			include($folder . $index);
-    			die;
-    		}
-    	}
-    } else {
-    	$file = $_REQUEST['f'];
-    	if (file_exists($folder . $file)) {
-    		$info = explode('.', $file);
-    		switch(end($info)) {
-    		case 'js':
-    			header('Content-Type: text/javascript');
-    			break;
-    		case 'css':
-    			header('Content-Type: text/css');
-    			break;
-    		}
-    		readfile($folder . $file);
-    		die;
-    	}
-    }
+{% highlight php linenos inline %}
+<?php
+if (empty($_REQUEST['f'])) {
+	$indexes = array(
+		'index.php', 'index.html', 'index.htm', 'main.php'
+	);
+	foreach($indexes as $index) {
+		if (file_exists($folder . $index)) {
+			chdir($folder);
+			include($folder . $index);
+			die;
+		}
+	}
+} else {
+	$file = $_REQUEST['f'];
+	if (file_exists($folder . $file)) {
+		$info = explode('.', $file);
+		switch(end($info)) {
+		case 'js':
+			header('Content-Type: text/javascript');
+			break;
+		case 'css':
+			header('Content-Type: text/css');
+			break;
+		}
+		readfile($folder . $file);
+		die;
+	}
+}
+{% endhighlight %}
 
 I use a very rudimentary way to get the file extension, and then send the content header. There are probably better ways to do this, but it works. The rest is just the generic message that gets displayed if we don't know what you're looking for.
 
-    <?php
-    function no_host() {
-    	global $host;
-    ?><!DOCTYPE html>
-    <html>
-    	<head>
-    		<title>Unknown Domain: <?php echo $host ?></title>
-    	</head>
-    	<body>
-    		<div>
-    			<h1>Unknown Domain: <?php echo $host ?></h1>
-    		</div>
-    	</body>
-    </html>
+{% highlight php linenos inline %}
+<?php
+function no_host() {
+	global $host;
+?><!DOCTYPE html>
+<html>
+	<head>
+		<title>Unknown Domain: <?php echo $host ?></title>
+	</head>
+	<body>
+		<div>
+			<h1>Unknown Domain: <?php echo $host ?></h1>
+		</div>
+	</body>
+</html>
 
-    <?php
-    }
-    no_host();
+<?php
+}
+no_host();
+{% endhighlight %}
 
 Like I said. Simple!
 
