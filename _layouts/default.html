@@ -107,6 +107,9 @@
     _gaq.push(['_setAccount', 'UA-3257244-1']);
     _gaq.push(['_trackPageview']);
 
+    // Register a read after 30 seconds
+    setTimeout("_gaq.push(['_trackEvent', '30_seconds', 'read'])", 30000);
+
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
