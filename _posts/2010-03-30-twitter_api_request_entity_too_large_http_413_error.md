@@ -30,5 +30,5 @@ What baffled me is that I only got this error when running it on my live server,
 To fix it, I just updated the code to only add the parameters to the URI when it was a GET, and to POST the data when it was a POST, and voila, it's working again.
 
 
-  [1]: http://zacoders.net
-  [2]: http://backend-php.net
+[1]: http://zacoders.net
+[2]: http://backend-php.net
