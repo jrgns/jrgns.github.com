@@ -43,7 +43,7 @@ You can extend this to pass the requested path to the index.php file by modifyin
 
 You can extend this even further by using regular expressions. For example:
 
-    RewriteRule ^([^/]*)(.*)$ index.php?first=$1&second=$2
+    RewriteRule ^([^/]*)(.*)$ index.php?first=$1&second=$2 [L,QSA]
 
 This will pass down the first part of the path as the `first` parameter, and the rest as the `second`. So the following request
 
