@@ -1,6 +1,6 @@
 ---
 layout: post
-title: backend: PHP Framework
+title: Backend-PHP Framework
 permalink: /backend_intro/index.html
 date: 2010-03-18 08:46:32
 categories:
