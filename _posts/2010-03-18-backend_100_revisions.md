@@ -32,6 +32,6 @@ The permissions / security infrastructure still needs some work. I've managed to
 I want to start using backend on my personal site (this one) and on another site I've got in the works, called [zacoders.net][3]. More on that later.
 
 
-  [1]: http://backend-php.net
-  [2]: http://codeigniter.com/
-  [3]: http://zacoders.net
+[1]: http://backend-php.net
+[2]: http://codeigniter.com/
+[3]: http://zacoders.net

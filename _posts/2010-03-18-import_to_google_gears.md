@@ -7,7 +7,11 @@ categories:
 - blog
 ---
 
-I'm playing around with [Google Gears][1], particularly the database part, just to see what it's usefull for, and if I can use it in an app I'm working on. At some point I realised that I will need to import data at some point. Here's how I did it:<!--break-->
+I'm playing around with [Google Gears][gears], particularly the database part, just to see what it's usefull for, and if I can use it in an app I'm working on. At some point I realised that I will need to import data at some point. Here's how I did it:
+
+[gears]: http://developers.google.com/gears/
+
+<!--break-->
 
 By using an HTML uploading form, and PHP to process the upload, you can create a JSON object which can be used to import data into whatever Gears DB you have. Use whatever you use to put all of the data into one array. The source can be a DB or a file upload, come to think of it. Convert the data to JSON using json_encode, and assign it to a JavaScript variable:
 
@@ -75,6 +79,4 @@ And the test page, HTML and PHP together:
     	</body>
     </html>
 
-
-  [1]: http://code.google.com/apis/gears/
 

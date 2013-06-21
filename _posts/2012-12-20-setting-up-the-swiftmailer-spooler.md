@@ -76,5 +76,5 @@ echo "SENT $result emails";
 And that's it. All that's left now is to call the background script periodically using
 something like cron.
 
-  [1]: http://swiftmailer.org/
-  [2]: https://groups.google.com/forum/?fromgroups=#!searchin/swiftmailer/spool/swiftmailer/xQPP5qtNnMA/k3QXcRebG-wJ
+[1]: http://swiftmailer.org/
+[2]: https://groups.google.com/forum/?fromgroups=#!searchin/swiftmailer/spool/swiftmailer/xQPP5qtNnMA/k3QXcRebG-wJ
