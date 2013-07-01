@@ -24,6 +24,7 @@ $dogs = array(
 );
 
 var_dump('Cats', $cats, 'Dogs', $dogs);
+?>
 {% endhighlight %}
 
 <pre><small>string</small> <font color='#cc0000'>'Cats'</font> <i>(length=4)</i>
@@ -48,6 +49,7 @@ This snippet highlights what happens when the arrays being merged have matching 
 <?php
 var_dump('Cats and Dogs - plain', array_merge($cats, $dogs));
 var_dump('Cats and Dogs - recursive', array_merge_recursive($cats, $dogs));
+?>
 {% endhighlight %}
 
 All values that's not already in an array will be placed in an array,
@@ -82,5 +84,5 @@ all the values with the same key.
 Values with numerical keys get added to the original array with a renumbering of keys. This
 is the same behaviour as that of `array_merge`.
 
- [1]: http://php.net/manual/en/function.array-merge-recursive.php
- [2]: http://php.net/manual/en/function.array-merge.php
+[1]: http://php.net/manual/en/function.array-merge-recursive.php
+[2]: http://php.net/manual/en/function.array-merge.php
