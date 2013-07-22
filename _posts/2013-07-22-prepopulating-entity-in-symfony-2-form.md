@@ -16,8 +16,8 @@ This all happens in the `newAction` method of the `ContactDetailController`.
 Notice how I save the student ID in a session variable. More on this later.
 
 {% highlight php linenos inline %}
+<?php
 //ContactDetailController::newAction
-
 $detail = new ContactDetail();
 
 if ($studentId = $request->query->get('student_id')) {
@@ -64,6 +64,7 @@ form widget. Otherwise display the student in an uneditable text input. Displayi
 the student can be skipped if it's not necessary.
 
 {% highlight php linenos inline %}
+{% raw %}
 {% if form.student is defined %}
     {{ form_row(form.student, { form_type: 'horizontal' }) }}
 {% elseif form.vars.data.student.id is defined %}
@@ -74,6 +75,27 @@ the student can be skipped if it's not necessary.
         </div>
     </div>
 {% endif %}
+{% endraw %}
+{% endhighlight %}
+
+And on to the `updateAction`. Just get the Student whose ID we stored in the session,
+and set it on the ContactDetail before populating the form:
+
+{% highlight php linenos inline %}
+<?php
+//ContactDetailController::updateAction
+$entity  = new ContactDetail();
+
+if ($studentId = $this->get('session')->get('contact_detail:create:student')) {
+    $student = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository('NotesNoteBundle:Student')
+        ->find($studentId);
+    if ($student) {
+        $entity->setStudent($student);
+    }
+}
 {% endhighlight %}
 
 Simple enough. Any suggestions on how to improve it, or comments on how to do it
