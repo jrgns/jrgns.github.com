@@ -35,7 +35,7 @@ if ($studentId = $request->query->get('student_id')) {
 $form = $this->createForm(new ContactDetailType(), $detail);
 {% endhighlight %}
 
-On to the form. Quite simply, if the entity already has a student, don't add the
+On to the form. Quite simply, if the entity already has a `Student`, don't add the
 field for the student.
 
 {% highlight php linenos inline %}
@@ -78,12 +78,12 @@ the student can be skipped if it's not necessary.
 {% endraw %}
 {% endhighlight %}
 
-And on to the `updateAction`. Just get the Student whose ID we stored in the session,
-and set it on the ContactDetail before populating the form:
+And on to the `updateAction`. Just get the `Student` whose ID we stored in the session,
+and set it on the `ContactDetail` before populating the form:
 
 {% highlight php linenos inline %}
 <?php
-//ContactDetailController::updateAction
+//ContactDetailController::createAction
 $entity  = new ContactDetail();
 
 if ($studentId = $this->get('session')->get('contact_detail:create:student')) {
