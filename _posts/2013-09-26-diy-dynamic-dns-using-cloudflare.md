@@ -38,7 +38,7 @@ ways to get your external IP, my favourite is `curl http://api.externalip.net/ip
 but I just run this script as the `postscript` of my ddclient (which updates another
 service)
 
-{% highlight linenos inline %}
+{% highlight text linenos inline %}
 # /etc/ddclient.conf
 
 protocol=dyndns2
