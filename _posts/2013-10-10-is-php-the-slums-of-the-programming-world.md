@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "PHP: The slums of the<br>Programming World?"
+title: "PHP: The slums of the Programming World?"
 categories:
 - blog
 ---
