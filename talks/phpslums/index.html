@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>PHP - The slums of the programming world?</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>PHP</h1>
+					<h2>The slums of the<br>Programming World?</h2>
+					<p>
+						<small>Jurgens du Toit / jrgns &mdash; <a href="http://jrgns.net">jrgns.net</a> / <a href="http://twitter.com/jrgns">@jrgns</a></small>
+					</p>
+
+                    <aside class="notes">
+                        <div style="font-size: 0.75em;">
+                            <ul>
+                                <li>I write code for a living</li>
+                                <li>Work at Tutuka, the <strong>leading</strong> prepaid card processor in Africa and the Middle East</li>
+                                <li>Started coding in PHP before OO and while CGI was still popular.</li>
+                                <li>I love the language, but I have a couple of concerns I'd like to talk about</li>
+                                <li>Firstly, who codes in PHP, etc?
+                            </ul>
+                        </div>
+                    </aside>
+				</section>
+
+                <section>
+                    <h2>Why talk about PHP?</h2>
+                </section>
+				<section>
+					<h2>A short history of PHP</h2>
+                    <p>
+                        Written by Rasmus Lerdorf to replace repetitive coding CGI calls.
+                    </p>
+                    <p>
+                        Replaced the original parser with the Zend Engine, Zend Engine 2.
+                    </p>
+                    <blockquote class="fragment">
+"I've never thought of PHP as more than a simple tool to solve problems"<br>
+ &mdash; Rasmus Lerdorf
+                    </blockquote>
+
+					<aside class="notes">
+<p>There's no ideology or design philosophy, it's just a [simple tool to solve problems][4]. Simple doesn't mean bad, btw.
+A hammer is simple but can be extremely useful.</p>
+					</aside>
+				</section>
+                <section>
+                    <h2>Who uses PHP</h2>
+                    <ol>
+                        <li>User facing portions of Facebook (through HipHop)</li>
+                        <li>Wordpress</li>
+                        <li>Yahoo (for now)</li>
+                        <li>Wikipedia / Mediawiki</li>
+                    </ol>
+                </section>
+                <section>
+                    <section>
+                        <h2>Lies, Damned Lies and...</h2>
+                    </section>
+                    <section>
+                        <h4>TIOBE Language Index</h4><img src="img/tiobe-language-trends.png">
+                    </section>
+                    <section>
+                        <h4>Web Language Trends</h4><img src="img/web-language-trends.png">
+                    </section>
+                    <section>
+                        <h4>Framework Trends</h4><img src="img/framework-trends.png">
+                    </section>
+                    <section>
+                        <h4>PHP Framework Trends</h4><img src="img/php-framework-trends.png">
+                    </section>
+                    <section>
+                        <h4>PHP Usage</h4><img src="img/php-usage.png">
+                    </section>
+                    <section>
+                        <h4>Web Jobs</h4><img src="img/web-jobs.png">
+                    </section>
+                    <section>
+                        <h4>Web Jobs Growth</h4><img src="img/web-jobs-growth.png">
+                    </section>
+                    <section>
+                        <h4>Web Jobs Growth with Ruby</h4><img src="img/web-jobs-growth-with-ruby.png">
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Embrace the Cactus</h2>
+                        <ol>
+                            <li>Language</li>
+                            <li>Community</li>
+                            <li>Toolset</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h3>Language</h3>
+                        <p>Inconsistencies in naming functions:</p>
+                        <pre><code data-trim class="php">
+strrev     // String Function
+str_repeat // String Function
+explode    // String Function
+// At least somewhat consistent
+strpos($haystack, $needle)
+array_key_exists($needle, $haystack)
+                        </code></pre>
+                        <p>Potentially Insecure:</p>
+                        <pre><code data-trim class="php">
+                            mysql_query("SELECT * FROM `users` WHERE `username` = $_GET['username']");
+                        </code></pre>
+                        <hr>
+                        <ul>
+                            <li>PHP accounts for only 18% of applications covered by the <abbr class="Common Vulnerabilities and Exposures">CVE</abbr>, but accounts for almost 29% of the  vulnerabilities</li>
+                            <li>Not Object Oriented, just Object Capable</li>
+                            <li>Low barrier to entry?</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Community</h3>
+                        <blockquote>
+                            Bringing a knife to a gun fight is like bringing PHP to a modern web stack.<br>
+                            &mdash;@iamdevloper
+                        </blockquote>
+                        <p><img alt="Tabs Not Spaces Slugfest" src="img/tabs-not-spaces.png" /></p>
+                    </section>
+                    <section>
+                        <h2>Toolset</h2>
+                        <p>In general not too bad, but managing dependencies with PEAR is a pain.</p>
+                        <p>Noteworthy tools / libraries:
+                        <ol>
+                            <li>XDebug</li>
+                            <li>PHPUnit</li>
+                            <li>SwiftMailer</li>
+                        </ol>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>The flip side of the coin</h2>
+                        <ol>
+                            <li>Language</li>
+                            <li>Community</li>
+                            <li>Toolset</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h3>PHP 5.3</h3>
+                        <ol>
+                            <li>Namespaces</li>
+                            <li>Closures and Lambda functions</li>
+                            <li>Renewed focus on security by default</li>
+                        </ol>
+                        <aside class="notes">
+                            <p>Why is this important?</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>PHP-FIG</h3>
+                        <ol>
+                            <li>It's been a bumpy ride... but worth it</li>
+                            <li>Unofficial</li>
+                            <li>Yet widely adopted</li>
+                        </ol>
+                        <aside class="notes">
+                            <p>Why is this important?</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>Composer / Packagist</h3>
+                        <ol>
+                            <li>PEAR shaped</li>
+                            <li>Now we can manage dependencies and versions</li>
+                            <li>Dead simple:<br>
+                                <code class="bash">composer require "vendor/library"</code></li>
+                        </ol>
+                        <aside class="notes">
+                            <p>Why is this important?</p>
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <h2>Modern Frameworks</h2>
+                    <ol>
+                        <li>Symfony 2</li>
+                        <li>Zend 2</li>
+                        <li>Laravel</li>
+                        <li>Lithium</li>
+                        <li>PPI</li>
+                    </ol>
+                </section>
+                <section>
+                    <h2>So... Slums?</h2>
+                    <div class="fragment">
+                        <p><img src="img/sheer-iron-willed-discipline.png"></p>
+                        <blockquote>If you can pull it off, you’re badass as hell, but most of the time you’re only going to end up stabbing yourself.
+    - @ohpalmer</blockquote>
+                    </div>
+                    <aside class="notes">
+                        <div style="font-size: 0.75em;">
+                            <ul>
+                                <li>A good language prevents a programmer from doing bad things. Discuss. C?</li>
+                                <li>Horrible language that makes it easy to introduce bugs and security issues</li>
+                                <li>Lovely language that makes it easy to solve problems and code according to your style</li>
+                            </ul>
+                        </div>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Questions / Missiles</h2>
+                </section>
+            </div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
