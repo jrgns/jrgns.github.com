@@ -27,25 +27,25 @@ There's no ideology or design philosophy, except that it should be a [simple too
 Lies, Damned Lies and ...
 =========================
 
-![TIOBE Language trends](../img/tiobe-language-trends.png)
+![TIOBE Language trends](/img/tiobe-language-trends.png)
 
 Despite a worsening reputation, the language hasn't decreased in popularity.
 
-![Web Language Trends](../img/web-language-trends.png)
+![Web Language Trends](/img/web-language-trends.png)
 
 Less searches are being done for PHP.
 
-![Framework Trends](../img/framework-trends.png)
+![Framework Trends](/img/framework-trends.png)
 
 If you look at the JavaScript vs JQuery trends, JavaScript is also decreasing, but JQuery is increasing. It seems like
 the programming community is realising that frameworks are a good idea.
 
-![PHP Framework Trends](../img/php-framework-trends.png)
+![PHP Framework Trends](/img/php-framework-trends.png)
 
 So if you look at PHP frameworks, searches on them are also increasing, especially after 2013 when Zend 2 and Symfony 2
 were released.
 
-![PHP Usage](../img/php-usage.png)
+![PHP Usage](/img/php-usage.png)
 
 No shortage of hosts offering PHP.
 
@@ -82,7 +82,7 @@ the unofficial (like [PHP-FIG][1]) communities.
 
 If you look at the debate on what to use for indentation, [tabs][2] vs [spaces][3], the community is in total disarray.
 
-![Tabs Not Spaces Slugfest](../img/tabs-not-spaces.png)
+![Tabs Not Spaces Slugfest](/img/tabs-not-spaces.png)
 
 Inconsistencies in naming functions:
 
@@ -178,7 +178,7 @@ If you know what you're doing and you perhaps have some extra experience in a mo
 you're probably coding quality PHP. It's un-opinionated, so, as long as you know what you're doing, it can be a great tool.
 Don't discount the language just because it's lost it's coolness factor. You can write quality code in PHP.
 
-![Sheer Iron WIlled Discipline](../img/sheer-iron-willed-discipline.png)
+![Sheer Iron WIlled Discipline](/img/sheer-iron-willed-discipline.png)
 
 > If you can pull it off, you’re badass as hell, but most of the time you’re only going to end up stabbing yourself.
 >
