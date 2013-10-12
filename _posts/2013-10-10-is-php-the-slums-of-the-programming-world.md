@@ -1,3 +1,10 @@
+---
+layout: post
+title: A DIY Dynamic DNS service using Cloudflare
+categories:
+- blog
+---
+
 I presented this at [Tech4Africa 2013][20]. The slides can be found [here][21].
 
 Quick History of PHP
