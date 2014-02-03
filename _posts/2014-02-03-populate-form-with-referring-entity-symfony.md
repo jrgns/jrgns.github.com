@@ -9,6 +9,9 @@ In any web project it often happens that you have an entity, say a Group, to whi
 
 There's various ways to do this, but I'd like to show you a simple, non intrusive one for Symfony 2. You don't have to add any parameters to the link, it just works. In your `Student` Controller, the `newAction` method:
 
+{% highlight php linenos inline %}
+<?php
+// src/My/Bundle/Controller/StudentController.php
     public function newAction()
     {
         $entity = new Student();
@@ -30,5 +33,7 @@ There's various ways to do this, but I'd like to show you a simple, non intrusiv
             'form'   => $form->createView(),
         ));
     }
+?>
+{% endhighlight %}
 
 We basically try and match the referring URL to a route, and if found, retrieve that entity, and set it in the form. Simple!
