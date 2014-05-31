@@ -24,11 +24,18 @@ title: Jurgens du Toit - Systems Developer, PHP Expert
         <a href='http://whatsupinmelville.co.za'>Whats up in Melville</a> - Business guide to Melville, South Africa
       </li>
     </ul>
-    <h2><i class="icon-pencil"></i> Blog Posts</h2>
+    <h2>Talks</h2>
+    <p>I spoke at</p>
+    <ul>
+      <li><a href="http://tech4africa.com/">Tech 4 Africa 2013</a> - <a href="talks/phpslums/">PHP - The slums of the programming world?</a></li>
+      <li><a href="http://www.jsinsa.com/jsinsa/2014/index.htm">JSinSA 2014</a> - <a href="talks/learning-from-coffeescript">How CoffeeScript Improved My JavaScript Skills</a></li>
+    </ul>
+    <h2><i class="icon-pencil"></i> Latest Blog Posts</h2>
     <ul id="blog-posts" class="posts">
-      {% for post in site.categories.blog %}
+      {% for post in site.categories.blog limit: 10 %}
         <li><span>{{ post.date | date_to_string }} <i class="icon-chevron-right"></i></span> <a href="{{ post.url }}">{{ post.title }}</a></li>
       {% endfor %}
     </ul>
+    <p><a href="blog-index.html">More...</a></p>
   </div>
 </div>
