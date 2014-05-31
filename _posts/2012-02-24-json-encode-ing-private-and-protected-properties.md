@@ -17,21 +17,15 @@ The properties of an object `json_encode` includes in it's eventual output depen
     class Tester
     {
         public $public       = 'Public';
-
         protected $protected = 'Protected';
-
         private $private     = 'Private';
-
         function foo()
         {
             echo json_encode($this);
         }
     }
-
     $test = new Tester();
-
     $test->foo(); //Outputs {"public":"Public","protected":"Protected","private":"Private"}
-
     echo json_encode($test); //Outputs {"public":"Public"}
 
 This isn't necessarily the desired outcome. Sometimes you want more control over what is being included in the encoding function.
@@ -39,7 +33,6 @@ This isn't necessarily the desired outcome. Sometimes you want more control over
 ##The Solution
 
 The easiest way to solve this is to add a `_toJson` function to your object, and call that instead of `json_encode`:
-
 
     public function _toJson()
     {
