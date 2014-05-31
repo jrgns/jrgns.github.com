@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Jurgens du Toit - Systems Developer, PHP Expert: Blog Posts
+title: Blog Posts - Jurgens du Toit
 ---
 
 <div id="home" class="row-fluid">
   <div class="offset1 span11">
-    <h2><i class="icon-beaker"></i> Blog Posts</h2>
+    <h2><i class="icon-pencil"></i> Blog Posts</h2>
     <ul>
       {% for post in site.categories.blog %}
         <li><span>{{ post.date | date_to_string }} <i class="icon-chevron-right"></i></span> <a href="{{ post.url }}">{{ post.title }}</a></li>
