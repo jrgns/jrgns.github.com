@@ -126,7 +126,7 @@ function logVisit() {
 // Send an AJAX payload to log the event
 function logEvent(data) {
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://jrgns.net/analytics.php', true);
+    request.open('POST', 'http://analytics.jrgns.net/index.php', true);
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     request.send(JSON.stringify(data));
 }
