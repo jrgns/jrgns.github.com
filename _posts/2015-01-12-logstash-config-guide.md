@@ -9,7 +9,17 @@ The ELK stack has been becoming more and more popular, specifically [Elasticsear
 
 The fact that you can string together totally disparate systems, from XMPP to Redmine and files on S3 to Nagios, with a simple config makes it a wonderful plaything and very useful utility. The rub, though, is in the config: Even though a great effort is made to write proper docs, I've found the documentation to be unclear, incomplete and sometimes confusing. So I've decided to do something about it:
 
-[The Logstash Config Guide][4]
+<p style="text-align: center;">Pain Free Logstash Configuration</p>
+
+<p style="text-align: center;">
+<a href="https://leanpub.com/logstashconfigguide">
+<img src="https://s3.amazonaws.com/titlepages.leanpub.com/logstashconfigguide/medium?1421001125">
+</a>
+</p>
+
+<p style="text-align: center;">
+Buy it now on <a href="https://leanpub.com/logstashconfigguide">Leanpub</a>
+</p>
 
 <!--break-->
 
