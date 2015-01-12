@@ -1,6 +1,5 @@
 ---
 layout: post
-excerpt_separator: ---more---
 title: "The Logstash Config Guide"
 categories:
 - blog
@@ -12,7 +11,7 @@ The fact that you can string together totally disparate systems, from XMPP to Re
 
 [The Logstash Config Guide][4]
 
----more---
+<!--break-->
 
 The plan is to write focused guides on some of the more popular Logstash plugins in the hopes of making it easier for people to set up and configure them. Each chapter will point out the bare minimum required to get you up and running and also highlight some of the more interesting, but not necessarily necessary settings for a plugin. You'll also find a complete reference of all the available settings, with working examples for each of them.
 
