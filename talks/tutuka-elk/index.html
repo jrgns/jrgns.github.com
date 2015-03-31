@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Leveraging the ELK for API Analytics and Monitoring</title>
-  <meta name="description" content="Leveraging the ELK for API Analytics and Monitoring">
+  <title>Leveraging the ELK Stack for API Analytics and Monitoring</title>
+  <meta name="description" content="Leveraging the ELK Stack for API Analytics and Monitoring">
   <meta name="author" content="Jrgns <jrgns@jrgns.net">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../lib/css/zenburn.css">
   <!-- If the query includes 'print-pdf', use the PDF print sheet -->
   <script>
-  document.write( '<link rel="styleshee t" href="../css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  document.write( '<link rel="stylesheet" href="../css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
   </script>
   <!--[if lt IE 9]>
   <script src="lib/js/html5shiv.js"></script>
@@ -32,11 +32,11 @@
             <h2><a href="http://jrgns.net">jrgns.net</a></h2>
             <h2><a href="https://twitter.com/jrgns">@jrgns</a></h2>
             <h2><a href="https://github.com/jrgns">github/jrgns</a></h2>
-            <h2><a href="http://blog.eagerelk.com"><img width="460px" src="img/elk_header.png" alt="EagerELK"></a></h2>
+            <h2><a href="http://blog.eagerelk Stack.com"><img width="460px" src="img/elk_header.png" alt="EagerELK"></a></h2>
           </div>
       </section>
       <section>
-        <h1 style="font-size: 3em;">Leveraging the ELK for API Analytics and Monitoring</h1>
+        <h1 style="font-size: 3em;">Leveraging the ELK Stack for API Analytics and Monitoring</h1>
       </section>
       <section>
         <h2>Some Background</h2>
@@ -47,7 +47,6 @@
             <li>Interface with MasterCard / Visa</li>
             <li>Interface with various Clients</li>
             <li>All using XMLRPC</li>
-            <li>Microsoft Stack</li>
           </ul>
         </div>
       </section>
@@ -128,15 +127,13 @@ xml {
   ...
   }
 }
-          </code></pre>
+          </pre></code>
         </section>
         <section>
           <h3>Ruby</h3>
           <pre><code data-trim>
 ruby {
   code => "
-          </code></pre>
-          <pre><code data-trim class="ruby">
 return if event['acceptor_name'].nil?
 acceptor_name = event['acceptor_name'].pack('H*').gsub(/[[:cntrl:]]/, ' ')[5..-1]
 event['acceptor_name'] = [acceptor_name.clone]

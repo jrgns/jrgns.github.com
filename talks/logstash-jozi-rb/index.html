@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Everything's Connected: Hacking the interwebs with Logstash</title>
+  <meta name="description" content="Everything's Connected: Hacking the interwebs with Logstash">
+  <meta name="author" content="Jrgns <jrgns@jrgns.net">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="../css/reveal.min.css">
+  <link rel="stylesheet" href="../css/theme/night.css" id="theme">
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="../lib/css/zenburn.css">
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+  document.write( '<link rel="stylesheet" href="../css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <div class="reveal">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section>
+          <h1>Jurgens du Toit</h1>
+          <h2 class="fragment">jrgns</h2>
+          <div class="fragment">
+            <h2><a href="http://jrgns.net">jrgns.net</a></h2>
+            <h2><a href="https://twitter.com/jrgns">@jrgns</a></h2>
+            <h2><a href="https://github.com/jrgns">github/jrgns</a></h2>
+            <h2><a href="http://blog.eagerelk.com"><img width="460px" src="img/elk_header.png" alt="EagerELK"></a></h2>
+          </div>
+      </section>
+      <section>
+        <h1 style="font-size: 2em;">Everything's Connected:<br>Hacking the interwebs<br> with Logstash</h1>
+      </section>
+      <section>
+        <section>
+          <h2>Data Generators</h2>
+          <div class="fragment" style="width: 50%; float: left;">
+            <h3>Some many things!</h3>
+            <p><img src="img/allthethings.jpg"></p>
+          </div>
+          <div class="fragment roll-in" style="width: 50%; float: left;">
+            <h3>Too many things?</h3>
+            <p><img src="img/allthethings_sad.jpg"></p>
+          </div>
+        </section>
+        <section>
+          <h3>Applications</h3>
+          <ul>
+            <li>Email</li>
+            <li>RSS</li>
+            <li>Twitter</li>
+            <li>IRC</li>
+            <li>Chat</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Servers</h3>
+          <ul>
+            <li>Apache / Nginx</li>
+            <li>HAProxy</li>
+            <li>MySQL</li>
+            <li>Postgres</li>
+            <li>MongoDB</li>
+            <li>Elasticsearch</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Monitoring</h3>
+          <ul>
+            <li>CollectD</li>
+            <li>Monit</li>
+            <li>Nagios</li>
+            <li>Windows Events</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Messages</h3>
+          <ul>
+            <li>RabbitMQ</li>
+            <li>ZeroMQ</li>
+            <li>XMPP</li>
+            <li>SQS</li>
+          </ul>
+        </section>
+        <section>
+          <h3>And then...</h3>
+          <ul>
+            <li>Syslog</li>
+            <li>log4j</li>
+            <li>Accounting Packets</li>
+            <li>Application Logs</li>
+            <li>Error Logs</li>
+            <li>OS Logs</li>
+            <li>Server Metrics</li>
+            <li>Network Metrics</li>
+            <li>Build Logs</li>
+            <li>Deployment Logs</li>
+            <li>Commit History</li>
+            <li>Web Analytics</li>
+            <li>Account History</li>
+            <li>Support History</li>
+            <li>Usage History</li>
+            <li>Financials</li>
+          </ul>
+        </section>
+        <section>
+          <img src="img/social.png">
+        </section>
+        <section>
+          <img src="img/mountains.jpg">
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>The Solution!</h2>
+          <img src="img/unicorn_farting_rainbow_708.jpg">
+          <h2 class="fragment">Um.... No</h2>
+        </section>
+        <section>
+          <h2>More than a drop in the bucket</h2>
+          <img src="img/logstash.png">
+        </section>
+      </section>
+      <section>
+        <h2>Stash what?</h2>
+        <ul>
+          <li>Elastic.co</li>
+          <li>Great Standalone</li>
+          <li>Great Connector</li>
+        </ul>
+        <hr>
+        <h3 class="fragment">Think of it as Server Side IFTTT</h3>
+      </section>
+      <section>
+        <div style="width: 50%; float: left;">
+          <h2>If</h2>
+          <h2>This</h2>
+          <hr>
+          <h2>Then</h2>
+          <h2>That</h2>
+        </div>
+        <div class="fragment" style="width: 50%; float: left;">
+          <pre style="font-size: 1.1em;"><code data-trim>
+input {
+  stdin {}
+}
+
+output {
+  stdout {}
+}
+          </code></pre>
+        </div>
+      </section>
+      <section>
+        <h2>In</h2>
+        <pre style="font-size: 0.9em;"><code data-trim>
+collectd       heroku         rackspace  tcp
+drupal_dblog   imap           redis      twitter
+elasticsearch  invalid_input  relp       udp
+eventlog       irc            s3         unix
+exec           jmx            snmptrap   varnishlog
+file           log4j          sqlite     websocket
+ganglia        lumberjack     sqs        wmi
+gelf           pipe           stdin      xmpp
+gemfire        puppet_facter  stomp      zenoss
+generator      rabbitmq       syslog     zeromq
+graphite
+        </code></pre>
+      </section>
+      <section>
+        <h2>Out</h2>
+        <pre style="font-size: 0.8em;"><code data-trim>
+boundary         gemfire               mongodb      sns
+circonus         google_bigquery       nagios       solr_http
+cloudwatch       google_cloud_storage  nagios_nsca  sqs
+csv              graphite              null         statsd
+datadog          graphtastic           opentsdb     stdout
+datadog_metrics  hipchat               pagerduty    stomp
+elasticsearch    http                  pipe         syslog
+els_http         irc                   rabbitmq     tcp
+els+rover        jira                  rackspace    udp
+email            juggernaut            redis        websocket
+exec             librato               redmine      xmpp
+file             loggly                riak         zabbix
+ganglia          lumberjack            riemann      zeromq
+gelf             metriccatcher         s3
+        </code></pre>
+      </section>
+      <section>
+        <section>
+          <h2>Combinations</h2>
+          <ul>
+            <li>IMAP → http (Twilio)</li>
+            <li>Twitter → PagerDuty</li>
+            <li>IRC → Redmine</li>
+            <li>eventlog → null</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Rewrite FNB InContact<br>IMAP to HTTP</h2>
+        </section>
+        <section>
+          <pre><code data-trim>
+input {
+  imap {
+    host => "imap.gmail.com"
+    user => "myemail@gmail.com"
+    password => "supersecret"
+    folder => "InContact"
+  }
+}
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim>
+filter {
+  grok {
+    match => [
+      "subject",
+      "FNB :-?\) R%{NUMBER:amount:float} %{DATA:action} (@ %{DATA:reference} )?from %{WORD:from_type} a/c..(?<account_number>[0-9]{6}) ((using|@) )?%{DATA:method}\. [0-9]{2}[A-Z][a-z]{2}"
+    ]
+  }
+
+  if "_grokparsefailure" not in [tags] {
+    mutate {
+      add_field => {
+          "To" => "+27821234567"
+        "From" => "+12051234567"
+        "Body" => "You spent R %{amount} @ %{reference} :("
+      }
+      remove_field => [ "@timestamp", "@version" ]
+      keep => [ "From", "Body" ]
+    }
+  }
+}
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim>
+output {
+  http {
+    url => "https://api.twilio.com/2010-04-01/Accounts/ACabafjrSf4FdzsdRg5Sf3deasd3Dadqw0/Messages.json"
+    http_method => "post"
+    headers => [ 'Authorization', 'Basic SomeAUTHToken==' ]
+    format => "form"
+  }
+}
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h2>Demo Time...</h2>
+        <img src="img/demo_time.jpg">
+      </section>
+      <section>
+        <section>
+          <h2>How about solving them...</h2>
+          <img src="img/firstworldproblems.jpg">
+        </section>
+        <section>
+          <h2>Use Cases</h2>
+          <ul>
+            <li>Modernize old API's<br><span class="fragment highlight-blue">HTTP in → RabbitMQ out</span></li>
+            <li>Fix stupid design decisions<<br><span class="fragment highlight-blue">IMAP in → Elasticsearch out</span></li>
+            <li>Communication backup<br><span class="fragment highlight-blue">IRC / XMPP / IMAP in → S3 out</span></li>
+            <li>Lead Generation TODO<br><span class="fragment highlight-blue">HTTP → HTTP (Trello)</span></li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h2>Thanx!</h2>
+        <div style="width: 60%; float: left;">
+          <p class="highlight-blue">Check Out:</p>
+          <ul>
+            <li><a href="http://blog.eagerelk.com">EagerELK.com</a></li>
+            <li><a href="http://www.meetup.com/Elasticsearch-South-Africa/">Elasticsearch Meetup</a></li>
+            <li><a href="https://leanpub.com/logstashconfigguide">Logstash Configuration Guide</a></li>
+          </ul>
+          </div>
+        <div style="width: 40%; float: left;">
+          <img height="350px" src="img/logstashconfigguide.png">
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="../lib/js/head.min.js"></script>
+  <script src="../js/reveal.min.js"></script>
+
+  <script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+      // Optional libraries used to extend on reveal.js
+      dependencies: [
+      { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: '../plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: '../plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+    });
+</script>
+</body>
+</html>
