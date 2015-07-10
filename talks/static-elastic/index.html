@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Leveraging the ELK Stack for API Analytics and Monitoring</title>
-  <meta name="description" content="Leveraging the ELK Stack for API Analytics and Monitoring">
+  <title>StaticElastic: An Elasticsearch and Backbone SPA</title>
+  <meta name="description" content="StaticElastic: An Elasticsearch and Backbone SPA">
   <meta name="author" content="Jrgns <jrgns@jrgns.net">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -27,39 +27,63 @@
     <div class="slides">
       <section>
           <h1>Jurgens du Toit</h1>
-          <h2 class="fragment">jrgns</h2>
           <div class="fragment">
-            <h2><a href="http://jrgns.net">jrgns.net</a></h2>
             <h2><a href="https://twitter.com/jrgns">@jrgns</a></h2>
-            <h2><a href="https://github.com/jrgns">github/jrgns</a></h2>
-            <h2><a href="http://blog.eagerelk.com"><img width="460px" src="img/elk_header.png" alt="EagerELK"></a></h2>
+            <h2><a href="http://blog.eagerelk.com"><img style="border: 0px;" width="460px" src="img/elk_header.png" alt="EagerELK"></a></h2>
           </div>
       </section>
       <section>
-        <h1 style="font-size: 3em;">Leveraging the ELK Stack for API Analytics and Monitoring</h1>
+        <h1 style="font-size: 3em;">StaticElastic:<br>An Elasticsearch and Backbone SPA</h1>
       </section>
       <section>
-        <h2>Some Background</h2>
-        <p><img src="img/tutuka.png"></p>
-        <div>
-          <ul>
-            <li>Card Issuer</li>
-            <li>Interface with MasterCard / Visa</li>
-            <li>Interface with various Clients</li>
-            <li>All using XMLRPC</li>
-          </ul>
-        </div>
+        <h2>Introduction</h2>
+      </section>
+      <section>
+        <section>
+          <h2>Elasticsearch</h2>
+        </section>
+        <section>
+          <h3>Background &amp; Features</h3>
+        </section>
+        <section>
+          <h3>Vitals</h3>
+          <img src="img/vitalstatistix.jpg">
+        </section>
+        <section>
+          <h3>Architecture</h3>
+          <aside data-markdown="">
+* Runs over Lucene and provides distribution and an API
+* Meant to run in a Cluster
+* Plugins
+  - Marvel
+  - Shield
+  - Watcher
+* CAP / ACID
+* Advice on preventing splitbrain / number of nodes / masters
+* Eventually Consistent
+* Near Real Time
+          </aside>
+        </section>
+        <section>
+          <h2>ELK and Found</h2>
+          <img style="width: 120px" src="img/logstash.png">
+          <img style="width: 120px" src="img/found.png">
+          <img style="width: 120px" src="img/kibana.png">
+          <aside data-markdown="">
+* The rest of the ELK stack
+* Support Contracts
+* Plugins
+          </aside>
+        </section>
+        <section>
+        </section>
+        <section>
+        </section>
+        <section>
+        </section>
       </section>
       <section>
         <h2>The Need for Speed</h2>
-        <div style="width: 50%; height: 100%; float: left;" class="fragment">
-          <img src="img/slowpoke.jpg"><br>
-          <pre style="font-size: 1em">SELECT * FROM Logs WHERE<br> <span class="fragment highlight-red">LogString LIKE '%TERM%'</span></pre>
-        </div>
-        <div style="width: 50%; height: 100%; float: left;" class="fragment">
-          <img src="img/fastandfurious.jpg"><br>
-          Elasticsearch?
-        </div>
       </section>
       <section>
         <h2>Architecture</h2>
