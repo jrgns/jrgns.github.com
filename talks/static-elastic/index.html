@@ -8,13 +8,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="../css/reveal.min.css">
-  <link rel="stylesheet" href="../css/theme/night.css" id="theme">
+  <link rel="stylesheet" href="./css/reveal.css">
+  <link rel="stylesheet" href="./css/theme/solarized.css" id="theme">
   <!-- For syntax highlighting -->
-  <link rel="stylesheet" href="../lib/css/zenburn.css">
+  <link rel="stylesheet" href="./lib/css/github-gist.css">
   <!-- If the query includes 'print-pdf', use the PDF print sheet -->
   <script>
-  document.write( '<link rel="stylesheet" href="../css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  document.write( '<link rel="stylesheet" href="./css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
   </script>
   <!--[if lt IE 9]>
   <script src="lib/js/html5shiv.js"></script>
@@ -26,240 +26,347 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
       <section>
-          <h1>Jurgens du Toit</h1>
-          <div class="fragment">
-            <h2><a href="https://twitter.com/jrgns">@jrgns</a></h2>
-            <h2><a href="http://blog.eagerelk.com"><img style="border: 0px;" width="460px" src="img/elk_header.png" alt="EagerELK"></a></h2>
-          </div>
-      </section>
-      <section>
-        <h1 style="font-size: 3em;">StaticElastic:<br>An Elasticsearch and Backbone SPA</h1>
-      </section>
-      <section>
-        <h2>Introduction</h2>
+        <h1>StaticElastic:<br>An ES and BB SPA</h1>
+          <h3>Jurgens du Toit / <a href="https://twitter.com/jrgns">@jrgns</a></h3>
+          <h3><a href="http://blog.eagerelk.com"><img style="border: 0px;" width="320px" src="img/elk_header.png" alt="EagerELK"></a></h3>
       </section>
       <section>
         <section>
           <h2>Elasticsearch</h2>
+          <img src="img/elasticsearch_trends.png">
+          <aside class="notes" data-markdown>
+* Started out as a search engine / interface to Lucene
+* Started evolving into other use cases
+* NoSQL?
+* Elasticsearch (the company) -> Elastic
+* Currently Version 1.6, active development
+          </aside>
         </section>
         <section>
-          <h3>Background &amp; Features</h3>
-        </section>
-        <section>
-          <h3>Vitals</h3>
-          <img src="img/vitalstatistix.jpg">
-        </section>
-        <section>
-          <h3>Architecture</h3>
-          <aside data-markdown="">
-* Runs over Lucene and provides distribution and an API
-* Meant to run in a Cluster
+          <h2>Elastic / ELK / Found</h2>
+          <table style="width: 50%">
+            <tr>
+              <td>
+          <img style="height: 120px" src="img/logstash.png">
+          <img style="height: 120px" src="img/kibana.png">
+              </td>
+              <td><img style="width: 120px" src="img/found.png"></td>
+            </tr>
+          </table>
+          <aside class="notes" data-markdown>
+* Developed by Elastic (valued at > $700 mil)
+* The rest of the ELK stack
+* Support Contracts
 * Plugins
   - Marvel
   - Shield
   - Watcher
-* CAP / ACID
+* Talk about the company - community involvement, etc.
+          </aside>
+        </section>
+        <section>
+          <h3>Vitals</h3>
+          <img style="height: 360px;" src="img/vitalstatistix.jpg">
+          <aside class="notes" data-markdown>
+* REST interface to a schema-free JSON document store
+* Plugin Architecture
+* Near Real Time reads
+* Search
+* Aggregations
+* Basic CRUD
+          </aside>
+        </section>
+        <section>
+          <h3>Architecture</h3>
+          <img src="img/architecture.jpeg">
+          <aside class="notes" data-markdown>
+* Runs over Lucene and provides distribution and an API
+* Meant to run in a Cluster
+* Shards and Replicas provides redundancy
+* CAP - Consistency, Availability, Partition tolerance
+* Indices and Types
+* Mappings
+          </aside>
+        </section>
+      </section> 
+      <section>
+        <h2>Backbone</h2>
+        <aside class="notes" data-markdown>
+* One of the first MVP libraries / frameworks
+* Lightweight
+* Easy to parse
+* Serves as a prototype of how to implement an SPA using ES as a backend
+        </aside>
+      </section>
+      <section>
+        <h2>SPA: Why Backbone and ES</h2>
+        <img src="img/fastandfurious.jpg">
+        <aside class="notes" data-markdown>
+* HTTP, REST and CORS out of the box
+* Can't serve files like CouchDB, but hey
+* Versioning
+* Relations
+* Routing
+* Silos
+
+* Oh, yes, search!
+  - highlighting
+  - spanning
+  - fuzzy search
+  - more of the same
+  - relational
+  - geo
+        </aside>
+      </section>
+      <section>
+        <h2>Why NOT Elasticsearch</h2>
+        <img src="img/needle-in-a-haystack.jpg"><br>
+        <h3 class="fragment">
+          <a href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html">They're working on it</a>
+        </h3>
+        <aside class="notes" data-markdown>
+* Aphyr June 2014 - 1.1, April 2015 - 1.5
+* Sometimes CP, sometimes AP
+
+You can lose documents if
+
+* The network partitions into two intersecting components
+* Or into two discrete components
+* Or if even a single primary is isolated
+* If a primary pauses (e.g. due to disk IO or garbage collection)
+* If multiple nodes crash around the same time
+
 * Advice on preventing splitbrain / number of nodes / masters
-* Eventually Consistent
-* Near Real Time
+* Advice on having a master DB replicating into search DB
+* Are logs that important?
+* Be careful with production data!
+
+* Check the page on their data-loss & consistency issues / fixes. Great praise from Aphyr
+
+* Be sure that you know your types / mappings before going into prod. Otherwise reindex and alias
+        </aside>
+      </section>
+      <section>
+        <section>
+          <h2>StaticElastic</h2>
+          <aside class="notes" data-markdown>
+* Load documents
+* Search / highlighting
+* Fetch document
+* Significant terms in the section
+* Update
+* Update conflict
+
+Kibana (if there's time)
           </aside>
         </section>
         <section>
-          <h2>ELK and Found</h2>
-          <img style="width: 120px" src="img/logstash.png">
-          <img style="width: 120px" src="img/found.png">
-          <img style="width: 120px" src="img/kibana.png">
-          <aside data-markdown="">
-* The rest of the ELK stack
-* Support Contracts
-* Plugins
-          </aside>
+          <pre><code data-trim class="language-javascript">
+// curl http://localhost:9200/static-elastic/guardian/_search
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 3938,
+    "max_score" : 1.0,
+    "hits" : [ {
+      "_index" : "static-elastic",
+      "_type" : "guardian",
+      "_id" : "money-2015-jun-29-digital-banking-mondo-hopes-to-become-the-google-or-facebook-of-the-sector",
+      "_score" : 1.0,
+      "_source":{"title":"Digital banking:
+      //...
+                </code></pre>
         </section>
         <section>
-        </section>
-        <section>
-        </section>
-        <section>
-        </section>
-      </section>
-      <section>
-        <h2>The Need for Speed</h2>
-      </section>
-      <section>
-        <h2>Architecture</h2>
-        <img src="img/architecture.png">
-      </section>
-      <section>
-        <section>
-          <h2>Deployment</h2>
-          <div style="width: 50%; height: 100%; float: left;" class="fragment">
-            <img src="img/automate.png">
-          </div>
-          <div style="width: 50%; height: 100%; float: left;" class="fragment">
-            <img src="img/ansible.png">
-          </div>
-        </section>
-        <section>
-          <h2>Elasticsearch Play</h2>
-          <pre><code data-trim>
----
-- hosts: elasticsearch
-  sudo: true
-  vars:
-  - ubuntu_release: precise
-  - logstash_redis_host: 127.0.0.1
-
-  roles:
-    - { role: basic_security, tags: [ 'setup' ] }
-    - { role: elasticsearch, tags: [ 'elasticsearch' ] }
-    - { role: logstash, tags: [ 'logstash' ] }
-    - { role: collectd, tags: [ 'setup' ] }
-
-  vars_files:
-    - roles/elasticsearch/defaults/main.yml
-    - roles/elasticsearch/vars/production.yml
-          </code></pre>
-        </section>
-        <section>
-          <h2>Elasticsearch Role</h2>
-          <img src="img/elasticsearch_role.png">
-        </section>
-      </section>
-      <section>
-        <section>
-          <h2>Ingress</h2>
-          <ul>
-            <li>Shippers</li>
-            <li>Redis / Buffer</li>
-            <li>Logstash</li>
-          </ul>
-        </section>
-        <section>
-          <h3>XML</h3>
-          <pre><code data-trim class="ruby">
-xml {
-  source => 'xmlstring'
-  xpath => {
-    '/methodCall/params/param[1]/value/text()' => 'mti'
-    '/methodCall/params/param[2]/value/int/text()' => 'transaction_id'
-    '/methodCall/params/param[3]/value/text()' => 'node'
-    '/methodCall/params/param[4]/value/text()' => 'variant'
-    '/methodCall/params/param[5]/value/struct/member[name = 2]/value/text()' => 'pan'
-    '/methodCall/params/param[5]/value/struct/member[name = 3]/value/text()' => 'procedure_code'
-    '/methodCall/params/param[5]/value/struct/member[name = 4]/value/text()' => 'transaction_amount'
-    '/methodCall/params/param[5]/value/struct/member[name = 5]/value/text()' => 'settlement_amount'
-  ...
+          <pre><code data-trim class="language-javascript">
+// curl http://localhost:9200/static-elastic/guardian/business-marketforceslive-2015-jun-29-ocado-jumps-more-than-2-on-hopes-of-international-deal
+{
+  "_index" : "static-elastic",
+  "_type" : "guardian",
+  "_id" : "business-marketforceslive-2015-jun-29-ocado-jumps-more-than-2-on-hopes-of-international-deal",
+  "_version" : 1,
+  "found" : true,
+  "fields" : {
+    "section" : [ "Business" ],
+    "title" : [ "Ocado jumps more than 2% on hopes of international deal" ]
   }
 }
-          </pre></code>
+          </code></pre>
         </section>
         <section>
-          <h3>Ruby</h3>
-          <pre><code data-trim>
-ruby {
-  code => "
-return if event['acceptor_name'].nil?
-acceptor_name = event['acceptor_name'].pack('H*').gsub(/[[:cntrl:]]/, ' ')[5..-1]
-event['acceptor_name'] = [acceptor_name.clone]
-if acceptor_name.length > 35
-  len = 0
-  acceptor_name.gsub!(/^[0-9]{2}/) { |elm| len = elm.to_i; '' }
-  event['acceptor_name_merchant'] = acceptor_name[0, len].upcase
-  acceptor_name.gsub!(/^.{#{len}}/, '')
-  acceptor_name.gsub!(/^[0-9]{2}/) { |elm| len = elm.to_i; '' }
-end
+          <pre><code data-trim class="language-javascript">
+{
+  "took" : 3,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 3938,
+    "max_score" : 0.0,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "keywords" : {
+      "buckets" : [ {
+        "key" : "Business",
+        "doc_count" : 1298
+      }, {
+        "key" : "Books",
+        "doc_count" : 967
+      }, {
+      //...
           </code></pre>
-          <pre><code data-trim>
-  ...
-"
+        </section>
+        <section>
+          <pre><code data-trim class="language-javascript">
+// Backbone.Model.Page.sync
+sync: function(method, model, options) {
+  // Setup CORS
+  options || (options = {});
+  if (!options.crossDomain) { options.crossDomain = true; }
+
+  // Do "partial" updates and fetch the _source field
+  if (method === 'update' || method === 'create') {
+    options.data = JSON.stringify({ "doc": model });
+    options.type = 'POST';
+    options.url  = model.url() + '/_' + method + \
+      '?fields=_source&version=' + this.attributes._version;
+  }
+
+  return Backbone.Model.prototype.sync.call(
+    this, method, model, options
+  );
 }
           </code></pre>
         </section>
+        <section>
+          <pre><code data-trim class="language-javascript">
+// Backbone.Model.Page.parse (1)
+parse: function(result) {
+  if (result.get) {
+    // This was from a create or an update
+    result._source = result.get._source;
+    delete result.get;
+  }
+  // Use the attributes in the `_source` field for the models attribs
+  var model = _.extend(
+    this.defaults, result._source ? result._source : {}
+  );
+
+  // Set the meta fields
+  _.each(this.meta_fields, function(field) {
+    if (result[field]) { model[field] = result[field]; }
+  });
+  //...
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="language-javascript">
+// Backbone.Model.Page.parse (2)
+parse: function(result) {
+  //...
+  // Check the highlighting
+  if (result.highlight) {
+    model.highlight = result.highlight;
+  }
+  //...
+          </code></pre>
+          <pre><code data-trim class="language-html">
+&lt;!-- Collections Template --&gt;
+<% pages.each(function(page) { %>
+  <li>
+    <a href="/<%= page.attributes._id %>">
+      <% if (page.attributes.highlight) { %>
+        <%= page.attributes.highlight.title %>
+      <% } else { %>
+        <%= page.attributes.title %>
+      <% } %>
+    </a>
+  </li>
+<% }) %>
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="language-javascript">
+save: function(key, val, options) {
+  if (typeof key === 'object') {
+    key._version = this.attributes._version;
+  }
+  return Backbone.Model.prototype.save.call(this, key, val, options);
+},
+
+toJSON: function(options) {
+  var data = _.clone(this.attributes);
+  // Don't send the meta fields to the server when POST / PUT ing
+  _.each(this.meta_fields, function(field) {
+    if (data[field]) {
+      delete data[field];
+    }
+  });
+  return data;
+}
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="language-javascript">
+// Backbone.View.Pages
+loadResults: function(evt) {
+  var options = {
+    remove: false, processData: this.search === '',
+    data: { from: this.from }
+  };
+  if (this.search !== '') {
+    options.data.query = { term: { title: this.search } };
+    options.data.highlight = {
+      pre_tags: [ '<strong>' ], post_tags: [ '</strong>' ],
+      fields: { 'title': {} }
+    };
+    options.type = 'POST';
+    options.data = JSON.stringify(options.data);
+  }
+  Pages.fetch(options);
+},
+          </code></pre>
+        </section>
       </section>
       <section>
-        <h2>Store</h2>
-        <img src="img/elasticsearch.png">
+        <h2>Resources</h2>
+        <img src="img/resources.jpg">
+        <aside class="notes" data-markdown>
+* Definitive Guide
+* Support Contracts / Training
+* Discourse
+* Meetup - This month - Beginners guide to ES
+* How to get started
+* Angular Library
+* Ansible plays
+        </aside>
       </section>
-      <section>
-        <section>
-          <h2>Visualization</h2>
-        </section>
-        <section>
-          <h3>Kibana</h3>
-          <img src="img/crimson.png">
-        </section>
-        <section>
-          <h3>Dashing</h3>
-          <img src="img/shadow.png">
-        </section>
-      </section>
-      <section>
-        <section>
-          <h2>Analytics / Monitoring</h2>
-          <img src="img/servers_1.png">
-        </section>
-        <section>
-          <h3>CollectD</h3>
-          <img src="img/servers_2.png">
-        </section>
-        <section>
-          <h3>Kolmogorov-Smirnov</h3>
-          <img src="img/kv_stats.png">
-        </section>
-      </section>
-      <section>
-        <h2>And some search</h2>
-        <img src="img/drilldown.png">
-      </section>
-      <section>
-        <section>
-          <h2>Challenges</h2>
-          <ul>
-            <li>Security / PCI</li>
-            <li>XML-RPC</li>
-            <li>Revolution!</li>
-          </ul>
-        </section>
-        <section>
-          <h3>Needle in a stack of Needles</h3>
-          <img src="img/needle-in-a-haystack.jpg">
-        </section>
-        <section>
-          <h3>Find me something that isn't there</h3>
-          <img src="img/black_hole.jpg">
-        </section>
-      </section>
-      <section>
-        <h2>Future</h2>
-        <ul>
-          <li>More Data</li>
-          <li>More Analytics</li>
-          <li>Simpler Dashboards</li>
-          <li>Simpler Interfaces</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Questions?</h2>
+      <section data-background="img/output.gif" data-background-size="90%">
+        <h2>Questions</h2>
       </section>
       <section>
         <h2>Thanx!</h2>
-        <div style="width: 60%; float: left;">
-          <p class="highlight-blue">Check Out:</p>
-          <ul>
-            <li><a href="http://blog.eagerelk.com">EagerELK.com</a></li>
-            <li><a href="http://www.meetup.com/joziruby/events/220552434/">Jozi.rb 1 April<br>Everything's Connected:<br>Hacking the interwebs with Logstash</a></li>
-            <li><a href="https://leanpub.com/logstashconfigguide">Logstash Configuration Guide</a></li>
-          </ul>
-        </div>
-        <div style="width: 40%; float: left;">
-          <img height="350px" src="img/logstashconfigguide.png">
-        </div>
+        <ul>
+          <li>jrgns.net</li>
+          <li>EagerELK.com</li>
+          <li>LogstashConfigGuide.com</li>
+        </ul>
       </section>
     </div>
   </div>
 
-  <script src="../lib/js/head.min.js"></script>
-  <script src="../js/reveal.min.js"></script>
+  <script src="./lib/js/head.min.js"></script>
+  <script src="./js/reveal.js"></script>
 
   <script>
   // Full list of configuration options available here:
@@ -275,12 +382,12 @@ end
 
       // Optional libraries used to extend on reveal.js
       dependencies: [
-      { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-      { src: '../plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-      { src: '../plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+      { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: './plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: './plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
       ]
     });
 </script>
