@@ -8,13 +8,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="./css/reveal.css">
-  <link rel="stylesheet" href="./css/theme/solarized.css" id="theme">
+  <link rel="stylesheet" href="../css/reveal.css">
+  <link rel="stylesheet" href="../css/theme/solarized.css" id="theme">
   <!-- For syntax highlighting -->
-  <link rel="stylesheet" href="./lib/css/github-gist.css">
+  <link rel="stylesheet" href="../lib/css/github-gist.css">
   <!-- If the query includes 'print-pdf', use the PDF print sheet -->
   <script>
-  document.write( '<link rel="stylesheet" href="./css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  document.write( '<link rel="stylesheet" href="../css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
   </script>
   <!--[if lt IE 9]>
   <script src="lib/js/html5shiv.js"></script>
@@ -365,8 +365,8 @@ loadResults: function(evt) {
     </div>
   </div>
 
-  <script src="./lib/js/head.min.js"></script>
-  <script src="./js/reveal.js"></script>
+  <script src="../lib/js/head.min.js"></script>
+  <script src="../js/reveal.js"></script>
 
   <script>
   // Full list of configuration options available here:
@@ -382,12 +382,12 @@ loadResults: function(evt) {
 
       // Optional libraries used to extend on reveal.js
       dependencies: [
-      { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-      { src: './plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-      { src: './plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+      { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: '../plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: '../plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
       ]
     });
 </script>
