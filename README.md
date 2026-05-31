@@ -33,7 +33,7 @@ npm run preview  # preview the production build locally
 
 | Path | What's there |
 | --- | --- |
-| `src/pages/` | Routes: home, `writing/`, `archive/`, `talks/`, `hire-me/` |
+| `src/pages/` | Routes: home, `writing/`, `archive/`, `talks/` |
 | `src/content/blog/` | Blog posts (Markdown + frontmatter) |
 | `src/layouts/Base.astro` | Shared page shell (head, header, footer, sidebar) |
 | `src/components/` | `Header`, `Footer`, `ProfileCard`, `PostCard`, `TalkCard` |

@@ -26,7 +26,7 @@ CNAME                  # Custom domain: jrgns.net
 src/
   layouts/Base.astro   # HTML shell: <head>, fonts, header/footer, optional profile sidebar
   components/          # Header, Footer, ProfileCard, PostCard, TalkCard
-  pages/              # index, writing/, archive/ (+ [...slug]), talks/, hire-me/
+  pages/              # index, writing/, archive/ (+ [...slug]), talks/
   content/blog/       # Blog posts (Markdown, frontmatter: title, date, description)
   content/config.ts   # Content collection schemas (blog, writing)
   assets/css/         # theme.css (design system) + pygments.css
