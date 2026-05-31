@@ -1,7 +1,12 @@
 /* ============================================================================
    jrgns.net — "Engineer's Notebook" theme
-   Warm graph-paper cream, ink text, a single vermilion accent.
-   Light/dark handled here via CSS variables so components stay clean.
+   Navy ink on cool paper, azure accent, light-blue highlights.
+
+   Theming model: light is the :root default. The dark palette applies when
+   the OS prefers dark *and* the visitor hasn't forced light, OR when they've
+   explicitly chosen dark via [data-theme="dark"] (set by the header toggle and
+   persisted in localStorage). An explicit [data-theme="light"] always wins.
+   Components stay clean — they only ever read the semantic tokens.
    ============================================================================ */
 
 :root {
@@ -21,8 +26,9 @@
   --tape: rgba(120, 160, 220, 0.3);
 }
 
+/* Dark palette — keep these two declarations in sync. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #0a142c; /* deep navy */
     --paper-2: #122144;
     --ink: #e7eefb;
@@ -37,6 +43,44 @@
     --grid-strong: rgba(180, 200, 240, 0.08);
     --tape: rgba(120, 160, 230, 0.18);
   }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0a142c;
+  --paper-2: #122144;
+  --ink: #e7eefb;
+  --ink-soft: #a9b8d6;
+  --ink-faint: #6a7b9e;
+  --line: #22335c;
+  --accent: #5b9dff;
+  --accent-soft: #16284e;
+  --highlight: #2f5da8;
+
+  --grid: rgba(180, 200, 240, 0.05);
+  --grid-strong: rgba(180, 200, 240, 0.08);
+  --tape: rgba(120, 160, 230, 0.18);
+}
+
+/* Toggle icon visibility mirrors the effective theme (pure CSS, no JS state). */
+.theme-toggle .icon-sun {
+  display: none;
+}
+.theme-toggle .icon-moon {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+    display: none;
+  }
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
 }
 
 /* --- Page canvas: graph paper + soft vignette ------------------------------ */
