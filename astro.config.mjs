@@ -49,7 +49,6 @@ export default defineConfig({
     '/content/why_i_code.html': '/archive/why_i_code',
     '/content/why-johnny-died-or-how-i-finally-realised-why-singletons-and-global-variables-are-bad.html': '/archive/why-johnny-died-or-how-i-finally-realised-why-singletons-and-global-variables-are-bad',
     '/content/why_oo_is_great.html': '/archive/why_oo_is_great',
-    '/resources.html': '/resources',
     '/hire-me.html': '/hire-me',
   },
 });
