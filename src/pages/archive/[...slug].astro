@@ -1,0 +1,32 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import type { APIRoute } from "astro";
+
+export const getStaticPaths: APIRoute = async () => {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+};
+
+const { post } = Astro.props;
+---
+
+<Base title={post.data.title}>
+  <div class="max-w-3xl mx-auto">
+    <article>
+      <header class="mb-8 pb-6 border-b border-gray-200 dark:border-gray-700">
+        <time class="text-sm text-gray-500 dark:text-gray-400 font-mono">
+          {post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        </time>
+        <h1 class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">{post.data.title}</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">By Jurgens du Toit</p>
+      </header>
+      <div class="prose dark:prose-invert max-w-none">
+        <slot />
+      </div>
+    </article>
+  </div>
+</Base>

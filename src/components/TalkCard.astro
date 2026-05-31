@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  event: string;
+  url: string;
+  year?: string;
+}
+
+const { title, event, url, year } = Astro.props;
+const isReveal = url.endsWith(">") || url.includes("/talks/learning") || url.includes("/talks/logstash") || url.includes("/talks/static-elastic") || url.includes("/talks/tutuka") || url.includes("/talks/phpslums");
+---
+
+<li class="flex items-start gap-3 mb-2">
+  <span class="text-gray-500 dark:text-gray-400 text-sm font-mono shrink-0">{event}</span>
+  <a
+    href={url}
+    class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+    target={url.startsWith("http") ? "_blank" : undefined}
+    rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
+  >
+    {title}
+  </a>
+</li>
