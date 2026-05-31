@@ -19,17 +19,19 @@ posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
     </p>
   </header>
 
-  <div class="divide-y divide-line/60">
-    {
-      posts.map((post, i) => (
-        <PostCard
-          title={post.data.title}
-          date={post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
-          slug={post.slug}
-          description={post.data.description}
-          index={i}
-        />
-      ))
-    }
+  <div class="rounded-xl border border-line bg-paper-2 p-6 shadow-sm sm:p-8">
+    <div class="divide-y divide-line/60">
+      {
+        posts.map((post, i) => (
+          <PostCard
+            title={post.data.title}
+            date={post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+            slug={post.slug}
+            description={post.data.description}
+            index={i}
+          />
+        ))
+      }
+    </div>
   </div>
 </Base>
