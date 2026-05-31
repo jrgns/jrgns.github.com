@@ -5,37 +5,37 @@
    ============================================================================ */
 
 :root {
-  /* --- Light: warm paper --- */
-  --paper: #f4eee1;
-  --paper-2: #fbf7ee; /* raised surfaces (cards) */
-  --ink: #211b13;
-  --ink-soft: #5a5043;
-  --ink-faint: #938873;
-  --line: #ddd2bd;
-  --accent: #d9461f; /* vermilion */
-  --accent-soft: #f3d9cf;
-  --highlight: #f5cf68; /* marker yellow */
+  /* --- Light: cool paper, navy ink, azure accent --- */
+  --paper: #eef3fb;
+  --paper-2: #fbfcff; /* raised surfaces (cards) */
+  --ink: #0f2147; /* navy */
+  --ink-soft: #3a4a6b;
+  --ink-faint: #8090ab;
+  --line: #d2ddef;
+  --accent: #1f57d6; /* azure */
+  --accent-soft: #dbe6fb;
+  --highlight: #a8d2f7; /* light-blue marker */
 
-  --grid: rgba(33, 27, 19, 0.05);
-  --grid-strong: rgba(33, 27, 19, 0.08);
-  --tape: rgba(213, 178, 96, 0.35);
+  --grid: rgba(15, 33, 71, 0.05);
+  --grid-strong: rgba(15, 33, 71, 0.09);
+  --tape: rgba(120, 160, 220, 0.3);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #15120d;
-    --paper-2: #1e1a13;
-    --ink: #f0e8d8;
-    --ink-soft: #b4a991;
-    --ink-faint: #7d7361;
-    --line: #322a1e;
-    --accent: #ff6a3d;
-    --accent-soft: #3a241a;
-    --highlight: #c9a23f;
+    --paper: #0a142c; /* deep navy */
+    --paper-2: #122144;
+    --ink: #e7eefb;
+    --ink-soft: #a9b8d6;
+    --ink-faint: #6a7b9e;
+    --line: #22335c;
+    --accent: #5b9dff; /* bright light blue */
+    --accent-soft: #16284e;
+    --highlight: #2f5da8;
 
-    --grid: rgba(240, 232, 216, 0.045);
-    --grid-strong: rgba(240, 232, 216, 0.075);
-    --tape: rgba(255, 200, 120, 0.14);
+    --grid: rgba(180, 200, 240, 0.05);
+    --grid-strong: rgba(180, 200, 240, 0.08);
+    --tape: rgba(120, 160, 230, 0.18);
   }
 }
 
@@ -92,7 +92,7 @@ footer {
 
 ::selection {
   background: var(--highlight);
-  color: #211b13;
+  color: #0f2147;
 }
 
 /* Custom scrollbar to match the paper. */
@@ -288,8 +288,8 @@ footer {
   border-radius: 4px;
 }
 .prose pre {
-  background: #0f0d0a;
-  color: #e7ddca;
+  background: #0a1226;
+  color: #d6e2f5;
   padding: 1.1rem 1.25rem;
   border-radius: 8px;
   overflow-x: auto;
