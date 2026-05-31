@@ -1,0 +1,85 @@
+---
+import { SITE } from "../lib/site";
+
+const avatar =
+  "https://www.gravatar.com/avatar/b57be2c7d4dc1fe290e0fc9589c53e54?s=240&d=identicon&r=pg";
+
+const socials = [
+  { label: "GitHub", href: SITE.github },
+  { label: "LinkedIn", href: SITE.linkedin },
+  { label: "Twitter", href: SITE.twitter },
+  { label: "HN", href: SITE.hackernews },
+  { label: "RSS", href: SITE.rss },
+];
+---
+
+<aside class="lg:sticky lg:top-24 self-start animate-rise-in">
+  <div class="note-card rounded-xl p-6">
+    <!-- washi-tape strip -->
+    <span
+      class="absolute -top-3 left-1/2 h-6 w-24 -translate-x-1/2 -rotate-2 rounded-[2px]"
+      style="background: var(--tape); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);"
+      aria-hidden="true"></span>
+
+    <div class="flex flex-col items-center text-center">
+      <div class="relative">
+        <img
+          src={avatar}
+          alt="Jurgens du Toit"
+          width="96"
+          height="96"
+          loading="eager"
+          class="h-24 w-24 rounded-lg border border-line object-cover grayscale transition-all duration-300 hover:grayscale-0 hover:-rotate-2"
+        />
+        <span
+          class="absolute -bottom-1.5 -right-1.5 flex items-center gap-1 rounded-full border border-line bg-paper px-2 py-0.5"
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+          <span class="label text-[0.6rem] tracking-widest">ZA</span>
+        </span>
+      </div>
+
+      <h2 class="mt-4 font-display text-2xl font-semibold leading-tight text-ink">
+        Jurgens<br />du&nbsp;Toit
+      </h2>
+      <p class="label mt-2">
+        Systems Dev<span class="text-accent"> / </span>Problem Solver
+      </p>
+    </div>
+
+    <div class="perforate my-5"></div>
+
+    <p class="text-sm leading-relaxed text-ink-soft">
+      Technology and solving problems are my passion. A South African who loves
+      his wife, life, and code — usually elbow-deep in logs and the
+      <abbr title="Elasticsearch, Logstash, Kibana" class="font-medium text-ink no-underline"
+        >ELK</abbr
+      > stack.
+    </p>
+
+    <ul class="mt-5 flex flex-wrap gap-x-3 gap-y-1.5">
+      {
+        socials.map((s) => (
+          <li>
+            <a
+              href={s.href}
+              target={s.href.startsWith("http") ? "_blank" : undefined}
+              rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              class="link-marker font-mono text-xs font-medium text-ink-soft hover:text-ink"
+            >
+              {s.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="/hire-me/"
+      class="group mt-6 flex items-center justify-between rounded-lg border border-ink bg-ink px-4 py-2.5 text-paper transition-colors hover:bg-accent hover:border-accent"
+    >
+      <span class="font-mono text-xs font-semibold uppercase tracking-wider">Hire me</span>
+      <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+    </a>
+  </div>
+</aside>

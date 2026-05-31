@@ -1,34 +1,21 @@
 ---
-import type { Metadata } from "astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import ProfileCard from "../components/ProfileCard.astro";
+import "../assets/css/theme.css";
 import "../assets/css/pygments.css";
 
 export interface Props {
   title: string;
   description?: string;
+  /** Hide the profile sidebar (e.g. full-width landing). */
+  bare?: boolean;
 }
 
-const { title, description } = Astro.props;
-
-const meta: Metadata = {
-  title: `${title} - jrgns`,
-  description: description || "A blog about systems and the interwebs by Jurgens du Toit",
-  authors: [{ name: "J Jurgens du Toit" }],
-  alternates: {
-    types: [
-      {
-        type: "application/atom+xml",
-        title: "jrgns.net ATOM Feed",
-        url: "/atom.xml",
-      },
-    ],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+const { title, description, bare = false } = Astro.props;
+const metaTitle = `${title} · jrgns`;
+const metaDescription =
+  description || "A blog about systems and the interwebs by Jurgens du Toit";
 ---
 
 <!DOCTYPE html>
@@ -37,36 +24,64 @@ const meta: Metadata = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="J Jurgens du Toit" />
-    {description && <meta name="description" content={description} />}
+    <meta name="description" content={metaDescription} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#f4eee1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#15120d" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="canonical" href={Astro.url.href} />
-    {meta.title && <title>{meta.title}</title>}
-    {meta.description && <meta name="description" content={meta.description} />}
-    {meta.author && <meta name="author" content={meta.author} />}
-    {meta.robots && (
-      <meta name="robots" content={`${meta.robots.index ? "index" : "noindex"}, ${meta.robots.follow ? "follow" : "nofollow"}`} />
-    )}
-    {meta.alternates?.types?.map((alt) => (
-      <link rel="alternate" type={alt.type} title={alt.title} href={alt.url} />
-    ))}
-    <script>
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="jrgns.net ATOM Feed"
+      href="/atom.xml"
+    />
+    <title>{metaTitle}</title>
+
+    <!-- Fonts: Fraunces (display), Hanken Grotesk (body), JetBrains Mono (labels/code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline>
       if (window.location.hostname === "jrgns.net") {
-        var gtagScript = document.createElement('script');
+        var gtagScript = document.createElement("script");
         gtagScript.async = true;
-        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID';
+        gtagScript.src =
+          "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID";
         document.head.appendChild(gtagScript);
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID');
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "GA_MEASUREMENT_ID");
       }
     </script>
   </head>
-  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-200">
+  <body class="min-h-screen font-sans antialiased">
     <Header />
-    <main class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      <slot />
-    </main>
+
+    {
+      bare ? (
+        <main class="mx-auto max-w-5xl px-5 py-12 sm:px-8">
+          <slot />
+        </main>
+      ) : (
+        <main class="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:py-14">
+          <div class="grid gap-12 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-16">
+            <ProfileCard />
+            <div class="min-w-0">
+              <slot />
+            </div>
+          </div>
+        </main>
+      )
+    }
+
     <Footer />
   </body>
 </html>

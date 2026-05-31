@@ -3,21 +3,28 @@ interface Props {
   title: string;
   event: string;
   url: string;
-  year?: string;
 }
 
-const { title, event, url, year } = Astro.props;
-const isReveal = url.endsWith(">") || url.includes("/talks/learning") || url.includes("/talks/logstash") || url.includes("/talks/static-elastic") || url.includes("/talks/tutuka") || url.includes("/talks/phpslums");
+const { title, event, url } = Astro.props;
+const isExternal = url.startsWith("http");
+const isPdf = url.toLowerCase().endsWith(".pdf");
+const kind = isPdf ? "PDF" : "DECK";
 ---
 
-<li class="flex items-start gap-3 mb-2">
-  <span class="text-gray-500 dark:text-gray-400 text-sm font-mono shrink-0">{event}</span>
-  <a
-    href={url}
-    class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-    target={url.startsWith("http") ? "_blank" : undefined}
-    rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
+<li class="group flex items-baseline gap-3 py-2.5">
+  <span
+    class="mt-0.5 shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold tracking-wider text-ink-faint transition-colors group-hover:border-accent group-hover:text-accent"
+    >{kind}</span
   >
-    {title}
-  </a>
+  <div class="min-w-0">
+    <a
+      href={url}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+      class="font-medium leading-snug text-ink transition-colors group-hover:text-accent"
+    >
+      <span class="link-marker">{title}</span>
+    </a>
+    <p class="font-mono text-xs text-ink-faint">@ {event}</p>
+  </div>
 </li>

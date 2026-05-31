@@ -1,64 +1,74 @@
 ---
 import Base from "../../layouts/Base.astro";
+
+interface Talk {
+  title: string;
+  event: string;
+  url: string;
+}
+
+const talks: Talk[] = [
+  { title: "U2 should have used Elasticsearch", event: "DUG", url: "/talks/U2_should_have_used_Elasticsearch.pdf" },
+  { title: "Moar logs! Logging on Linux using the ELK Stack", event: "JLUG", url: "/talks/Moar_Logs.pdf" },
+  { title: "A gentle introduction into Elasticsearch", event: "Elasticsearch SA Meetup", url: "/talks/Gentle_intro_to_Elasticsearch.pdf" },
+  { title: "Everything's Connected: Hacking the interwebs with Logstash", event: "Jozi.rb Meetup", url: "/talks/logstash-jozi-rb" },
+  { title: "Leveraging the ELK stack to ensure API uptime", event: "Elasticsearch SA Meetup", url: "/talks/tutuka-elk" },
+  { title: "Everything's Connected: Hacking the interwebs with Logstash", event: "Rubyfuza 2015 — Lightning Talk", url: "/talks/logstash-hacking-the-interwebs" },
+  { title: "How CoffeeScript Improved My JavaScript Skills", event: "JSinSA 2014", url: "/talks/learning-from-coffeescript" },
+  { title: "PHP — The slums of the programming world?", event: "Tech 4 Africa 2013", url: "/talks/phpslums/" },
+  { title: "Application Development with Elasticsearch", event: "Elasticsearch SA Meetup", url: "/talks/Application Development with Elasticsearch.pdf" },
+  { title: "Elasticsearch Health Check", event: "Elasticsearch SA Meetup", url: "/talks/Elasticsearch_Health_Check.pdf" },
+];
+
+const meta = (url: string) => {
+  const isPdf = url.toLowerCase().endsWith(".pdf");
+  return {
+    kind: isPdf ? "PDF" : "DECK",
+    cta: isPdf ? "Download PDF" : "Open deck",
+  };
+};
 ---
 
 <Base title="Talks">
-  <div class="max-w-3xl mx-auto">
-    <h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-gray-100">Talks</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">
-      I've given talks at various meetups and conferences. Here's a collection of the presentations.
+  <header class="mb-10 animate-rise-in">
+    <p class="label label--accent">// from the stage</p>
+    <h1 class="mt-3 font-display text-4xl font-semibold tracking-tight text-ink">
+      Talks
+    </h1>
+    <p class="mt-3 max-w-xl text-ink-soft">
+      Slides and decks from meetups and conferences — mostly Elasticsearch, the
+      ELK stack, and the occasional spicy take on PHP.
     </p>
-    <div class="grid gap-6">
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">U2 should have used Elasticsearch</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">DUG</p>
-        <a href="/talks/U2_should_have_used_Elasticsearch.pdf" class="text-primary-600 dark:text-primary-400 hover:underline">Download PDF &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">Moar logs! Logging on Linux using the ELK Stack</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">JLUG</p>
-        <a href="/talks/Moar_Logs.pdf" class="text-primary-600 dark:text-primary-400 hover:underline">Download PDF &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">A gentle introduction into Elasticsearch</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Elasticsearch SA Meetup</p>
-        <a href="/talks/Gentle_intro_to_Elasticsearch.pdf" class="text-primary-600 dark:text-primary-400 hover:underline">Download PDF &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">Everything's Connected: Hacking the interwebs with Logstash</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Jozi.rb Meetup</p>
-        <a href="/talks/logstash-jozi-rb" class="text-primary-600 dark:text-primary-400 hover:underline">View Reveal.js deck &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">Leveraging the ELK stack to ensure API uptime</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Elasticsearch SA Meetup</p>
-        <a href="/talks/tutuka-elk" class="text-primary-600 dark:text-primary-400 hover:underline">View Reveal.js deck &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">Everything's Connected: Hacking the interwebs with Logstash</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Rubyfuza 2015 (Lightening Talk)</p>
-        <a href="/talks/logstash-hacking-the-interwebs" class="text-primary-600 dark:text-primary-400 hover:underline">View Reveal.js deck &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">How CoffeeScript Improved My JavaScript Skills</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">JSinSA 2014</p>
-        <a href="/talks/learning-from-coffeescript" class="text-primary-600 dark:text-primary-400 hover:underline">View Reveal.js deck &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">PHP - The slums of the programming world?</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Tech 4 Africa 2013</p>
-        <a href="/talks/phpslums/" class="text-primary-600 dark:text-primary-400 hover:underline">View Reveal.js deck &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">Application Development with Elasticsearch</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Elasticsearch SA Meetup</p>
-        <a href="/talks/Application Development with Elasticsearch.pdf" class="text-primary-600 dark:text-primary-400 hover:underline">Download PDF &rarr;</a>
-      </div>
-      <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">Elasticsearch Health Check</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Elasticsearch SA Meetup</p>
-        <a href="/talks/Elasticsearch_Health_Check.pdf" class="text-primary-600 dark:text-primary-400 hover:underline">Download PDF &rarr;</a>
-      </div>
-    </div>
+  </header>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    {
+      talks.map((talk) => {
+        const m = meta(talk.url);
+        const external = talk.url.startsWith("http");
+        return (
+          <a
+            href={talk.url}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
+            class="note-card group flex flex-col rounded-xl p-5"
+          >
+            <div class="mb-3 flex items-center justify-between">
+              <span class="rounded border border-line px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold tracking-wider text-ink-faint transition-colors group-hover:border-accent group-hover:text-accent">
+                {m.kind}
+              </span>
+              <span class="font-mono text-xs text-ink-faint">{talk.event}</span>
+            </div>
+            <h3 class="font-display text-lg font-semibold leading-snug text-ink">
+              {talk.title}
+            </h3>
+            <span class="mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-accent">
+              {m.cta}
+              <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        );
+      })
+    }
   </div>
 </Base>

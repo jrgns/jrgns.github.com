@@ -1,20 +1,90 @@
 ---
-import { SITE } from "../lib/site";
+const nav = [
+  { label: "Home", href: "/" },
+  { label: "Writing", href: "/writing/" },
+  { label: "Archive", href: "/archive/" },
+  { label: "Talks", href: "/talks/" },
+  { label: "Hire Me", href: "/hire-me/" },
+];
+
+const current = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? current === "/" : current.startsWith(href);
 ---
 
-<header class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-50">
-  <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <a href="/" class="text-xl font-bold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
-        jrgns.net
-      </a>
-      <div class="flex items-center gap-6">
-        <a href="/" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-        <a href="/writing/" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Writing</a>
-        <a href="/archive/" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Archive</a>
-        <a href="/talks/" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Talks</a>
-        <a href="/hire-me/" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Hire Me</a>
-      </div>
-    </div>
+<header
+  class="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-md"
+>
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
+    <a href="/" class="group flex items-baseline gap-0.5 font-mono text-lg font-semibold text-ink">
+      <span class="text-accent">~</span><span>/jrgns</span><span class="text-ink-faint">.net</span><span
+        class="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-accent opacity-0 transition-opacity group-hover:opacity-100"
+        aria-hidden="true"></span>
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden items-center gap-7 md:flex">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                "link-marker text-sm font-medium transition-colors",
+                isActive(item.href) ? "text-accent" : "text-ink-soft hover:text-ink",
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Mobile toggle -->
+    <button
+      id="nav-toggle"
+      class="flex h-9 w-9 items-center justify-center rounded-md border border-line text-ink md:hidden"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+    >
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
   </nav>
+
+  <!-- Mobile menu -->
+  <ul id="nav-menu" class="hidden border-t border-line px-5 py-3 md:hidden">
+    {
+      nav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class:list={[
+              "block py-2 font-mono text-sm",
+              isActive(item.href) ? "text-accent" : "text-ink-soft",
+            ]}
+          >
+            <span class="text-ink-faint">&gt;</span> {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </header>
+
+<script is:inline>
+  (() => {
+    const toggle = document.getElementById("nav-toggle");
+    const menu = document.getElementById("nav-menu");
+    if (!toggle || !menu) return;
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+      toggle.setAttribute(
+        "aria-expanded",
+        menu.classList.contains("hidden") ? "false" : "true"
+      );
+    });
+  })();
+</script>
