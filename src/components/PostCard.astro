@@ -9,6 +9,20 @@ interface Props {
 
 const { title, date, slug, description, index } = Astro.props;
 const num = index !== undefined ? String(index + 1).padStart(2, "0") : null;
+
+// Descriptions are auto-truncated from post bodies, so they can contain raw
+// (and sometimes cut-off) Markdown links. Render them as plain text: keep the
+// link label, drop the URL and brackets.
+function stripMarkdownLinks(text?: string): string | undefined {
+  if (!text) return text;
+  return text
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // complete [label](url)
+    .replace(/\[([^\]]+)\]\([^)]*$/g, "$1") // truncated [label](url…
+    .replace(/\[([^\]]*)\]?$/g, "$1") // dangling [label or [label]
+    .trim();
+}
+
+const preview = stripMarkdownLinks(description);
 ---
 
 <article class="group relative">
@@ -28,9 +42,9 @@ const num = index !== undefined ? String(index + 1).padStart(2, "0") : null;
       >
     </h3>
     {
-      description && (
+      preview && (
         <p class="mt-1.5 line-clamp-2 text-sm leading-relaxed text-ink-soft">
-          {description}
+          {preview}
         </p>
       )
     }
