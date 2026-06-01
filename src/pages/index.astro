@@ -1,12 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import PostCard from "../components/PostCard.astro";
 import TalkCard from "../components/TalkCard.astro";
-import { getCollection } from "astro:content";
-
-const posts = await getCollection("blog");
-posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const latestPosts = posts.slice(0, 8);
 
 interface Talk {
   title: string;
@@ -62,40 +56,12 @@ const talks: Talk[] = [
   <section class="mt-12 rounded-xl border border-line bg-paper-2 p-6 shadow-sm sm:p-8">
     <div class="mb-5 flex items-baseline justify-between gap-4">
       <h2 class="font-display text-2xl font-semibold text-ink">
-        <span class="label label--accent mr-2 align-middle">01</span>Talks I've given
+        Talks I've given
       </h2>
       <a href="/talks/" class="link-grow font-mono text-xs text-ink-soft">all &rarr;</a>
     </div>
     <ul class="divide-y divide-line/60">
       {talks.map((talk) => <TalkCard {...talk} />)}
     </ul>
-  </section>
-
-  <!-- Writing -->
-  <section class="mt-8 rounded-xl border border-line bg-paper-2 p-6 shadow-sm sm:p-8">
-    <div class="mb-5 flex items-baseline justify-between gap-4">
-      <h2 class="font-display text-2xl font-semibold text-ink">
-        <span class="label label--accent mr-2 align-middle">02</span>Latest writing
-      </h2>
-      <a href="/archive/" class="link-grow font-mono text-xs text-ink-soft">archive &rarr;</a>
-    </div>
-    <div class="divide-y divide-line/60">
-      {
-        latestPosts.map((post, i) => (
-          <PostCard
-            title={post.data.title}
-            date={post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
-            slug={post.slug}
-            description={post.data.description}
-            index={i}
-          />
-        ))
-      }
-    </div>
-    <p class="mt-6">
-      <a href="/archive/" class="link-grow font-mono text-sm text-ink-soft">
-        more posts &rarr;
-      </a>
-    </p>
   </section>
 </Base>
