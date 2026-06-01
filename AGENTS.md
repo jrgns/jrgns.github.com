@@ -23,6 +23,8 @@ Personal blog and portfolio site for Jurgens du Toit, hosted on GitHub Pages.
 astro.config.mjs       # Astro config: site URL, integrations, redirects (old URLs -> /archive/*)
 tailwind.config.mjs    # Design tokens: fonts, semantic colours (paper/ink/accent...), animations
 CNAME                  # Custom domain: jrgns.net
+public/                # Served verbatim at the site root (favicon, robots, CV PDFs, talks/)
+  talks/              # Talk decks: PDFs + Reveal.js HTML, reached at /talks/*
 src/
   layouts/Base.astro   # HTML shell: <head>, fonts, header/footer, optional profile sidebar
   components/          # Header, Footer, ProfileCard, PostCard, TalkCard
@@ -31,7 +33,6 @@ src/
   content/config.ts   # Content collection schemas (blog, writing)
   assets/css/         # theme.css (design system) + pygments.css
   assets/img/         # Post images
-  assets/talks/       # Talk decks (PDFs + Reveal.js HTML)
   lib/site.ts         # Site-wide constants (title, social links)
 ```
 
@@ -60,4 +61,4 @@ npm run preview  # serve the production build locally
 ## Content Conventions
 - Blog posts: Markdown in `src/content/blog/` with frontmatter `title`, `date`, optional `description`/`image`/`draft`. They render at `/archive/<slug>`.
 - Old `/content/*.html` URLs are 301-redirected to `/archive/*` via `astro.config.mjs`.
-- Talk decks (PDF or Reveal.js) live in `src/assets/talks/` and are listed in `src/pages/talks/index.astro` and the homepage.
+- Talk decks (PDF or Reveal.js) live in `public/talks/` so they're served verbatim at `/talks/*`, and are listed in `src/pages/talks/index.astro` and the homepage. (They must be in `public/`, not `src/assets/` — only `public/` is copied to the build root.)
