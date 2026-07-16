@@ -124,3 +124,31 @@ draft: true
 <!-- 2. Pre-NVLink (PCIe) — what worked, what didn't, why dense models failed -->
 <!-- 3. Post-NVLink — the hardware change that flipped the verdict -->
 <!-- The through-line: TP=2 on a $3K dual-3090 rig can produce production-quality coding models. The question is which models, at what latency, and whether NVLink makes the difference between "viable" and "dead." -->
+
+## External Resources
+
+**Models on Hugging Face**
+
+These are the actual model IDs loaded by `llama-swap` on orion — the exact quantised builds used in production and sweeps.
+
+| Model | Hugging Face |
+|---|---|
+| qwen3-coder-30b | [cyankiwi/Qwen3-Coder-30B-A3B-Instruct-AWQ-4bit](https://huggingface.co/cyankiwi/Qwen3-Coder-30B-A3B-Instruct-AWQ-4bit) |
+| qwen36-35b-a3b | [cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit](https://huggingface.co/cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit) |
+| qwen3-coder-next-60b-ream | [cyankiwi/Qwen3-Coder-Next-REAM-AWQ-4bit](https://huggingface.co/cyankiwi/Qwen3-Coder-Next-REAM-AWQ-4bit) |
+| glm47-flash | [cyankiwi/GLM-4.7-Flash-REAP-23B-A3B-AWQ-4bit](https://huggingface.co/cyankiwi/GLM-4.7-Flash-REAP-23B-A3B-AWQ-4bit) |
+| qwen36-27b | [cyankiwi/Qwen3.6-27B-AWQ-INT4](https://huggingface.co/cyankiwi/Qwen3.6-27B-AWQ-INT4) |
+| gpt-oss-20b | [openai/gpt-oss-20b](https://huggingface.co/openai/gpt-oss-20b) |
+| devstral-24b | [mistralai/Devstral-Small-2507](https://huggingface.co/mistralai/Devstral-Small-2507) — sweep-only, not deployed |
+| qwen3-coder-next-80b | [Qwen/Qwen3-Coder-Next](https://huggingface.co/Qwen/Qwen3-Coder-Next) — OOMs on 2× 24 GB, never deployed |
+
+**Documentation**
+
+- [vLLM documentation](https://docs.vllm.ai/) — Docker images, benchmark CLI, tensor parallelism, `--kv-cache-dtype`
+- [NCCL documentation](https://docs.nvidia.com/deeplearning/nccl/user-guide/) — all-reduce, P2P, multi-GPU communication
+- [CUDA Toolkit 13.2](https://developer.nvidia.com/cuda-toolkit) — CUDA runtime used by the `vllm/vllm-openai:latest` Docker image
+- [NVIDIA Ampere architecture](https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090/) — sm_86 compute capability, `fp8e4nv` support notes
+
+**Community**
+
+- [3090 Club](https://github.com/noonghunna/club-3090) — community recipes for serving LLMs on RTX 3090/4090/5090; multi-engine (vLLM, llama.cpp, SGLang); OpenAI-compatible API configs
