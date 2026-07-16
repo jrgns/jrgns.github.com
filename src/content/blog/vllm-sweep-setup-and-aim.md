@@ -43,11 +43,51 @@ draft: true
 
 ## From Portainer to llama-swap
 
-<!-- - Previous deployment: Portainer docker-compose stack (Stack ID 82, now Inactive) -->
-<!-- - Migration: native `llama-swap.service` (systemd, router on :8181, config at `/etc/llama-swap/config.yml`) -->
-<!-- - Whisper ASR remains on :8000 -->
-<!-- - Practical effect: sweep stops `llama-swap.service` to free GPUs, restores it after -->
-<!-- - `sudo systemctl stop/start llama-swap.service` — requires interactive sudo -->
+The previous deployment was a Portainer docker-compose stack (now inactive). The production inference service runs as a native `llama-swap.service` — a systemd unit that manages vLLM container lifecycles on demand. The llama-swap router listens on :8181, with configuration at `/etc/llama-swap/config.yml`. Whisper ASR remains on :8000.
+
+llama-swap uses YAML macros so the boilerplate is shared across models. Here are the vLLM run macro and an example model definition from the config:
+
+```yaml
+macros:
+  "vllm-run": >
+    docker run --init --rm --name ${MODEL_ID}
+    --runtime=nvidia --ipc=host --shm-size=32g
+    -e HUGGING_FACE_HUB_TOKEN=${env.HF_TOKEN}
+    -v hf-cache-nfs:/root/.cache/huggingface
+    -v vllm-cache-nfs:/root/.cache/vllm
+    --network ai-inference
+    -p ${PORT}:8000
+
+  "vllm-img": "vllm/vllm-openai:latest"
+
+models:
+  "coding-fast-x2":
+    aliases:
+      - "qwen3-coder-30b-a3b-moe-x2"
+    cmdStop: docker stop ${MODEL_ID}
+    cmd: |
+      ${vllm-run} --gpus '"device=0,1"'
+      -e VLLM_USE_FLASHINFER_SAMPLER=1
+      -e VLLM_ATTENTION_BACKEND=FLASHINFER
+      ${vllm-img}
+      cyankiwi/Qwen3-Coder-30B-A3B-Instruct-AWQ-4bit
+      --served-model-name coding-fast-x2 qwen3-coder-30b-a3b-moe-x2
+      --tensor-parallel-size 2
+      --disable-custom-all-reduce
+      --gpu-memory-utilization 0.90
+      --max-model-len 262144
+      --max-num-batched-tokens 8192
+      --max-num-seqs 4
+      --kv-cache-dtype fp8
+      --tool-call-parser qwen3_coder
+      --enable-auto-tool-choice
+      --enable-chunked-prefill
+      --enable-prefix-caching
+    checkEndpoint: "/health"
+    ttl: 1800
+```
+
+The sweep stops `llama-swap.service` to free the GPUs, runs, then restores it. `sudo systemctl stop/start llama-swap.service` requires interactive sudo.
 
 <!-- SECTION 5: The sweep orchestrator -->
 
