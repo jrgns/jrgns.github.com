@@ -5,18 +5,19 @@ description: "Hardware, software, and methodology for a systematic TP=2 coding m
 draft: true
 ---
 
-<!-- SECTION 1: The machine -->
-
 ## The Machine
 
-<!-- - Host: orion, 2× RTX 3090, 24 GiB VRAM per GPU, Ampere architecture (sm_86) -->
-<!-- - PCIe topology pre-NVLink (PHB); NVLink bridge installed 2026-07-11 (NV3, 3-link bond) -->
-<!-- - CPU: AMD Ryzen 9 3900 (12-core/24-thread, 4.36 GHz boost) -->
-<!-- - RAM: 62 GiB DDR4 (45 GiB available during sweep runs) -->
-<!-- - Storage: Crucial MX500 500 GB SATA SSD (296 GB free at time of sweeps) -->
-<!-- - Driver: 595.71.05, CUDA 13.2, VBIOS 94.02.42.00.A7 -->
-<!-- - `nvidia-smi topo -m` pre-NVLink: PHB (PCIe host bridge) → GPU interconnect bottleneck -->
-<!-- - `nvidia-smi topo -m` post-NVLink: NV3 (3-link NVLink bond) → GPU interconnect resolved -->
+| Component | Specification |
+|---|---|
+| Host | orion |
+| GPU | 2× NVIDIA GeForce RTX 3090, 24 GiB VRAM each |
+| Architecture | Ampere, sm_86 |
+| Driver / CUDA | 595.71.05 / CUDA 13.2 |
+| VBIOS | 94.02.42.00.A7 |
+| CPU | AMD Ryzen 9 3900 (12 cores / 24 threads, 4.36 GHz boost) |
+| RAM | 62 GiB DDR4 (~45 GiB available during sweep runs) |
+| Storage | Crucial MX500 500 GB SATA SSD (296 GB free) |
+| Interconnect | PCIe host bridge (PHB) → NVLink bridge (NV3, 3-link bond) installed 2026-07-11 |
 
 <!-- SECTION 2: Why TP=2 -->
 
@@ -102,15 +103,17 @@ draft: true
 
 ## Models in the Sweep
 
-<!-- - qwen3-coder-30b (MoE, 30.5B/3.3B, coding specialist, non-thinking) → winner candidate -->
-<!-- - qwen36-35b-a3b (MoE+vision, 35B/3B, multimodal, thinking mode) -->
-<!-- - qwen3-coder-next-60b-ream (MoE, ~60B, REAP-compressed, coding) -->
-<!-- - glm47-flash (MoE, 23B/3B, coding, requires `--kv-cache-dtype auto`) -->
-<!-- - devstral-24b-gptq (Dense, 24B, Mistral lineage, INT4/INT8 GPTQ) -->
-<!-- - devstral-24b-fp8 (Dense, 24B, Mistral lineage, FP8 native) -->
-<!-- - qwen36-27b (Dense, 32.8B, general-purpose, `--language-model-only` option) -->
-<!-- - gpt-oss-20b (Dense, 20B, general-purpose, `--enforce-eager` needed on original image) -->
-<!-- - qwen3-coder-next-80b (MoE, 80B — OOMs in all attempts) -->
+| Model | Type | Params | Notes | Sweep outcome |
+|---|---|---|---|---|
+| qwen3-coder-30b | MoE | 30.5B / 3.3B active | Coding specialist, non-thinking | Winner candidate |
+| qwen36-35b-a3b | MoE+vision | 35B / 3B active | Multimodal, thinking mode | Viable (vision tower active) |
+| qwen3-coder-next-60b-ream | MoE | ~60B total | REAP-compressed, coding | Viable at 256K context |
+| glm47-flash | MoE | 23B / 3B active | Coding agent | Requires `--kv-cache-dtype auto` on Ampere |
+| devstral-24b-gptq | Dense | 24B | Mistral lineage, INT4/INT8 GPTQ | TTFT over budget on PCIe |
+| devstral-24b-fp8 | Dense | 24B | Mistral lineage, FP8 native | TTFT over budget on PCIe |
+| qwen36-27b | Dense | 32.8B | General-purpose, `--language-model-only` option | TTFT floor ~4.2s on PCIe TP=2 |
+| gpt-oss-20b | Dense | 20B | General-purpose | Needs nightly image; original requires `--enforce-eager` |
+| qwen3-coder-next-80b | MoE | ~80B | — | OOM in all attempts |
 
 <!-- SECTION 10: The story arc -->
 
