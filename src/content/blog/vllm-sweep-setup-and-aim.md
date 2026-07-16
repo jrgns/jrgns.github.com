@@ -11,8 +11,12 @@ draft: true
 
 <!-- - Host: orion, 2× RTX 3090, 24 GiB VRAM per GPU, Ampere architecture (sm_86) -->
 <!-- - PCIe topology pre-NVLink (PHB); NVLink bridge installed 2026-07-11 (NV3, 3-link bond) -->
-<!-- - CPU, RAM, storage: [fill in] -->
-<!-- - GPU interconnect verification: `nvidia-smi topo -m` (PHB → NV3) -->
+<!-- - CPU: AMD Ryzen 9 3900 (12-core/24-thread, 4.36 GHz boost) -->
+<!-- - RAM: 62 GiB DDR4 (45 GiB available during sweep runs) -->
+<!-- - Storage: Crucial MX500 500 GB SATA SSD (296 GB free at time of sweeps) -->
+<!-- - Driver: 595.71.05, CUDA 13.2, VBIOS 94.02.42.00.A7 -->
+<!-- - `nvidia-smi topo -m` pre-NVLink: PHB (PCIe host bridge) → GPU interconnect bottleneck -->
+<!-- - `nvidia-smi topo -m` post-NVLink: NV3 (3-link NVLink bond) → GPU interconnect resolved -->
 
 <!-- SECTION 2: Why TP=2 -->
 
