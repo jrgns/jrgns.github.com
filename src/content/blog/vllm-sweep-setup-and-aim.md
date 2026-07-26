@@ -11,6 +11,8 @@ Since I live somewhere with abundant sunshine and solar to match, all I needed w
 
 ## The Machine
 
+The build was centred on the GPUs, with minimal focus on everything else. As long as the rest could feed the cards and have enough compute and memory to back them up, I didn't worry about it too much. I've got a NAS running at home, so storage was left to it. At some point I had to add another drive, since experimenting with models requires a LOT of storage.
+
 | Component | Specification |
 |---|---|
 | Host | orion |
