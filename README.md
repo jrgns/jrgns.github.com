@@ -1,7 +1,7 @@
 # jrgns.net
 
-The personal blog and portfolio of **Jurgens du Toit** — a systems developer
-from South Africa writing about Elasticsearch, the ELK stack, and the messy,
+The personal blog and portfolio of **Jurgens du Toit** — a technologit and executive
+from South Africa writing about data, the internet and AI, and the messy,
 fascinating ways software fits together.
 
 Live at **[jrgns.net](https://jrgns.net)**.
