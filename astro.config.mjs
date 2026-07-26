@@ -5,6 +5,13 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   site: 'https://jrgns.net',
+  // Applies to the plain-Markdown posts in src/content/blog. Dimmed keeps the
+  // syntax colours from shouting against the muted "Dusk Slate" panel.
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark-dimmed',
+    },
+  },
   integrations: [
     tailwind({
       content: {
@@ -14,7 +21,7 @@ export default defineConfig({
     sitemap(),
     mdx({
       shikiConfig: {
-        theme: "github-dark",
+        theme: "github-dark-dimmed",
       },
     }),
   ],

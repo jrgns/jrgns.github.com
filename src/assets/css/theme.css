@@ -23,8 +23,10 @@
   --highlight: #a8d2f7; /* light-blue marker */
   --selection-ink: #0f2147;
 
-  --code-bg: #131a28;
-  --code-ink: #d6e2f5;
+  /* Matches github-dark-dimmed, which Shiki applies inline to highlighted
+     blocks. These tokens cover plain <pre> that Shiki never touches. */
+  --code-bg: #22272e;
+  --code-ink: #adbac7;
 
   --grid: rgba(15, 33, 71, 0.05);
   --grid-strong: rgba(15, 33, 71, 0.09);
@@ -52,9 +54,6 @@
     --highlight: #33496c;
     --selection-ink: #e8edf5;
 
-    --code-bg: #12171f;
-    --code-ink: #c2ccda;
-
     --grid: rgba(180, 200, 240, 0.035);
     --grid-strong: rgba(180, 200, 240, 0.055);
     --tape: rgba(120, 160, 230, 0.14);
@@ -75,9 +74,6 @@
   --accent-soft: #212b3c;
   --highlight: #33496c;
   --selection-ink: #e8edf5;
-
-  --code-bg: #12171f;
-  --code-ink: #c2ccda;
 
   --grid: rgba(180, 200, 240, 0.035);
   --grid-strong: rgba(180, 200, 240, 0.055);
