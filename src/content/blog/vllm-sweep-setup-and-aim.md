@@ -38,12 +38,7 @@ The build was centred on the GPUs, with minimal focus on everything else. As lon
 
 ## vLLM and the Docker Image
 
-<!-- - Image: `vllm/vllm-openai:latest` (primary); `vllm/vllm-openai:nightly` for gpt-oss retest -->
-<!-- - vLLM's custom all-reduce kernel crashes on sm_86 (`custom_all_reduce.cuh:455 'invalid argument'`) -->
-<!-- - All sweeps run `--disable-custom-all-reduce` → NCCL handles the all-reduce -->
-<!-- - On PCIe: NCCL forces `NCCL_P2P_DISABLE=1` → all-reduce goes over PCIe host bridge -->
-<!-- - On NVLink: NCCL routes all-reduce over the NVLink bridge (no P2P disable) -->
-<!-- - Per-model `--kv-cache-dtype auto` needed on sm_86 for models with grouped-attention kernels (GLM, gpt-oss original) → `fp8e4nv` unsupported on Ampere for those attention paths -->
+For my initial setup, I ran vLLM as Docker containers in Portainer. This works fine if you have a stable setup and don't want to swap models around too much, but it quickly becomes a real drag if you need to change models. The Portainer UI doesn't lend itself well to swapping, and managing the config was a pain (even with Claude's help).
 
 <!-- SECTION 4: Portainer → llama-swap migration -->
 
