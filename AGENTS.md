@@ -76,13 +76,14 @@ The blog serves a deliberate positioning goal: to establish the author as a reco
 - **Hands-on practitioner**, not an academic or a hype-maker. Grounded in real decisions, real trade-offs, and real costs.
 - **Pragmatic and technically rigorous** — LLMs are the wrong tool more often than the industry admits. Show where simpler methods (Bayesian filters, small models, static tooling) win on cost, latency, or accuracy.
 - Write from the seat of experience. The reader should feel that the author has **built, broken, and rebuilt** systems they're talking about.
+- **South African English** for all prose. Use `-ise`/`-isation` spellings (specialised, realisation, colour, defence), not `-ize`/`-ization`. South African conventions apply to every piece of prose generated or edited in this project.
 
 ### Content Axes (every post should lean into at least one)
 Each blog post should advance the author's credibility along one or more of these dimensions:
 
-1. **AI Architecture** — System design choices, model selection, token economics, tooling over agent-dependency, build-vs-buy, general-vs-specialized trade-offs. Concrete diagrams, code snippets, or benchmark-style comparisons are welcome.
+1. **AI Architecture** — System design choices, model selection, token economics, tooling over agent-dependency, build-vs-buy, general-vs-specialised trade-offs. Concrete diagrams, code snippets, or benchmark-style comparisons are welcome.
 2. **AI Management** — How teams and orgs actually work *with* AI. Prompting as a skill, AI champions, agent harness design, testing, linting, security. Managing cost and budget. The shift from managing people to managing agents.
-3. **AI Decision-Making** — Strategic thinking around AI adoption: risk, procurement, vendor evaluation, "AI washing", building defenses against hype.
+3. **AI Decision-Making** — Strategic thinking around AI adoption: risk, procurement, vendor evaluation, "AI washing", building defences against hype.
 
 ### Content Guidelines
 - **Pragmatism over hype.** Question popular assumptions. If an LLM is the simplest path, say so and show the cost. If a naive Bayes filter or a fine-tuned classifier does the job, make the case.
