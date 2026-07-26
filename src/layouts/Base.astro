@@ -3,7 +3,6 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ProfileCard from "../components/ProfileCard.astro";
 import "../assets/css/theme.css";
-import "../assets/css/pygments.css";
 
 export interface Props {
   title: string;
@@ -38,7 +37,7 @@ const metaDescription =
     <meta name="description" content={metaDescription} />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0a142c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#171d28" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="canonical" href={Astro.url.href} />
     <link
@@ -58,6 +57,7 @@ const metaDescription =
     />
 
     <script is:inline>
+      // TODO: replace GA_MEASUREMENT_ID with a real Google Analytics measurement ID
       if (window.location.hostname === "jrgns.net") {
         var gtagScript = document.createElement("script");
         gtagScript.async = true;
@@ -79,13 +79,15 @@ const metaDescription =
     {
       bare ? (
         <main class="mx-auto max-w-5xl px-5 py-12 sm:px-8">
-          <slot />
+          <div class="panel rounded-xl px-5 py-8 sm:px-10 sm:py-12">
+            <slot />
+          </div>
         </main>
       ) : (
         <main class="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:py-14">
-          <div class="grid gap-12 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-16">
+          <div class="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-14">
             <ProfileCard />
-            <div class="min-w-0">
+            <div class="panel min-w-0 rounded-xl px-5 py-8 sm:px-9 sm:py-10">
               <slot />
             </div>
           </div>

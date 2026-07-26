@@ -26,6 +26,7 @@ export default {
       // light/dark are handled in one place and components stay clean.
       colors: {
         paper: "var(--paper)",
+        surface: "var(--surface)",
         "paper-2": "var(--paper-2)",
         ink: "var(--ink)",
         "ink-soft": "var(--ink-soft)",

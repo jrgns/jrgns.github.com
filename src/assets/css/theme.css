@@ -12,6 +12,7 @@
 :root {
   /* --- Light: cool paper, navy ink, azure accent --- */
   --paper: #eef3fb;
+  --surface: #f6f9fe; /* the main content panel */
   --paper-2: #fbfcff; /* raised surfaces (cards) */
   --ink: #0f2147; /* navy */
   --ink-soft: #3a4a6b;
@@ -20,45 +21,69 @@
   --accent: #1f57d6; /* azure */
   --accent-soft: #dbe6fb;
   --highlight: #a8d2f7; /* light-blue marker */
+  --selection-ink: #0f2147;
+
+  --code-bg: #131a28;
+  --code-ink: #d6e2f5;
 
   --grid: rgba(15, 33, 71, 0.05);
   --grid-strong: rgba(15, 33, 71, 0.09);
   --tape: rgba(120, 160, 220, 0.3);
+  --canvas-glow: color-mix(in srgb, var(--accent) 7%, transparent);
+  --grain-opacity: 0.5;
 }
 
-/* Dark palette — keep these two declarations in sync. */
+/* --- Dark: "Dusk Slate" ---------------------------------------------------
+   Deliberately muted. Body copy sits near 9:1 against the panel rather than
+   the ~15:1 glare of a near-black canvas, the accent is desaturated, and the
+   canvas glow is switched off so text has a calm bed.
+   Keep the two declarations below in sync. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0a142c; /* deep navy */
-    --paper-2: #122144;
-    --ink: #e7eefb;
-    --ink-soft: #a9b8d6;
-    --ink-faint: #6a7b9e;
-    --line: #22335c;
-    --accent: #5b9dff; /* bright light blue */
-    --accent-soft: #16284e;
-    --highlight: #2f5da8;
+    --paper: #171d28; /* canvas / graph paper */
+    --surface: #1c2432; /* the main content panel */
+    --paper-2: #232c3d; /* cards, one step above the panel */
+    --ink: #c9d2df;
+    --ink-soft: #97a2b3;
+    --ink-faint: #6b7688;
+    --line: #2c3646;
+    --accent: #7ea9dd;
+    --accent-soft: #212b3c;
+    --highlight: #33496c;
+    --selection-ink: #e8edf5;
 
-    --grid: rgba(180, 200, 240, 0.05);
-    --grid-strong: rgba(180, 200, 240, 0.08);
-    --tape: rgba(120, 160, 230, 0.18);
+    --code-bg: #12171f;
+    --code-ink: #c2ccda;
+
+    --grid: rgba(180, 200, 240, 0.035);
+    --grid-strong: rgba(180, 200, 240, 0.055);
+    --tape: rgba(120, 160, 230, 0.14);
+    --canvas-glow: transparent;
+    --grain-opacity: 0.3;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #0a142c;
-  --paper-2: #122144;
-  --ink: #e7eefb;
-  --ink-soft: #a9b8d6;
-  --ink-faint: #6a7b9e;
-  --line: #22335c;
-  --accent: #5b9dff;
-  --accent-soft: #16284e;
-  --highlight: #2f5da8;
+  --paper: #171d28;
+  --surface: #1c2432;
+  --paper-2: #232c3d;
+  --ink: #c9d2df;
+  --ink-soft: #97a2b3;
+  --ink-faint: #6b7688;
+  --line: #2c3646;
+  --accent: #7ea9dd;
+  --accent-soft: #212b3c;
+  --highlight: #33496c;
+  --selection-ink: #e8edf5;
 
-  --grid: rgba(180, 200, 240, 0.05);
-  --grid-strong: rgba(180, 200, 240, 0.08);
-  --tape: rgba(120, 160, 230, 0.18);
+  --code-bg: #12171f;
+  --code-ink: #c2ccda;
+
+  --grid: rgba(180, 200, 240, 0.035);
+  --grid-strong: rgba(180, 200, 240, 0.055);
+  --tape: rgba(120, 160, 230, 0.14);
+  --canvas-glow: transparent;
+  --grain-opacity: 0.3;
 }
 
 /* Toggle icon visibility mirrors the effective theme (pure CSS, no JS state). */
@@ -91,11 +116,7 @@ html {
 body {
   background-color: var(--paper);
   background-image:
-    radial-gradient(
-      120% 80% at 50% -10%,
-      color-mix(in srgb, var(--accent) 7%, transparent),
-      transparent 60%
-    ),
+    radial-gradient(120% 80% at 50% -10%, var(--canvas-glow), transparent 60%),
     linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size:
@@ -115,16 +136,19 @@ body::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: var(--grain-opacity);
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
+/* Grain lightens rather than darkens on the dark canvas. */
 @media (prefers-color-scheme: dark) {
-  body::before {
+  :root:not([data-theme="light"]) body::before {
     mix-blend-mode: screen;
-    opacity: 0.6;
   }
+}
+:root[data-theme="dark"] body::before {
+  mix-blend-mode: screen;
 }
 
 main,
@@ -136,7 +160,7 @@ footer {
 
 ::selection {
   background: var(--highlight);
-  color: #0f2147;
+  color: var(--selection-ink);
 }
 
 /* Custom scrollbar to match the paper. */
@@ -156,6 +180,14 @@ footer {
 /* ============================================================================
    Reusable aesthetic primitives
    ============================================================================ */
+
+/* Content panel — an opaque sheet laid on the graph paper so body copy never
+   sits directly on the grid or the grain. Cards (--paper-2) stack above it. */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px var(--grid-strong);
+}
 
 /* Monospace section label, e.g.  // 01 · talks  */
 .label {
@@ -332,8 +364,8 @@ footer {
   border-radius: 4px;
 }
 .prose pre {
-  background: #0a1226;
-  color: #d6e2f5;
+  background: var(--code-bg);
+  color: var(--code-ink);
   padding: 1.1rem 1.25rem;
   border-radius: 8px;
   overflow-x: auto;
