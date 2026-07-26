@@ -16,8 +16,7 @@
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.4",
-    "astro": "^4.16.0",
-    "shiki": "^4.1.0"
+    "astro": "^4.16.0"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"
