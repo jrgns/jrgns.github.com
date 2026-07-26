@@ -286,6 +286,21 @@ footer {
 .prose > * + * {
   margin-top: 1.15em;
 }
+
+/* Hold running text to a readable measure even when the panel is wider, but
+   let the things that genuinely need room — tables, code, images — use all of
+   it. Without this, prose on a wide screen runs past 90 characters a line. */
+.prose > * {
+  max-width: 84ch;
+}
+.prose > pre,
+.prose > table,
+.prose > img,
+.prose > figure,
+.prose > blockquote,
+.prose > .table-wrap {
+  max-width: none;
+}
 .prose h1,
 .prose h2,
 .prose h3,
@@ -379,6 +394,27 @@ footer {
 .prose img {
   border-radius: 8px;
   border: 1px solid var(--line);
+}
+/* Tables size to content by default, which squeezes the first column and wraps
+   short labels. Let them use the panel, and scroll rather than overflow it. */
+.prose table {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.45rem 0.9rem 0.45rem 0;
+}
+.prose thead th {
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+.prose tbody tr + tr td {
+  border-top: 1px solid var(--line);
 }
 .prose hr {
   border: 0;
