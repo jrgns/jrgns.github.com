@@ -1,2 +1,0 @@
-RewriteEngine on
-RewriteRule ^/content/(.*) $1 [L]

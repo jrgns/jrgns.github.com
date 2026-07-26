@@ -1,9 +1,12 @@
-# Jekyll (legacy)
-_site/
-
 # Dependencies
 node_modules/
 
 # Astro build output & cache
 dist/
 .astro/
+
+# Local env files
+.env*
+
+# Voice note transcripts (local only)
+input/
