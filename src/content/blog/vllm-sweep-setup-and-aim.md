@@ -5,6 +5,10 @@ description: "Hardware, software, and methodology for a systematic TP=2 coding m
 draft: true
 ---
 
+With the release of Anthropic's Opus 4.6 model earlier this year (2026), I came to the realisation that code development has changed forever. I wasn't sure what the impact would be, but it was clear that I'd have to rethink my position on LLMs and their impact on my life. I was a reluctant convert at that point, but a convert nonetheless. The more I dug into it — and the more I hit the five-hour Claude session limits — the more I realised that the only real limit to producing endless reams of code in the LLM era was access to power and GPUs. With those two things in place, and a proper (open) model, you can produce code at the cost of kilowatts.
+
+Since I live somewhere with abundant sunshine and solar to match, all I needed was to get my hands on some GPUs — which were already becoming scarcer as more and more people came to the same conclusion I did. Either way, a friend hooked me up with two 3090s (after a lot of research to determine the most tokens for the least bucks) and a sweet rig to run them in, and the experimenting started. This post and a couple of follow ups walk through all the details of setting it up, and what I wanted to achieve.
+
 ## The Machine
 
 | Component | Specification |
