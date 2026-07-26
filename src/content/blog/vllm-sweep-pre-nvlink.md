@@ -10,7 +10,8 @@ draft: true
 ## The PCIe Baseline
 
 <!-- - Hardware: orion, 2× RTX 3090 (Ampere sm_86), NVLink=0 (PHB topology) -->
-<!-- - Interconnect: PCIe host bridge, not NVLink P2P -->
+<!-- - Interconnect: PCIe host bridge (PHB topology) — P2P disabled, all-reduce crosses PCIe -->
+<!-- - `nvidia-smi topo -m` (PHB state): GPU0 --PHB-- GPU1, no NVLink P2P between GPUs -->
 <!-- - NCCL all-reduce on TP=2 goes over PCIe → adds ~0.5–1s latency floor per prefill -->
 <!-- - This is the constraint everything else in this post lives under -->
 
