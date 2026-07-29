@@ -7,16 +7,18 @@ draft: true
 
 With the release of Anthropic's Opus 4.6 model earlier this year (2026), I came to the realisation that code development has changed forever. I wasn't sure what the impact would be, but it was clear that I'd have to rethink my position on LLMs and their impact on my life. I was a reluctant convert at that point, but a convert nonetheless. The more I dug into it — and the more I hit the five-hour Claude session limits — the more I realised that the only real limit to producing endless reams of code in the LLM era was access to power and GPUs. With those two things in place, and a proper (open) model, you can produce code at the cost of kilowatts.
 
-Since I live somewhere with abundant sunshine and solar to match, all I needed was to get my hands on some GPUs — which were already becoming scarcer as more and more people came to the same conclusion I did. Either way, a friend hooked me up with two 3090s (after a lot of research to determine the most tokens for the least bucks) and a sweet rig to run them in, and the experimenting started. This post and a couple of follow ups walk through all the details of setting it up, and what I wanted to achieve.
+Since I live somewhere with abundant sunshine and solar to match, that was power sorted, and all I needed was to get my hands on some GPUs — which were already becoming scarcer as more and more people came to the same conclusion I did. Either way, a friend hooked me up with two 3090s (after a lot of research to determine the most tokens for the least bucks) and a sweet rig to run them in, and the experimenting started.
 
 ## The Machine
 
-The build was centred on the GPUs, with minimal focus on everything else. As long as the rest could feed the cards and have enough compute and memory to back them up, I didn't worry about it too much. I've got a NAS running at home, so storage was left to it. At some point I had to add another drive, since experimenting with models requires a LOT of storage.
+Before I could get to the complexities of actually running the models, I had to get the hardware. The build was centred on the GPUs, with the rest of the build focusing on ensuring the cards have enough compute and memory to operate correctly. The two RTX 3090s — 24 GiB each, 48 GiB combined — were central to the build, with everything else designed to support them. Lots of fans, a good CPU, lots of RAM. I've got a NAS running at home, so storage was left to it. At some point I had to add another drive, since experimenting with models requires a LOT of storage.
+
+### The specifics
 
 | Component | Specification |
 |---|---|
 | Host | orion |
-| GPU | 2× NVIDIA GeForce RTX 3090, 24 GiB VRAM each |
+| GPU | 2× NVIDIA GeForce RTX 3090, 24 GiB VRAM each (48 GiB combined, split across two cards) |
 | Architecture | Ampere, sm_86 |
 | Driver / CUDA | 595.71.05 / CUDA 13.2 |
 | VBIOS | 94.02.42.00.A7 |
@@ -25,124 +27,46 @@ The build was centred on the GPUs, with minimal focus on everything else. As lon
 | Storage | Crucial MX500 500 GB SATA SSD (296 GB free) |
 | Interconnect | PCIe host bridge (PHB) → NVLink bridge (NV3, 3-link bond) installed 2026-07-11 |
 
-<!-- SECTION 2: Why TP=2 -->
+## Context is the name of the game
 
-## Why TP=2 (Tensor Parallelism at Two)
+If you've done any kind of work with Claude Code or any coding agent, you'll know that context is everything. The more context you give, and the better the quality and structure of the context, the better the results. The challenge with running models locally is providing a big enough context for coding tasks to be useful. With the machine set up and ready, I wanted to optimize my setup to provide the best quality models with the biggest possible context. Both of these require space in your GPUs, so there's a fine balance between model and context size.
 
-<!-- - TP=2 on the 3090s doubles the KV pool (48 GiB total) → enables 192K–256K context -->
-<!-- - TP=2 does NOT double decode throughput on PCIe — every prefill pays an all-reduce penalty -->
-<!-- - On PCIe: TP=2 is a context play, not a throughput play -->
-<!-- - Post-NVLink: TP=2 becomes a net win across both axes -->
-
-<!-- SECTION 3: vLLM, Docker, image choice -->
-
-## vLLM and the Docker Image
-
-For my initial setup, I ran vLLM as Docker containers in Portainer. This works fine if you have a stable setup and don't want to swap models around too much, but it quickly becomes a real drag if you need to change models. The Portainer UI doesn't lend itself well to swapping, and managing the config was a pain (even with Claude's help).
-
-<!-- SECTION 4: Portainer → llama-swap migration -->
-
-## From Portainer to llama-swap
-
-The previous deployment was a Portainer docker-compose stack (now inactive). The production inference service runs as a native `llama-swap.service` — a systemd unit that manages vLLM container lifecycles on demand. The llama-swap router listens on :8181, with configuration at `/etc/llama-swap/config.yml`. Whisper ASR remains on :8000.
-
-llama-swap uses YAML macros so the boilerplate is shared across models. Here are the vLLM run macro and an example model definition from the config:
-
-```yaml
-macros:
-  "vllm-run": >
-    docker run --init --rm --name ${MODEL_ID}
-    --runtime=nvidia --ipc=host --shm-size=32g
-    -e HUGGING_FACE_HUB_TOKEN=${env.HF_TOKEN}
-    -v hf-cache-nfs:/root/.cache/huggingface
-    -v vllm-cache-nfs:/root/.cache/vllm
-    --network ai-inference
-    -p ${PORT}:8000
-
-  "vllm-img": "vllm/vllm-openai:latest"
-
-models:
-  "coding-fast-x2":
-    aliases:
-      - "qwen3-coder-30b-a3b-moe-x2"
-    cmdStop: docker stop ${MODEL_ID}
-    cmd: |
-      ${vllm-run} --gpus '"device=0,1"'
-      -e VLLM_USE_FLASHINFER_SAMPLER=1
-      -e VLLM_ATTENTION_BACKEND=FLASHINFER
-      ${vllm-img}
-      cyankiwi/Qwen3-Coder-30B-A3B-Instruct-AWQ-4bit
-      --served-model-name coding-fast-x2 qwen3-coder-30b-a3b-moe-x2
-      --tensor-parallel-size 2
-      --disable-custom-all-reduce
-      --gpu-memory-utilization 0.90
-      --max-model-len 262144
-      --max-num-batched-tokens 8192
-      --max-num-seqs 4
-      --kv-cache-dtype fp8
-      --tool-call-parser qwen3_coder
-      --enable-auto-tool-choice
-      --enable-chunked-prefill
-      --enable-prefix-caching
-    checkEndpoint: "/health"
-    ttl: 1800
-```
-
-The sweep stops `llama-swap.service` to free the GPUs, runs, then restores it. `sudo systemctl stop/start llama-swap.service` requires interactive sudo.
-
-<!-- SECTION 5: The sweep orchestrator -->
+On top of that there are various flags and capabilities that affect performance and memory requirements. A further challenge I had was that even though I had 48 GiB of VRAM in total, it was split over two cards. You can load a single model over both cards, but then you have to use the normal PCI lanes on the motherboard to let the two GPUs speak to each other. This takes up a lot of compute, and isn't the most effective way to do it. More on that later. In short, it was just another variable to test against.
 
 ## The Sweep Orchestrator: `vllm-sweep.sh`
 
-<!-- - Single Bash file — drives `docker run` + the container's own `vllm bench serve` -->
-<!-- - Not Python/venv; no Portainer state; runs on orion only -->
-<!-- - Deploy: `scp -r vllm-sweep orion:~/` -->
-<!-- - Core variables: `IMAGE=`, `FIXED_ARGS=`, `M_EXTRA[]` (per-model overrides) -->
-<!-- - Guardrails: always `--run-dir ~/vllm-sweep/runs/<ts>`, always `--prepull` for uncached weights -->
-<!-- - Container lifecycle: create → pull → run bench → teardown → `result.json` + `RESULTS.md` -->
-
-<!-- SECTION 6: Sweep stages -->
+Between the hardware, the context splits and the multitude of models and options, the permutations quickly stacked up, and I had to find a way to automate the testing of all the model / parameter / context permutations. Enter the sweep. The sweep script runs through a predefined set of model and option permutations, using vLLM as a model delivery method, iterating through larger and larger contexts, testing first if the model actually loads, and then testing the performance parameters, recording the results all the way.
 
 ## The Six Sweep Stages
 
-<!-- Coordinate descent across four knobs: utilization, max-model-len, max-num-seqs, batch size. Six phases, each refining the configuration space. -->
+Each sweep stage below performed a specific function and / or test to ensure the accuracy and completeness of the tests.
 
-| Stage | Name | What it sweeps | Anchor |
-|---|---|---|---|
-| S0 | Anchor | Best config at baseline context (32K) | util=0.90 |
-| S1 | Batched | Batch-size ladder at S0's best | — |
-| S2 | Seqs | Max-num-seqs ladder | — |
-| S3 | Length | `max-model-len` ladder (32K → ceiling) | — |
-| S4 | Util | Utilization ladder (push above anchor) | — |
-| S5 | LM-only | Language-model-only flag (drops vision tower) | — |
-| S6 | Context ceiling | Keep increasing `max-model-len` until first failure | — |
+**S0 — Anchor:** Sets a baseline with a single config — util 0.90, max-model-len at 32K, max-num-seqs at 1, batch-size at 512 — and confirms the model actually loads and produces sensible numbers. Without this, everything else is just guessing.
 
-<!-- - Tier `quick` = S0 + 2 light points + S6 → fast viability check -->
-<!-- - Each config produces: `decode tok/s`, `TTFT p50 ms`, `TPOT p50 ms`, `max usable ctx`, `KV tokens @ config` -->
-<!-- - `result.json` reason codes: `ok`, `oom`, `crash`, `timeout`, `over_budget` -->
+**S1 — Batched:** Scales the batch-size up from 512 to 8192 at S0's baseline. Bigger batches let the GPU chew through more tokens in parallel, but if you push it too hard you waste VRAM on overhead. This stage finds the sweet spot.
 
-<!-- SECTION 7: Winner criteria -->
+**S2 — Seqs:** Does the same thing for max-num-seqs — tries 1, 2, and 4. It's similar to batch-size but not quite the same thing: batch-size controls how many tokens are prefilling at once, while max-num-seqs controls how many independent requests can run at the same time. Both matter, but in different ways.
+
+**S3 — Length:** Pushes max-model-len up from 32K to larger values, checking whether the model still loads and how performance changes at each step. This is where you learn whether a model can handle a decent context window or whether it folds at the first sign of strain.
+
+**S4 — Util:** Varies GPU memory utilization around the S0 anchor — tries 0.85, 0.90, and 0.95. Higher utilization gives you more KV cache headroom for context, but pushes you closer to OOM. Lower utilization gives you safety margin at the cost of context ceiling. You have to find the balance.
+
+**S5 — LM-only:** For the multimodal models (the ones with vision towers), this toggles the `--language-model-only` flag. Disabling the vision tower frees up VRAM — I expected 20-40% context headroom — and it's worth testing because the vision tower isn't needed for coding tasks anyway.
+
+**S6 — Context ceiling:** Cranks max-model-len up until the model chokes — first failure, whether it's an OOM or a timeout. This gives you the absolute maximum usable context for each model, which is the number you care about when the context actually matters.
 
 ## How the Winner Is Chosen
+
+Coding automation requires a certain amount of tokens per second to be interactive, as well as a fairly low time to first token. Tokens per second (TPS) is how fast the model generates tokens (which correlates with generated words). Time to first token (TTFT) measures how long it takes for the model to load the prompt and then run inference before it starts generating the tokens. You want a low TTFT and a high TPS, otherwise the user will just sit around waiting for the model to respond. The sweep was looking for models that had a decent TPS and TTFT, as well as a proper context size. Having the ability to run concurrent requests would also allow me to run multiple agents or subagents at the same time, providing even more efficiencies. The models that could provide all of that with predefined parameters were declared winners that I could consider usable going forward.
 
 <!-- - Winner = highest decode tok/s whose median TTFT (input=4096 tokens, concurrency=1) is under `TTFT_BUDGET_MS` (default 2500 ms) -->
 <!-- - Ties broken toward larger `max usable context` -->
 <!-- - The TTFT budget is a prefill-latency gate — a model that serves fast but takes 5 seconds to start answering is useless for agentic coding -->
 <!-- - Decode speed is measured at concurrency 1 (single-user coding) — concurrency scaling is reported separately -->
 
-<!-- SECTION 8: What the sweep does NOT do -->
-
-## What This Sweep Does Not Do
-
-<!-- - Does not modify inference serving — report only, never touches llama-swap config -->
-<!-- - Does not test concurrency beyond c1 decode + c4 aggregate (reported in `combined-summary.md`) -->
-<!-- - Does not benchmark multi-model co-location (that's a llama-swap config question) -->
-<!-- - Does not run on hardware other than orion's 2× RTX 3090s -->
-<!-- - Does not test quantization variants beyond what's in the roster (AWQ, GPTQ, FP8, REAP) -->
-
-<!-- SECTION 9: The roster -->
-
 ## Models in the Sweep
+
+I tried out a range of models, all around the 30B size, with a few notable exceptions where I tried to push the memory limits. The table below shows the models and their outcomes.
 
 | Model | Type | Params | Notes | Sweep outcome |
 |---|---|---|---|---|
@@ -156,7 +80,7 @@ The sweep stops `llama-swap.service` to free the GPUs, runs, then restores it. `
 | gpt-oss-20b | Dense | 20B | General-purpose | Needs nightly image; original requires `--enforce-eager` |
 | qwen3-coder-next-80b | MoE | ~80B | — | OOM in all attempts |
 
-<!-- SECTION 10: The story arc -->
+The results made for some interesting reading. MoE models dominated — they fit bigger contexts and handled TP=2 better than dense models on PCIe. But there were hard limits too: an 80B model simply couldn't fit, and several dense models hit TTFT floors that made them useless for coding. The full story of what those numbers mean — and how an NVLink bridge flipped the verdict — is in the next two posts.
 
 ## The Story This Sweep Tells
 

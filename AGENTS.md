@@ -77,6 +77,7 @@ The blog serves a deliberate positioning goal: to establish the author as a reco
 - **Pragmatic and technically rigorous** — LLMs are the wrong tool more often than the industry admits. Show where simpler methods (Bayesian filters, small models, static tooling) win on cost, latency, or accuracy.
 - Write from the seat of experience. The reader should feel that the author has **built, broken, and rebuilt** systems they're talking about.
 - **South African English** for all prose. Use `-ise`/`-isation` spellings (specialised, realisation, colour, defence), not `-ize`/`-ization`. South African conventions apply to every piece of prose generated or edited in this project.
+- **Author's prose: suggestions only, never rewrite.** When the author supplies rough prose (even inline), treat it as a draft to be lightly edited — fix grammar, spelling, and clarity; suggest better word choices — but keep the voice, sentence rhythm, and register (colloquialisms, caps emphasis, casual phrasing) intact. Present suggestions as a short list, then show the polished version ready to paste. Never restructure or reinvent the paragraph.
 
 ### Content Axes (every post should lean into at least one)
 Each blog post should advance the author's credibility along one or more of these dimensions:
