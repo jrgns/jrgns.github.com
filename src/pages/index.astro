@@ -4,49 +4,68 @@ import TalkCard from "../components/TalkCard.astro";
 import { talks } from "../lib/talks";
 ---
 
-<Base title="A blog about systems and the interwebs">
+<Base title="A systems architect's notes on AI and engineering">
   <!-- Hero -->
   <section class="animate-rise-in">
-    <p class="label label--accent">// systems · logs · the interwebs</p>
+    <p class="label label--accent">// systems · architecture · AI</p>
     <h1
       class="mt-3 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl"
     >
-      I build systems<br />and <span class="italic text-accent">solve problems</span
-      ><span class="cursor"></span>
+      AI architecture and<br /><span class="italic text-accent">data at production scale</span
+      >
+      <svg
+        class="ml-1 hidden h-[0.8em] w-[0.8em] align-middle text-accent sm:inline-block"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M2.5 20.5 20.5 12 2.5 3.5 2.5 9.5 12.5 12 2.5 14.5Z" />
+      </svg>
     </h1>
     <p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
-      I'm Jurgens — a systems developer from South Africa. I write about
-      Elasticsearch, the ELK stack, and the messy, fascinating ways software
-      fits together. Pull up a chair.
+      I'm jrgns, a systems architect and technologist from sunny South Africa.
+      I write and speak about all kinds of technologies, mostly centered around
+      development, data, and lately AI.
     </p>
+  </section>
 
-    <div class="mt-6 flex flex-wrap items-center gap-3">
-      <a
-        href="/archive/"
-        class="group inline-flex items-center gap-2 rounded-lg border border-ink bg-ink px-4 py-2.5 text-sm font-semibold text-paper transition-colors hover:border-accent hover:bg-accent"
-      >
-        Read the archive
-        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
-      </a>
-      <a
-        href="/talks/"
-        class="link-grow inline-flex items-center gap-1.5 px-1 py-2.5 font-mono text-sm text-ink-soft"
-      >
-        Browse the talks
-      </a>
+  <!-- Articles -->
+  <section class="mt-12 rounded-xl border border-line bg-paper-2 p-6 shadow-sm sm:p-8">
+    <div class="mb-5 flex items-baseline justify-between gap-4">
+      <h2 class="font-display text-2xl font-semibold text-ink">
+        Articles
+      </h2>
+      <a href="/archive/" class="link-grow font-mono text-xs text-ink-soft">browse the archives &rarr;</a>
     </div>
+    <ul class="divide-y divide-line/60">
+      <li class="group relative">
+        <a href="/archive/vllm-sweep-setup-and-aim" class="block py-3">
+          <div class="flex items-baseline gap-3">
+            <time class="font-mono text-xs text-ink-faint">2026-07-16</time>
+            <span class="h-px flex-1 translate-y-[-2px] bg-line"></span>
+          </div>
+          <h3 class="mt-1.5 font-display text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-accent">
+            <span class="link-marker">Benchmarking vLLM on 2× RTX 3090: Setup and Aim</span>
+            <span class="ml-1 inline-block translate-x-0 text-accent opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">&rarr;</span>
+          </h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">
+            Hardware, software, and methodology for a systematic TP=2 coding model sweep on an Ampere dual-GPU rig.
+          </p>
+        </a>
+      </li>
+    </ul>
   </section>
 
   <!-- Talks -->
   <section class="mt-12 rounded-xl border border-line bg-paper-2 p-6 shadow-sm sm:p-8">
     <div class="mb-5 flex items-baseline justify-between gap-4">
       <h2 class="font-display text-2xl font-semibold text-ink">
-        Talks I've given
+        Some of my talks
       </h2>
-      <a href="/talks/" class="link-grow font-mono text-xs text-ink-soft">all &rarr;</a>
+      <a href="/talks/" class="link-grow font-mono text-xs text-ink-soft">browse the archives &rarr;</a>
     </div>
     <ul class="divide-y divide-line/60">
-      {talks.map((talk) => <TalkCard {...talk} />)}
+      {talks.slice(0, 5).map((talk) => <TalkCard {...talk} />)}
     </ul>
   </section>
 </Base>
