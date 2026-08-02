@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Classic paper-plane dart. Azure in light mode; lighter azure in dark
+       mode (Dusk Slate) via prefers-color-scheme. -->
+  <style>
+    .p { fill: #1f57d6; }
+    @media (prefers-color-scheme: dark) {
+      .p { fill: #7ea9dd; }
+    }
+  </style>
+  <path class="p" d="M2.5 20.5 20.5 12 2.5 3.5 2.5 9.5 12.5 12 2.5 14.5Z" />
+</svg>
