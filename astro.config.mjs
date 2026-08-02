@@ -56,5 +56,7 @@ export default defineConfig({
     '/content/why_i_code.html': '/archive/why_i_code',
     '/content/why-johnny-died-or-how-i-finally-realised-why-singletons-and-global-variables-are-bad.html': '/archive/why-johnny-died-or-how-i-finally-realised-why-singletons-and-global-variables-are-bad',
     '/content/why_oo_is_great.html': '/archive/why_oo_is_great',
+    // The vLLM sweep post briefly lived at /archive/ before the /blog/ split.
+    '/archive/vllm-sweep-setup-and-aim': '/blog/vllm-sweep-setup-and-aim',
   },
 });

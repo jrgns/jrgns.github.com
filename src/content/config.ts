@@ -8,6 +8,7 @@ const blog = defineCollection({
     description: z.string().optional(),
     image: z.string().optional(),
     draft: z.boolean().optional(),
+    section: z.enum(["blog", "archive"]).optional(),
   }),
 });
 

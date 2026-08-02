@@ -2,6 +2,7 @@
 title: "Benchmarking vLLM on 2× RTX 3090: Setup and Aim"
 date: 2026-07-16
 description: "Hardware, software, and methodology for a systematic TP=2 coding model sweep on an Ampere dual-GPU rig — what the sweep does, how it works, and what 'best config' actually means."
+section: blog
 ---
 
 With the release of Anthropic's Opus 4.6 model earlier this year (2026), I came to the realisation that code development has changed forever. I wasn't sure what the impact would be, but it was clear that I'd have to rethink my position on LLMs and their impact on my life. I was a reluctant convert at that point, but a convert nonetheless. The more I dug into it (and the more I hit the five-hour Claude session limits) the more I realised that the only real limit to producing endless reams of code in the LLM era was access to power and GPUs. With those two things in place, and a proper (open) model, you can produce code at the cost of kilowatts.

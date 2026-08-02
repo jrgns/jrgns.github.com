@@ -1,13 +1,17 @@
 ---
+import { postHref } from "../lib/posts";
+
 interface Props {
   title: string;
   date: string;
   slug: string;
   description?: string;
   index?: number;
+  /** Where the post lives; "blog" links to /blog/, anything else to /archive/. */
+  section?: "blog" | "archive";
 }
 
-const { title, date, slug, description, index } = Astro.props;
+const { title, date, slug, description, index, section } = Astro.props;
 const num = index !== undefined ? String(index + 1).padStart(2, "0") : null;
 
 // Descriptions are auto-truncated from post bodies, so they can contain raw
@@ -26,7 +30,7 @@ const preview = stripMarkdownLinks(description);
 ---
 
 <article class="group relative">
-  <a href={`/archive/${slug}`} class="block py-3">
+  <a href={postHref(section, slug)} class="block py-3">
     <div class="flex items-baseline gap-3">
       {num && <span class="label hidden text-ink-faint sm:inline">{num}</span>}
       <time class="font-mono text-xs text-ink-faint">{date}</time>

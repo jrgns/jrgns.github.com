@@ -28,7 +28,7 @@ public/                # Served verbatim at the site root (favicon, robots, CV P
 src/
   layouts/Base.astro   # HTML shell: <head>, fonts, header/footer, optional profile sidebar
   components/          # Header, Footer, ProfileCard, PostCard, TalkCard
-  pages/              # index, writing/, archive/ (+ [...slug]), talks/
+  pages/              # index, writing/, archive/ (+ [...slug]), blog/ (+ [...slug]), talks/
   content/blog/       # Blog posts (Markdown, frontmatter: title, date, description)
   content/config.ts   # Content collection schemas (blog, writing)
   assets/css/         # theme.css (design system)
@@ -94,6 +94,6 @@ Each blog post should advance the author's credibility along one or more of thes
 - **Show the mechanics.** Don't just say "testing matters." Show *what* gets tested, *why*, and the cost of skipping it. Concrete details build authority.
 
 ## Content Conventions
-- Blog posts: Markdown in `src/content/blog/` with frontmatter `title`, `date`, optional `description`/`image`/`draft`. They render at `/archive/<slug>`.
+- Blog posts: Markdown in `src/content/blog/` with frontmatter `title`, `date`, optional `description`/`image`/`draft`. Posts with `section: blog` render at `/blog/<slug>` (new posts); everything else renders at `/archive/<slug>` (the existing posts). Use `src/lib/posts.ts` → `postHref()` whenever building a link to a post.
 - Old `/content/*.html` URLs are 301-redirected to `/archive/*` via `astro.config.mjs`.
 - Talk decks (PDF or Reveal.js) live in `public/talks/` so they're served verbatim at `/talks/*`, and are listed in `src/pages/talks/index.astro` and the homepage. (They must be in `public/`, not `src/assets/` — only `public/` is copied to the build root.)

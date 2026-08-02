@@ -4,9 +4,8 @@ import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
 export const getStaticPaths: APIRoute = async () => {
-  // Posts marked `section: blog` render under /blog/ instead.
   const posts = (await getCollection("blog")).filter(
-    (p) => p.data.section !== "blog"
+    (p) => p.data.section === "blog"
   );
   return posts.map((post) => ({
     params: { slug: post.slug },
@@ -29,7 +28,7 @@ const date = post.data.date.toLocaleDateString("en-US", {
       href="/archive/"
       class="link-grow font-mono text-xs text-ink-soft"
     >
-      &larr; back to archive
+      &larr; all posts
     </a>
 
     <header class="mb-8 mt-4">

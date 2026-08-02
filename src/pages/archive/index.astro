@@ -26,6 +26,7 @@ posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
             title={post.data.title}
             date={post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
             slug={post.slug}
+            section={post.data.section}
             description={post.data.description}
             index={i}
           />

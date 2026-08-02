@@ -1,5 +1,6 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
+import { postHref } from "../lib/posts";
 
 export async function GET(context: import("astro").Context) {
   const posts = await getCollection("blog");
@@ -11,7 +12,7 @@ export async function GET(context: import("astro").Context) {
     site: context.site || "https://jrgns.net",
     items: posts.map((post) => ({
       title: post.data.title,
-      link: `/archive/${post.slug}`,
+      link: postHref(post.data.section, post.slug),
       pubDate: post.data.date,
       description: post.data.description || "",
       content: post.body,
