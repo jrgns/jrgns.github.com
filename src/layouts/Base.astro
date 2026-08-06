@@ -59,19 +59,18 @@ const metaDescription =
     />
 
     <script is:inline>
-      // TODO: replace GA_MEASUREMENT_ID with a real Google Analytics measurement ID
       if (window.location.hostname === "jrgns.net") {
         var gtagScript = document.createElement("script");
         gtagScript.async = true;
         gtagScript.src =
-          "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID";
+          "https://www.googletagmanager.com/gtag/js?id=G-HKY8973073";
         document.head.appendChild(gtagScript);
         window.dataLayer = window.dataLayer || [];
         function gtag() {
           dataLayer.push(arguments);
         }
         gtag("js", new Date());
-        gtag("config", "GA_MEASUREMENT_ID");
+        gtag("config", "G-HKY8973073");
       }
     </script>
   </head>
