@@ -1,7 +1,7 @@
 ---
-title: "[TODO: title] Naive Bayes vs a 2B Decider Model"
+title: "LLMs Are the Stopgap: Naive Bayes vs a 2B Decider Model"
 date: 2026-10-07
-description: "A 2B-parameter decision model classifies research abstracts at 72% with zero examples. Naive Bayes needs about 500 labelled examples to match it — and then does the job for roughly 1/5,600th of the energy."
+description: "A purpose-built 2B model classifies research abstracts at 72% with zero examples. Naive Bayes matches it with 490 labelled examples, then beats it while running ~200× faster on ~1/5,600th of the energy, and giving the same answer every time."
 section: blog
 draft: true
 ---
@@ -9,128 +9,146 @@ draft: true
 <!--
 SCAFFOLD — notes in HTML comments are for drafting and won't render.
 
-Scope: highlight results only. The full report (methodology, contamination check,
-every table) is published separately and linked below. This post is about the WHY
-and the IMPLICATIONS.
+THESIS: LLMs are being used where deterministic tooling would do the job cheaper and
+more accurately. Classification is a small, measurable example with small absolute power
+numbers, but the ratio is what matters once you extrapolate to bigger problems.
+An LLM is a fine stopgap for getting to market quickly; long-term, a deterministic model
+wins on cost and (probably) on accuracy.
 
-Content axes: AI Architecture (model selection, energy/latency economics) and
-AI Decision-Making (when the LLM is the wrong tool — and when it isn't).
+Three pillars: POWER, SPEED, ACCURACY (with consistency as part of accuracy).
 
-Source: "Naive Bayes vs Decider 2B" benchmark report (artifact EKbnKBEKhLgVQezuvxtfna).
+Scope: results only. The full report lives at /blog/naive-bayes-vs-decider-report.
+Content axes: AI Architecture (model selection, energy economics) and
+AI Decision-Making (when the LLM is the wrong tool).
 -->
 
 <!--
 HOOK (1–2 paragraphs)
-- AWS released Strands Decider: a 2B model built to make classification-style decisions
-  inside agents, zero-shot. [TODO: Q1 — what prompted you to test it?]
-- The question: how many labelled examples does a boring, tuned scikit-learn Naive Bayes
-  need before it matches Decider — and what does each cost to run?
-- Punchline: about 70–100 per class. After that NB is as accurate or better, ~5,600×
-  cheaper in energy and ~200× faster per item.
+- The pattern you keep seeing: an LLM call wherever a decision has to be made (route this
+  ticket, tag this document, pick a category), because it's quick to wire up and it
+  "just works".
+- AWS's Strands Decider is a good test case: a 2B model built specifically for these
+  decisions, so it's the LLM approach at its leanest, not a straw man.
+- The question: how many labelled examples does a boring, tuned Naive Bayes need to catch
+  up, and what does each cost to run?
+- Punchline: 70 per class. After that, NB wins on all three counts.
 -->
 
 ## What we tested
 
 <!--
-Keep this to a short paragraph plus a link. Just enough to read the results.
-- Task: Web of Science WOS-46985, level-1 labels — 7 research fields (Computer Science,
-  Electrical, Psychology, Mechanical, Civil, Medical, Biochemistry). ~200-word abstracts.
-- Chosen because it's NOT in Decider's training data (the usual suspects — AG News,
-  DBpedia, Yahoo Answers, 20 Newsgroups — all are). 254 items overlapping arXiv were removed.
-- Decider: zero-shot, only the label names and descriptions. Best of three wordings, picked on dev.
-- NB: Multinomial/Complement NB, tuned with CV, trained on 1–1,000 labelled examples per class.
-- Same 9,996 test items for both. One RTX 3090 + Ryzen 9 3900, energy from hardware counters.
+One short paragraph — just enough to read the results.
+- Task: sort research abstracts into 7 fields (Web of Science WOS-46985).
+- Chosen because it isn't in Decider's training data; overlapping items removed.
+- Decider: zero-shot, only label names and descriptions.
+- NB: scikit-learn Multinomial/Complement NB, tuned with cross-validation, trained on
+  1 to 1,000 labelled examples per class.
+- Same 9,996 test items for both, on one RTX 3090 + Ryzen 9 3900, energy from hardware counters.
 -->
 
-The full methodology, contamination check and every table are in the [full report](TODO-link).
+The methodology, contamination check and every table are in the [full report](/blog/naive-bayes-vs-decider-report).
 
 ## The results
 
 | | Naive Bayes | Decider 2B |
 | --- | --- | --- |
-| Labelled examples needed | ~70 per class to tie (490), 100 to win clearly (700) | none (label wording only) |
+| Labelled examples needed to match | 70 per class (490 in total) | none (label wording only) |
 | Accuracy at 100 per class | 0.748 | 0.721 (zero-shot) |
 | Accuracy at 1,000 per class | 0.800 | 0.721 |
 | Energy per 1,000 predictions | 1.47 mWh | 8.22 Wh (~5,600×) |
 | Latency per item (p50) | 0.5 ms on one CPU thread | 96 ms on a GPU (~194×) |
 | Whole test set (9,996 items) | 1.4 s | 17 min |
 | Training cost | 86 mWh incl. full tuning ≈ 10 Decider predictions | sunk (AWS's) |
-| Calibration (ECE, lower is better) | 0.21 | 0.04 |
-| Flip rate if option order changes | n/a | 16.7% |
+| Same input, same answer? | always, byte for byte | only if the batch and prompt are pinned |
 
 <!--
-One short paragraph per result that surprised you. Save the "why" for the next sections.
-Candidates:
-- How fast NB catches up: 20/class → 0.62, 50/class → 0.70, 70/class → tie.
-- The energy break-even: tuning + training NB costs less than 10 Decider calls.
-- Decider is genuinely better calibrated — its confidence means something.
+Keep commentary here to a sentence or two; each pillar gets its own section below.
 -->
 
-## Why the gap is so big
+## Accuracy: 490 labels is all it takes
 
 <!--
-The mechanics, not just the ratio.
-- NB: count words per class once, then classifying = a sparse dot product and an argmax.
-  Sub-millisecond on one CPU thread, no GPU at all.
-- Decider: a 2B-parameter forward pass over ~260+ tokens of abstract PLUS the rendered
-  prompt with 7 options and descriptions — for every single item. ~30 J per prediction.
-- The generalist tax: Decider carries the machinery to decide anything; NB only knows
-  these 7 classes. You pay for generality on every call.
-- Fixed costs come on top: model load (15 s) and warmup (58 s) excluded from the headline,
-  and a GPU that idles at ~25 W whether or not anything is classified.
-
-!! See question Q4 — the ratio is huge, but in absolute terms 8.22 Wh per 1,000 is
-   ~8 kWh per MILLION predictions. Decide whether the argument is energy, or
-   latency/throughput/hardware (~10 items/s on a 3090 = ~860k/day ceiling).
+- The learning curve: 20/class → 0.62, 50/class → 0.70, 70/class → tie, 1,000/class → 0.80.
+- Decider is frozen at 0.72 on this task. The only lever is rewording the labels (the
+  taxonomy-informed wording got 0.71 on dev; a blind first attempt got 0.66).
+- NB keeps improving with every label you add. That's the long-term accuracy argument.
+- Optional: where Decider struggles (Biochemistry vs Medical, Civil vs Mechanical), i.e.
+  domain boundaries that labelled data teaches and a general model has to guess at.
+- Fairness: Decider's confidence scores are better calibrated (ECE 0.04 vs 0.21).
 -->
 
-## [TODO: "accuracy over time" section — see Q2]
+## Speed: milliseconds vs a GPU queue
 
 <!--
-CONFLICT: the report has no time-based/drift experiment. Options for this section:
-
-(a) Prior shift as a stand-in for drift. NB trained on the whole imbalanced pool
-    (34,733 items, 37% Medical) scored 0.735 — 6.5 points WORSE than NB on a balanced
-    7,000. Medical recall rose to 0.88, Mechanical fell to 0.42. Lesson: NB learns your
-    class mix; when production's mix moves, accuracy moves with it. Decider has no
-    learned prior, so it doesn't suffer this — but it can't improve either.
-(b) Retraining economics: NB's refit costs < 1 Decider prediction (1.3 mWh) and 0.16 s,
-    so retraining nightly on fresh labels is free. Decider's only lever is rewording.
-(c) Run a real time-split experiment first and write this section afterwards.
+- 0.5 ms on one CPU thread vs 96 ms on a dedicated GPU, about 194×.
+- The whole test set: 1.4 s vs 17 minutes.
+- Throughput ceiling: ~10 items/s on a 3090 means ~860k/day, and the GPU does nothing else.
+  NB scales on any spare CPU core.
+- The mechanics: NB is a sparse dot product and an argmax. Decider runs a 2B-parameter
+  forward pass over the abstract plus a prompt containing all 7 options, for every item.
 -->
 
-## What this means for your architecture
+## Power: small numbers, big ratio
 
 <!--
-The section the post exists for. Keep the points that hold up after Q&A:
-1. Zero-shot is a starting point, not an architecture. Decider is how you ship on day one
-   with no labels; its predictions + human corrections become NB's training set.
-   ~500–700 labels is days of work, not months.
-2. Price the labels, not just the kWh. The report doesn't count labelling cost — that's
-   the real trade: Decider buys you out of labelling, NB buys you out of GPUs.
-3. Calibration matters for routing. Decider's confidence is trustworthy (ECE 0.04); NB's
-   isn't (ComplementNB doesn't produce real probabilities). Hybrid: NB first, escalate
-   low-confidence items to Decider? [TODO: Q6]
-4. Prompt fragility is an operational risk. Shuffling option order flips 1 in 6
-   predictions; listing Medical first biases towards Medical. Pin the prompt like you'd
-   pin a dependency. (NB is byte-for-byte repeatable.)
-5. Ceiling: Decider is frozen at 0.72 on this task; NB keeps climbing to 0.80 with data.
+- The honest framing first: 8.22 Wh per 1,000 predictions is ~8 kWh per million.
+  For a categoriser, that's not going to break anyone's budget.
+- The point is the ratio: ~30 J vs ~5 mJ per decision, about 5,600×. And Decider is a
+  lean 2B model built for this; the general-purpose models people actually reach for
+  are much bigger.
+- Training doesn't close the gap: tuning + training NB costs less than 10 Decider calls.
+  A refit costs less than one.
+- EXTRAPOLATE: the same pattern in bigger problems.
+  [TODO: Q1 — which 1–2 examples? e.g. extraction, validation, routing inside agent
+  loops, log triage. Any numbers you can stand behind?]
+- Tie to the SME lens: power is GPU hardware, cloud bills, and (for you) solar capacity.
+-->
+
+## Consistency: same question, different answer
+
+<!--
+- NB gave byte-identical output across every run and every retrain.
+- Decider is repeatable only when everything is pinned. Change the batch size or which
+  items share a batch and ~1 in 300 predictions flips. Change the order of the options
+  and 1 in 6 flips (it prefers Medical Science when it's listed first).
+- Why it matters in production: inference servers batch dynamically, and prompts get
+  edited. So the same input can get a different answer next week, without anyone
+  touching the model.
+  [TODO: Q2 — see conflict note in chat]
+- Debugging/audit angle: a deterministic model can explain a decision and reproduce it.
+-->
+
+## The LLM is the stopgap
+
+<!--
+The implications section — the reason the post exists.
+1. Ship with the LLM if it gets you to market faster. Zero labels, decent accuracy, day one.
+2. Use that time to collect labels: log the LLM's decisions, correct them, build the
+   training set. 490 labels gets you parity here; that's days of work, not months.
+   (At 72%, the LLM's own output isn't good enough as unreviewed training data.)
+3. Then replace it with the deterministic model: cheaper, faster, repeatable, and it
+   keeps improving as labels accumulate.
+4. Budget for the swap from the start. The LLM call is a prototype, not the architecture.
+5. Where the LLM still earns its place: open-ended inputs, no stable label set, too few
+   examples, or a fallback for low-confidence cases.
 -->
 
 ## Caveats
 
 <!--
-Short and honest — credibility comes from this.
+Short and honest.
 - One dataset, one 7-class task, one GPU.
-- Decider's label wording was written from the WOS taxonomy (a user without it scored ~0.66 on dev).
-- Qwen3.5-2B-Base pre-training data is unknown; WOS could be in it (would favour Decider).
-- Energy is GPU board + CPU package; no wall meter, no DRAM.
+- Labelling cost isn't counted in the report (but see "The LLM is the stopgap").
+- Decider's label wording was written from the dataset's taxonomy, which helps it.
+- The base model's pre-training data is unknown; if WOS is in it, that favours Decider.
+- The 70/class crossover is a statistical tie; 80+ is a clear NB win.
 -->
 
 ## Wrapping up
 
 <!--
-- The decision rule in one sentence.
+- The decision rule in one sentence: if the decision has a fixed set of answers and you
+  can collect a few hundred examples, an LLM is the stopgap, not the solution.
 - Link to the full report.
-- What's next: [TODO: Q7]
+- What's next: [TODO: Q3]
 -->
