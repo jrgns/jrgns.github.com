@@ -7,17 +7,37 @@ section: blog
 
 How many labelled examples does a tuned scikit-learn Naive Bayes need to match the zero-shot accuracy of AWS Strands Decider 2B, and what does each cost in energy? This is the full benchmark: WOS-46985, 7 classes, 9,996 test items, measured on one RTX 3090 with hardware energy counters.
 
+The two approaches sit at opposite ends of the trade-off. Naive Bayes learns from labelled examples and runs on a single CPU thread. Decider is a 2B-parameter language model that needs no examples at all, only the names and descriptions of the labels, but runs on a GPU.
+
 ## 1. Summary
 
-| Result | Value | Detail |
-| --- | --- | --- |
-| Decider zero-shot accuracy | **0.721** | 95% CI 0.712–0.729, batch size 1, label wording v3 |
-| Crossover | **70–100 per class** | Refined: a tie at 70 per class (490 labels). Pre-registered grid: 100 per class (700 labels), NB 0.748, significantly better in 5/5 seeds. |
-| Energy per 1,000 predictions | **≈5,600×** | Decider 8.22 Wh vs NB 1.47 mWh (gross). 9,200× marginal. |
-| NB energy break-even | **≈7–10 predictions** | Training NB with full tuning (57–86 mWh at 70–100 per class) costs as much as 7–10 Decider predictions. |
-| Flip rate, fixed setup | **0%** | Both methods bit-for-bit repeatable. Decider: 0.3% if batch size or neighbours change, 16.7% if option order changes. |
+|  | Naive Bayes | Decider 2B | Edge |
+| --- | --- | --- | --- |
+| **What it is** | ComplementNB / MultinomialNB over word and word-pair counts (scikit-learn) | 2B-parameter language model (Qwen3.5-2B base), fine-tuned by AWS to pick between options | |
+| **What it needs** | Labelled examples: 490 (70 per class) to tie | Label names and descriptions only (zero-shot) | Decider |
+| **Runs on** | One CPU thread | GPU (RTX 3090) plus CPU | NB |
+| **Accuracy at 70 per class** | 0.723 | 0.721 | Tie |
+| **Accuracy at 100 per class** | 0.748 (better in 5/5 seeds) | 0.721 | NB |
+| **Accuracy at 1,000 per class** | 0.800 | 0.721 | NB |
+| **How you improve it** | Add labels: it keeps climbing to 0.80 | Reword the labels: dev 0.664 (blind) → 0.708 (taxonomy-informed) | NB |
+| **Energy per 1,000 predictions** | 1.47 mWh | 8.22 Wh (≈5,600× gross, ≈9,200× marginal) | NB |
+| **Latency per item (p50)** | 0.50 ms | 95.8 ms (≈194×) | NB |
+| **Whole test set (9,996 items)** | 1.4 s | 17 min | NB |
+| **One-off cost** | Tune and train: 7.3 s and 86 mWh at 100 per class, the energy of ≈10 Decider predictions | Load and warm up: 73 s and ≈4.1 Wh on every start | NB |
+| **Calibration (ECE, lower is better)** | 0.21 (ComplementNB scores are not true probabilities) | 0.037 | Decider |
+| **Same input, same answer?** | Always, byte for byte | Only with a fixed batch setup and option order: 0.3% flip if batching changes, 16.7% if the options are reordered | NB |
+| **Main weakness** | Learns the class mix it was trained on: the imbalanced pool scores 0.735 | Prompt position bias (favours Medical Science when it is listed first) and confuses neighbouring fields | |
 
-Decider: strands-decider 0.1.0 · hobson-v21 @2b52a62. scikit-learn 1.9.1. Host: RTX 3090, Ryzen 9 3900. Human labelling cost not counted.
+**In short:** Decider gets you to 72% on day one with no labels. Naive Bayes needs about 500 labels to match it, then beats it on accuracy, speed, energy and repeatability. Decider keeps the edge on calibration and on needing no labelled data.
+
+Decider: strands-decider 0.1.0 · hobson-v21 @2b52a62. scikit-learn 1.9.1. Host: RTX 3090, Ryzen 9 3900. Accuracy at 70 and 100 per class is the mean of 5 seeds; the human cost of labelling is not counted.
+
+### How each one makes a decision
+
+- **Naive Bayes** turns the abstract into counts of words and word pairs, adds up how strongly each of those terms is associated with each class in the training data, and picks the highest-scoring class. Everything it knows comes from the labelled examples. The work per item is a sparse dot product, which takes well under a millisecond.
+- **Decider** builds a prompt from the abstract plus all 7 option names and descriptions, runs the whole 2B-parameter model over it, and reads off a score for each option. Everything it knows comes from pre-training and AWS's fine-tuning, plus the label wording. The work per item is a full model pass over several hundred tokens, which takes about 100 ms on a GPU.
+
+That difference explains most of what follows: NB's cost depends on the text in front of it, Decider's on the size of the model and the prompt.
 
 **Code and data:** the full pipeline, plans, label wordings and every results file are in [jrgns/bayesian-vs-aws-decider](https://github.com/jrgns/bayesian-vs-aws-decider). File paths in this report (`results/…`, `scripts/…`, `docs/…`) are relative to that repo.
 
@@ -64,7 +84,7 @@ The HF script loader (`HDLTex/web_of_science`, rev `26ae29c3`) fails with the pi
 | dev   | 2,002  | balanced, 286 per class                                       |
 | pool  | 34,733 | imbalanced, as in the source (Medical 37.0%, Mechanical 4.5%) |
 
-The split sha256 hashes are in section 8. NB trains only on subsets of the pool. Decider's label wording was tuned only on dev. Both methods are scored on the same test items.
+The split sha256 hashes are in section 9. NB trains only on subsets of the pool. Decider's label wording was tuned only on dev. Both methods are scored on the same test items.
 
 **NB protocol** (`scripts/nb_curve.py`).
 
@@ -82,7 +102,7 @@ The split sha256 hashes are in section 8. NB trains only on subsets of the pool.
 
 **Decider protocol** (`scripts/decider_run.py`).
 
-- **Model:** `strands-decider` 0.1.0 with `StrandsAgents/strands-decider-2B-hobson-v21` and a pinned base-model revision (section 8).
+- **Model:** `strands-decider` 0.1.0 with `StrandsAgents/strands-decider-2B-hobson-v21` and a pinned base-model revision (section 9).
 - **Zero-shot:** no examples and no training. Each abstract is the `state` of a `choice` question with the 7 option names and descriptions.
 - **Official batched evaluation path:** `strands_decider.evaluate.collect_logits(..., max_length=4096)`, then `predictions_from_logits` with the model's per-kind temperature (0.8177 for `choice`).
   - The default `max_length` is 3,072, which is not the model's window, so 4,096 is always passed.
@@ -156,6 +176,21 @@ The 60–90 rows were added after the main run (same protocol, 5 seeds; `results
 Source: `results/decider_runs.csv`.
 
 Per-class recall at bs=1 (`results/decider/test_v3_bs1.json`): Computer Science 0.83, Electrical 0.64, Psychology 0.72, Mechanical 0.75, Civil 0.60, Medical 0.77, Biochemistry 0.74. The largest confusions are Biochemistry → Medical (332 items), Civil → Mechanical (279), Electrical → Mechanical (247) and Psychology → Medical (247).
+
+### Head to head
+
+Decider against NB at the three training sizes that matter: the tie, the pre-registered crossover, and the largest planned size. NB figures are means over 5 seeds.
+
+|                        | Labelled examples | Accuracy   | Macro-F1   | Brier     | ECE       |
+|------------------------|-------------------|------------|------------|-----------|-----------|
+| Decider, zero-shot     | 0                 | 0.7207     | 0.7220     | 0.392     | **0.037** |
+| NB, 70 per class       | 490               | 0.7228     | 0.7220     | 0.554     | 0.289     |
+| NB, 100 per class      | 700               | 0.7476     | 0.7460     | 0.460     | 0.211     |
+| NB, 1,000 per class    | 7,000             | **0.8000** | **0.7995** | **0.384** | 0.188     |
+
+- **Accuracy:** at 70 per class the two are level. From there, every extra label moves NB further ahead; Decider has no equivalent lever.
+- **Confidence:** Decider's probabilities mean what they say (ECE 0.037). NB's are poorly calibrated, partly because ComplementNB's scores aren't true probabilities (see Calibration below). If you route low-confidence items to a human, Decider's scores are the ones to trust.
+- **They are right about different items.** Even at the tie, each method gets roughly 1,000–1,250 test items right that the other gets wrong (the b/c columns below). Their errors overlap less than their matching accuracy suggests.
 
 ### Crossover (exact McNemar, NB best config vs `test_v3_bs1`, identical 9,996 item ids)
 
@@ -268,6 +303,17 @@ Source: `results/nb_runs.csv`.
 
 Decider bs=1 uses 5,581× (gross) and 9,174× (marginal) the energy of NB at 100 per class. Source: `results/energy_summary.csv` (table `inference`).
 
+**In plain terms (gross, bs=1 vs NB at 100 per class):**
+
+|                                  | Naive Bayes                     | Decider 2B                       |
+|----------------------------------|---------------------------------|----------------------------------|
+| Energy per prediction            | 5.3 mJ                          | 29.6 J                           |
+| Energy per million predictions   | ≈1.5 Wh                         | ≈8.2 kWh                         |
+| Hardware drawing power           | One CPU core                    | GPU board (86% of the energy) plus CPU package |
+| One-off cost before predicting   | Tune and train: 86 mWh          | Load and warm up: ≈4.1 Wh, on every start |
+
+Decider's start-up alone uses about 47× the energy of tuning and training NB from scratch.
+
 ### Decider load and warmup (separate, excluded from the above)
 
 | Run  | Load (time; gross; marginal)     | Warmup (time; gross; marginal)   |
@@ -332,7 +378,9 @@ Even with tuning included, NB's whole training cost is repaid within a few tens 
 | Test set (9,996 items), wall-clock | 1,018 s         | 945 s                               | 1.36 s \[1.27, 1.44\] (1 thread) |
 | Per-item p50 / p95 (one at a time) | 95.8 / 121.8 ms | 90.6 / 111.2 ms (batch latency / 2) | **0.495 / 0.599 ms**             |
 | Per-item, batched                  |                 |                                     | 0.136 ms (whole test set / n)    |
+| Throughput, items/s                | 9.82            | 10.58                               | ≈7,350 (1 thread, batched)       |
 | Training wall-clock (tune; refit)  |                 |                                     | 7.3 s; 0.16 s                    |
+| Start-up (load; warmup)            | 15.0 s; 58.2 s  | 14.9 s; 58.4 s                      |                                  |
 
 NB's single-item latency was measured on orion (`scripts/nb_latency.py`, `results/nb_latency.json`):
 
@@ -360,6 +408,20 @@ Are the predictions repeatable? 1,000 test items were re-run 5–10 times under 
 - **Changing the batch size or the batch neighbours flips about 1 prediction in 300.** All of these are near-ties, so the effect is float rounding.
 - **Shuffling the option order flips about 1 prediction in 6.** That is a genuine prompt-order effect: the model favours Medical Science when it is listed first.
 - **In production, keep the batch setup fixed and never reorder the options.**
+
+**What can change the answer for the same input:**
+
+|                                   | Naive Bayes | Decider 2B                      |
+|-----------------------------------|-------------|---------------------------------|
+| Re-running, new process           | No          | No                              |
+| Retraining on the same data       | No          | n/a                             |
+| Batch size                        | n/a         | Yes, for ≈0.3% of items         |
+| Which items share a batch         | n/a         | Yes, for ≈0.24% of items        |
+| Order of the options in the prompt | n/a        | Yes, for ≈16.7% of items        |
+| Wording of the labels             | n/a         | Yes (dev accuracy 0.664 to 0.708 across three wordings) |
+| The training data                 | Yes         | n/a (fixed by AWS)              |
+
+NB's output is a function of its training data and nothing else. Decider's also depends on how it is served and how the prompt is written, which are easy to change by accident.
 
 ## 7. Threats to validity
 
