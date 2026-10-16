@@ -19,6 +19,8 @@ How many labelled examples does a tuned scikit-learn Naive Bayes need to match t
 
 Decider: strands-decider 0.1.0 · hobson-v21 @2b52a62. scikit-learn 1.9.1. Host: RTX 3090, Ryzen 9 3900. Human labelling cost not counted.
 
+**Code and data:** the full pipeline, plans, label wordings and every results file are in [jrgns/bayesian-vs-aws-decider](https://github.com/jrgns/bayesian-vs-aws-decider). File paths in this report (`results/…`, `scripts/…`, `docs/…`) are relative to that repo.
+
 ## 2. Dataset decision and contamination check
 
 **Why the default candidates were rejected.** Decider's [model card](https://huggingface.co/StrandsAgents/strands-decider-2B-hobson-v21) (`datasets:` list) and [`data/sources.md`](https://github.com/strands-labs/strands-decider/blob/main/data/sources.md) (code commit `3e94e9d84c620ed5a95f1a3310c3decb971e261c`) show:
@@ -415,7 +417,7 @@ Are the predictions repeatable? 1,000 test items were re-run 5–10 times under 
 - network access to Hugging Face, GitHub and Mendeley;
 - an idle GPU. `preflight_host.sh` aborts if a GPU is busy, and it never stops anything.
 
-Run from the project directory:
+Clone [the repo](https://github.com/jrgns/bayesian-vs-aws-decider) and run from its root:
 
 ```bash
 ALLOW_TEST=1 ./run_all.sh            # everything, end to end
