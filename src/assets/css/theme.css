@@ -355,6 +355,8 @@ footer {
   color: var(--ink);
   padding: 0.12em 0.4em;
   border-radius: 4px;
+  /* Hashes and long paths would otherwise push the page wider than a phone. */
+  overflow-wrap: anywhere;
 }
 .prose pre {
   background: var(--code-bg);
@@ -372,6 +374,7 @@ footer {
   padding: 0;
   color: inherit;
   font-size: 1em;
+  overflow-wrap: normal;
 }
 .prose img {
   border-radius: 8px;
