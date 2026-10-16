@@ -94,6 +94,6 @@ Each blog post should advance the author's credibility along one or more of thes
 - **Show the mechanics.** Don't just say "testing matters." Show *what* gets tested, *why*, and the cost of skipping it. Concrete details build authority.
 
 ## Content Conventions
-- Blog posts: Markdown in `src/content/blog/` with frontmatter `title`, `date`, optional `description`/`image`/`draft`. Posts with `section: blog` render at `/blog/<slug>` (new posts); everything else renders at `/archive/<slug>` (the existing posts). Use `src/lib/posts.ts` → `postHref()` whenever building a link to a post.
+- Blog posts: Markdown in `src/content/blog/` with frontmatter `title`, `date`, optional `description`/`image`/`draft`. Posts with `section: blog` render at `/blog/<slug>` (new posts); everything else renders at `/archive/<slug>` (the existing posts). Use `src/lib/posts.ts` → `postHref()` whenever building a link to a post, and `getPosts()` (not `getCollection("blog")`) to list posts: it drops `draft: true` posts from production builds while keeping them visible under `npm run dev`.
 - Old `/content/*.html` URLs are 301-redirected to `/archive/*` via `astro.config.mjs`.
 - Talk decks (PDF or Reveal.js) live in `public/talks/` so they're served verbatim at `/talks/*`, and are listed in `src/pages/talks/index.astro` and the homepage. (They must be in `public/`, not `src/assets/` — only `public/` is copied to the build root.)

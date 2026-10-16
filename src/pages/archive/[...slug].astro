@@ -1,11 +1,11 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { getCollection } from "astro:content";
+import { getPosts } from "../../lib/posts";
 import type { APIRoute } from "astro";
 
 export const getStaticPaths: APIRoute = async () => {
   // Posts marked `section: blog` render under /blog/ instead.
-  const posts = (await getCollection("blog")).filter(
+  const posts = (await getPosts()).filter(
     (p) => p.data.section !== "blog"
   );
   return posts.map((post) => ({
