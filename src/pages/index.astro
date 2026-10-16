@@ -1,7 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import TalkCard from "../components/TalkCard.astro";
+import PostCard from "../components/PostCard.astro";
+import { getCollection } from "astro:content";
 import { talks } from "../lib/talks";
+
+// Newest `section: blog` posts; drafts never make the homepage.
+const posts = (
+  await getCollection("blog", ({ data }) => data.section === "blog" && !data.draft)
+).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <Base title="A systems architect's notes on AI and engineering">
@@ -38,21 +45,19 @@ import { talks } from "../lib/talks";
       <a href="/archive/" class="link-grow font-mono text-xs text-ink-soft">browse the archives &rarr;</a>
     </div>
     <ul class="divide-y divide-line/60">
-      <li class="group relative">
-        <a href="/blog/vllm-sweep-setup-and-aim" class="block py-3">
-          <div class="flex items-baseline gap-3">
-            <time class="font-mono text-xs text-ink-faint">2026-07-16</time>
-            <span class="h-px flex-1 translate-y-[-2px] bg-line"></span>
-          </div>
-          <h3 class="mt-1.5 font-display text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-accent">
-            <span class="link-marker">Benchmarking vLLM on 2× RTX 3090: Setup and Aim</span>
-            <span class="ml-1 inline-block translate-x-0 text-accent opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">&rarr;</span>
-          </h3>
-          <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">
-            Hardware, software, and methodology for a systematic TP=2 coding model sweep on an Ampere dual-GPU rig.
-          </p>
-        </a>
-      </li>
+      {
+        posts.slice(0, 5).map((post) => (
+          <li>
+            <PostCard
+              title={post.data.title}
+              date={post.data.date.toISOString().slice(0, 10)}
+              slug={post.slug}
+              description={post.data.description}
+              section={post.data.section}
+            />
+          </li>
+        ))
+      }
     </ul>
   </section>
 
